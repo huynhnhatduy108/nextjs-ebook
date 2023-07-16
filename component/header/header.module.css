@@ -1,55 +1,32 @@
 
-.header{
-    width: 100%;
-    background-color: #06609c; 
-}
 
-.container{
-    max-width: 1200px;
-    align-items: center;
-    display: flex;
-    margin: auto;
-    height: 60px;
-
-}
-
-
+.sub_menu_item:hover{
+    background-color: #0277bd !important;
+  }
 
 
 /* setting comon attribute mobile and table */
 @media (max-width: 739px) {
-    .container{
-        max-width: 600px;
-    }
-    
+   
 }
 
 @media (max-width: 499px) {
     
-    .container{
-        width: 350px;
-    }
-    
+  
 }
 
 @media (min-width: 500px) and (max-width: 739px) {
     
-    .container{
-        width: 450px;
-    }
+ 
     
 
 }
 
 @media (min-width: 740px) and (max-width: 1023px) {
-    .container{
-        width: 600px;
-    }
+ 
     
 }
 
 @media (min-width: 1024px) and (max-width: 1239px){
-    .container{
-        width: 900px;
-    }
+  
 }

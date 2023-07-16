@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -23,6 +23,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputBase from "@mui/material/InputBase";
 import SideBarDrawer from "../SideBarDrawer";
 import Link from "next/link";
+import { ListItem, ListItemButton } from "@mui/material";
+import styles from "./header.module.css";
 
 const pages = [
   { name: "Trang chu", key: "home", icon: faHouse, link: "/" },
@@ -54,6 +56,8 @@ const login = ["Logout"];
 const logout = ["Login"];
 
 function ResponsiveAppBar() {
+  const subMenuRef = useRef<HTMLDivElement>(null);
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -61,6 +65,22 @@ function ResponsiveAppBar() {
     false
   );
   const [expandKey, setExpandKey] = useState<string>("");
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        subMenuRef.current &&
+        !subMenuRef.current.contains(event.target as Node)
+      ) {
+        handleExpand("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [subMenuRef]);
 
   const handleExpand = (key: string) => {
     const keyExpand = key === expandKey ? "" : key;
@@ -145,23 +165,60 @@ function ResponsiveAppBar() {
                   marginRight: "15px",
                   color: "white",
                   textDecoration: "none",
-                  display:"flex",
-                  alignItems:"center"
-                  
+                  display: "flex",
+                  alignItems: "center",
+                  position: "relative",
                 }}
+                onClick={() => handleExpand(page.key)}
               >
                 <Typography>{page.name}</Typography>
                 {page?.sub && (
-                    <FontAwesomeIcon
-                      fontSize="12px"
-                      style={{
-                        marginLeft:"5px"
-                      }}
-                      icon={
-                        expandKey === page.key ? faChevronUp : faChevronDown
-                      }
-                    />
-                  )}
+                  <FontAwesomeIcon
+                    fontSize="12px"
+                    style={{
+                      marginLeft: "5px",
+                    }}
+                    icon={expandKey === page.key ? faChevronUp : faChevronDown}
+                  />
+                )}
+                <Box
+                  ref={subMenuRef}
+                  sx={{
+                    position: "absolute",
+                    top: "35px",
+                    left: 0,
+                    width: "220px",
+                    backgroundColor: "#448ad9",
+                    zIndex: 10,
+                    borderRadius: "5px",
+                  }}
+                >
+                  {page?.sub &&
+                    expandKey === page.key &&
+                    page?.sub.map((subs, indx) => {
+                      return (
+                        <ListItem key={indx} disablePadding>
+                          <Link
+                            className={styles.sub_menu_item}
+                            href="/"
+                            style={{
+                              textDecoration: "none",
+                              color: "#e3f2fd",
+                              padding: "8px 20px",
+                              width: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                              height: "30px",
+                            }}
+                          >
+                            <Typography style={{ fontSize: "14px" }}>
+                              {subs}
+                            </Typography>
+                          </Link>
+                        </ListItem>
+                      );
+                    })}
+                </Box>
               </Link>
             ))}
           </Box>
@@ -205,29 +262,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar alt="Nhat Duy" src="/static/images/avatar/2.jpg" />
-            </IconButton>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {logout.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            </IconButton>      
           </Box>
         </Toolbar>
       </Container>
