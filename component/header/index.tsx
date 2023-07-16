@@ -1,0 +1,237 @@
+"use client";
+import React, { useState } from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import {
+  faBars,
+  faMagnifyingGlass,
+  faHouse,
+  faCopy,
+  faList,
+  faChevronDown,
+  faChevronUp,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import InputBase from "@mui/material/InputBase";
+import SideBarDrawer from "../SideBarDrawer";
+import Link from "next/link";
+
+const pages = [
+  { name: "Trang chu", key: "home", icon: faHouse, link: "/" },
+  {
+    name: "The loai sach",
+    key: "categories",
+    icon: faList,
+    link: "/",
+    sub: [
+      "Ẩm thực - Nấu ăn",
+      "Học Ngoại Ngữ",
+      "Khoa Học - Kỹ Thuật",
+      "Kinh Tế - Quản Lý",
+      "Nông - Lâm - Ngư",
+      "Tài Liệu Học Tập",
+      "Thư Viện Pháp Luật",
+      "Triết Học",
+      "Truyện Ma - Truyện Kinh Dị",
+      "Truyện Tranh",
+      "Văn Học Việt Nam",
+      "Cổ Tích - Thần Thoại",
+      "Hồi Ký - Tuỳ Bút",
+      "Kiếm Hiệp - Tiên Hiệp",
+    ],
+  },
+  { name: "Review sach", key: "reivew", icon: faCopy, link: "/review" },
+];
+const login = ["Logout"];
+const logout = ["Login"];
+
+function ResponsiveAppBar() {
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [isShowSideBar, setIsShowSideBar] = useState<boolean | undefined>(
+    false
+  );
+  const [expandKey, setExpandKey] = useState<string>("");
+
+  const handleExpand = (key: string) => {
+    const keyExpand = key === expandKey ? "" : key;
+    setExpandKey(keyExpand);
+  };
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const hanleOpenCloseSideBar = () => {
+    setIsShowSideBar(!isShowSideBar);
+  };
+
+  return (
+    <AppBar position="static">
+      <SideBarDrawer
+        open={isShowSideBar}
+        hanleOpenCloseSideBar={hanleOpenCloseSideBar}
+      />
+      <Container maxWidth="lg">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: "0.2rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            eBook
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={hanleOpenCloseSideBar}
+              color="inherit"
+            >
+              <FontAwesomeIcon style={{ fontSize: "18px" }} icon={faBars} />
+            </IconButton>
+          </Box>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".2rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            eBook
+          </Typography>
+          {/* Menu */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) => (
+              <Link
+                href={page.link}
+                key={page.name}
+                style={{
+                  marginRight: "15px",
+                  color: "white",
+                  textDecoration: "none",
+                  display:"flex",
+                  alignItems:"center"
+                  
+                }}
+              >
+                <Typography>{page.name}</Typography>
+                {page?.sub && (
+                    <FontAwesomeIcon
+                      fontSize="12px"
+                      style={{
+                        marginLeft:"5px"
+                      }}
+                      icon={
+                        expandKey === page.key ? faChevronUp : faChevronDown
+                      }
+                    />
+                  )}
+              </Link>
+            ))}
+          </Box>
+
+          {/* search */}
+          <Box sx={{ flexGrow: 0, mr: 2, display: { xs: "none", md: "flex" } }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                height: "40px",
+                borderRadius: "5px",
+                backgroundColor: "#448ad9",
+                // "&:hover": {
+                //   backgroundColor: "#01579b",
+                // },
+              }}
+            >
+              <InputBase
+                sx={{
+                  width: "350px",
+                  color: "white",
+                  height: "40px",
+                  paddingLeft: "15px",
+                  borderRadius: "5px",
+                }}
+                placeholder="Search..."
+              />
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                fontSize="20px"
+                width="40px"
+                height="40px"
+                style={{
+                  cursor: "pointer",
+                }}
+              />
+            </Box>
+          </Box>
+          {/*  Avatar */}
+          <Box sx={{ flexGrow: 0 }}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Nhat Duy" src="/static/images/avatar/2.jpg" />
+            </IconButton>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {logout.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+}
+export default ResponsiveAppBar;
