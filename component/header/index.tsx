@@ -32,7 +32,7 @@ const pages = [
     name: "The loai sach",
     key: "categories",
     icon: faList,
-    link: "/",
+    link: "/category",
     sub: [
       "Ẩm thực - Nấu ăn",
       "Học Ngoại Ngữ",
