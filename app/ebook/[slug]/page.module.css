@@ -1,0 +1,69 @@
+
+
+.download_icon_box{
+
+}
+
+.download_icon_i{
+    
+}
+
+
+.share_icon_box {
+    height: 32px;
+    min-height: 40px;
+    background-color: #f0ae4d;
+    color: white;
+    border-radius: 4px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.share_icon_i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
+    transform: translate(-50%,-50%);
+}
+
+/* setting comon attribute mobile and table */
+@media (max-width: 739px) {
+    .ebook_intro{
+        display: block !important;
+    }
+    .ebook_image{
+        width: 90% !important;
+        padding: 20px 0px !important;
+        margin: auto !important;
+    }
+    
+    .ebook_info{
+        width: 90% !important;
+        padding: 0px !important;
+        margin: auto !important;
+
+    }
+    .ebook_image_thumbnail{
+    }
+}
+
+@media (max-width: 499px) {
+  
+}
+
+@media (min-width: 500px) and (max-width: 739px) {
+    
+ 
+    
+
+}
+
+@media (min-width: 740px) and (max-width: 1023px) {
+ 
+    
+}
+
+@media (min-width: 1024px) and (max-width: 1239px){
+  
+}

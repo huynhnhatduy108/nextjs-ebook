@@ -1,0 +1,24 @@
+
+.ebook_slider{
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+
+}
+
+/* setting comon attribute mobile and table */
+@media (max-width: 600px) {
+
+}
+
+
+@media (min-width: 600px) and (max-width: 900px) {
+
+}
+
+@media (min-width: 900px) and (max-width: 1200px){
+}
+
+@media (min-width: 1200px) {
+    
+  
+}
