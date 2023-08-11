@@ -9,6 +9,8 @@ import {
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "./page.module.css";
+
 {
   /* <FontAwesomeIcon icon={faLinkedin} /> */
 //   <FontAwesomeIcon icon={faFacebook} />

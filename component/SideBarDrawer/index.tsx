@@ -46,7 +46,7 @@ const pages = [
       "Kiếm Hiệp - Tiên Hiệp",
     ],
   },
-  { name: "Review sach", key: "reivew", icon: faCopy, link: "/review" },
+  { name: "Review sach", key: "reivew", icon: faCopy, link: "/review-sach" },
 ];
 
 function SideBarDrawer(props: any) {

@@ -3,6 +3,14 @@ import Link from "next/link";
 import { Box, Container, Grid, Typography, Paper } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Pagination from "@mui/material/Pagination";
+import styles from "./page.module.css";
+import Rating from "@mui/material/Rating";
+import {
+    faDownload,
+    faEye
+  } from "@fortawesome/free-solid-svg-icons";
+  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+{/* <FontAwesomeIcon icon={faDownload} /> */}
 
 const categories = [
   "Ẩm thực - Nấu ăn",
@@ -35,15 +43,44 @@ export default function EbookPage() {
               {/* Ebook */}
               <Box sx={{}}>
                 <Grid container spacing={2}>
-                 {eBook.map((book)=>{
-                    return  <Grid item lg={3} md={3} sm={3} xs={6}>
-                    <Paper style={{ height: "250px" }}>{book}</Paper>
-                  </Grid>
-                 })}
+                  {eBook.map((book) => {
+                    return (
+                      <Grid item lg={3} md={3} sm={3} xs={6}>
+                        <Paper className={styles.ebook}>
+                          <img
+                            className={styles.ebook_image}
+                            src="https://manybooks.net/sites/default/files/styles/220x330sc/public/2023-08/51NmhibPg%2BL.jpg?itok=AUurEj_q"
+                            alt="Celestial Magic"
+                          />
+                          <p className={styles.ebook_name}>
+                            OpenCoin được đổi tên thành Ripple Labs, sau đó được
+                            đổi tên thành Ripple vào năm 2015.
+                          </p>
+                          <div className={styles.ebook_dowload_view}>
+                            <div className={styles.ebook_dowload}>
+                                <Rating max={1} value={0.7} precision={0.5} readOnly/>
+                                <Typography style={{marginLeft:"5px", fontSize:'14px',color:"gray"}}>5/5</Typography>
+                            </div>
+                            <div className={styles.ebook_view}>
+                                <FontAwesomeIcon icon={faEye} color="gray" fontSize="15px"/>
+                                <Typography  style={{marginLeft:"5px", fontSize:'14px', color:"gray"}}>100</Typography>
+                            </div>
+                          </div>
+                        </Paper>
+                      </Grid>
+                    );
+                  })}
                 </Grid>
               </Box>
               {/* Pagination */}
-              <Box sx={{ width: "100%", position: "relative" , height:"100px", marginTop:"20px" }}>
+              <Box
+                sx={{
+                  width: "100%",
+                  position: "relative",
+                  height: "100px",
+                  marginTop: "20px",
+                }}
+              >
                 <Pagination
                   style={{
                     position: "absolute",

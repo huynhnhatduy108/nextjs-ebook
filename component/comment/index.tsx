@@ -11,7 +11,8 @@ import styles from "./comment.module.css";
 const comments = [
   {
     id: 1,
-    commment: "Apecoin (APE) là gì? Thông tin chi tiết về tiền điện tử APE",
+    commment:
+      "Nếu như bạn mong muốn giao tiếp tiếng Anh thành thạo, chuyên nghiệp từ 3 tới 6 tháng thì cuốn sách này sẽ làm bạn thất vọng. Thực tế cho thấy chưa có ai mới bắt đầu học tiếng Anh có thể giao tiếp được trôi chảy trong thời gian từ 3 – 6 tháng. Đó là ảo tưởng. Nhưng nếu như bạn đang tìm kiếm làm như thế nào có thể sử dụng tiếng Anh giao tiếp thành thạo, chuyên nghiệp trong 1 năm tới thì xin chúc mừng bạn. ",
     sub: [],
   },
   {
@@ -21,7 +22,6 @@ const comments = [
       {
         id: 7,
         commment: "Apecoin là token quản trị phi tập trung (DAO) ",
-        sub: [],
       },
       { id: 8, commment: "Điểm nổi bật của Apecoin  " },
       {
@@ -51,9 +51,43 @@ const comments = [
 ];
 
 function Comment() {
+  const [currentComentId, setCurrentComentId] = useState<number|string>("");
+  const [commentText, setCommentText]= useState<string>("")
+  const [commentReplyText, setCommentReplyText]= useState<string>("")
+
+
+  const handleClickReply = (id:string|number) =>{
+    setCommentReplyText("")
+    setCurrentComentId(id===currentComentId?"":id)
+  }
+
+
+  const handleChangeComment =(value:string)=>{
+    setCommentText(value)
+  }
+
+
+  const handleChangeCommentReply =(value:string)=>{
+    setCommentReplyText(value)
+  }
+
+  const handleSendComment =(bookId: string|number, parentId:string|number)=>{
+      if (!parentId){
+        console.log("id, commentText", bookId, commentText);
+
+      }
+      else{
+        console.log("id, commentReplyText", bookId, commentReplyText);
+
+      }
+      
+  }
+
+  
+
   return (
     <Box sx={{ width: "100%" }}>
-      <Paper style={{ padding: "20px" }}>
+      <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
         <Typography>{`Binh luan (${0})`}</Typography>
         {/* Main comment */}
         <Box
@@ -65,9 +99,9 @@ function Comment() {
           }}
         >
           <textarea
-            style={{            
-              boxSizing:"border-box",
-              display:"block",
+            style={{
+              boxSizing: "border-box",
+              display: "block",
               width: "100%",
               height: "100px",
               padding: "10px",
@@ -77,7 +111,8 @@ function Comment() {
               border: "none",
             }}
             placeholder="Viet binh luan"
-          ></textarea>
+            onChange={(event)=>handleChangeComment(event.target.value)}
+          >{commentText}</textarea>
           <Box
             sx={{
               position: "absolute",
@@ -89,6 +124,8 @@ function Comment() {
               borderRadius: "4px",
               cursor: "pointer",
             }}
+            onClick={()=>handleSendComment("","")}
+
           >
             Gui
           </Box>
@@ -103,147 +140,153 @@ function Comment() {
           }}
         ></Box>
         {/* List comment */}
-        <Box
-          sx={{
-            marginTop: "20px",
-            width: "100%",
-            // height: "100px",
-            position: "relative",
-            border: "1px solid rgba(0,0,0,0.2)",
-            borderRadius: "5px",
-          }}
-        >
-          <Box
-            sx={{
-              padding: "10px 10px 0px",
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Avatar>ND</Avatar>
-            <Box sx={{ marginLeft: "10px" }}>
-              <Typography fontWeight="700">Nhat Duy</Typography>
-              <Typography fontSize="13px" color="gray">
-                28/07/2023 - 08:56
-              </Typography>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              padding: "10px",
-              height: "60px",
-              color: "gray",
-              // backgroundColor: "green",
-            }}
-          >
-            Nếu như bạn đã sẵn sàng để sử dụng tiếng Anh trong 1 năm tới thì tôi
-            tin chắc rằng đây chính là quyển sách quan trọng nhất mà bạn cần
-            đọc.
-          </Box>
+        {comments.map((comment) => {
+          return (
+            <Box key={comment.id}>
+              <Box
+                sx={{
+                  marginTop: "20px",
+                  width: "100%",
+                  // height: "100px",
+                  position: "relative",
+                  border: "1px solid rgba(0,0,0,0.2)",
+                  borderRadius: "5px",
+                }}
+              >
+                <Box
+                  sx={{
+                    padding: "10px 10px 0px",
+                    height: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Avatar>ND</Avatar>
+                  <Box sx={{ marginLeft: "10px" }}>
+                    <Typography fontWeight="700">Nhat Duy</Typography>
+                    <Typography fontSize="13px" color="gray">
+                      28/07/2023 - 08:56
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    padding: "10px",
+                    minHeight: "30px",
+                    color: "gray",
+                    // backgroundColor: "green",
+                  }}
+                >
+                  {comment.commment}
+                </Box>
 
-          <Box sx={{ position: "relative", height: "20px" }}></Box>
-          <Box
-            sx={{
-              position: "absolute",
-              display: "flex",
-              alignItems: "center",
-              right: "10px",
-              bottom: "10px",
-              cursor: "pointer",
-            }}
-          >
-            <FontAwesomeIcon color="#1976d1" icon={faReply} />
-            <Typography color="#1976d1" marginLeft="5px">
-              Phan hoi
-            </Typography>
-          </Box>
-        </Box>
-        {/* Reply */}
-        <Box
-          sx={{
-            marginTop: "10px",
-            marginLeft: "20px",
-            // width: "100%",
-            height: "100px",
-            position: "relative",
-            border: "1px solid rgba(0,0,0,0.2)",
-            borderRadius: "5px",
-          }}
-        >
-           <textarea
-            style={{
-              display:"block",
-              boxSizing:"border-box",
-              width: "100%",
-              height: "100px",
-              padding: "10px",
-              outline: "none",
-              borderRadius: "5px",
-              backgroundColor: "#f3f4f6",
-              border: "none",
-            }}
-            placeholder="Viet binh luan"
-          ></textarea>
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: "10px",
-              right: "10px",
-              padding: "8px 20px",
-              color: "white",
-              backgroundColor: "#1976d1",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            Gui
-          </Box>
-
-        </Box>
-        {/* Child comment */}
-        <Box
-          sx={{
-            marginTop: "10px",
-            marginLeft: "20px",
-            // width: "100%",
-            // height: "100px",
-            position: "relative",
-            border: "1px solid rgba(0,0,0,0.2)",
-            borderRadius: "5px",
-          }}
-        >
-          <Box
-            sx={{
-              padding: "10px 10px 0px",
-              height: "40px",
-              // backgroundColor: "red",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Avatar>ND</Avatar>
-            <Box sx={{ marginLeft: "10px" }}>
-              <Typography fontWeight="700">Nhat Duy</Typography>
-              <Typography fontSize="13px" color="gray">
-                28/07/2023 - 08:56
-              </Typography>
+                <Box sx={{ position: "relative", height: "20px" }}></Box>
+                <Box
+                  onClick={()=>handleClickReply(comment.id)}
+                  sx={{
+                    position: "absolute",
+                    display: "flex",
+                    alignItems: "center",
+                    right: "10px",
+                    bottom: "10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FontAwesomeIcon color="#1976d1" icon={faReply} />
+                  <Typography color="#1976d1" marginLeft="5px">
+                    Phan hoi
+                  </Typography>
+                </Box>
+              </Box>
+              {/* Reply */}
+              {currentComentId === comment.id ? (
+                <Box
+                  sx={{
+                    marginTop: "10px",
+                    marginLeft: "20px",
+                    position: "relative",
+                    border: "1px solid rgba(0,0,0,0.2)",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <textarea
+                    style={{
+                      display: "block",
+                      boxSizing: "border-box",
+                      width: "100%",
+                      height: "100px",
+                      padding: "10px",
+                      outline: "none",
+                      borderRadius: "5px",
+                      backgroundColor: "#f3f4f6",
+                      border: "none",
+                    }}
+                    placeholder="Viet binh luan"
+                    onChange={(event)=>handleChangeCommentReply(event.target.value)}
+                  >{commentReplyText}</textarea>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: "10px",
+                      right: "10px",
+                      padding: "8px 20px",
+                      color: "white",
+                      backgroundColor: "#1976d1",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                    onClick={()=>handleSendComment("",comment.id)}
+                  >
+                    Gui
+                  </Box>
+                </Box>
+              ) : (
+                ""
+              )}
+              {/* Child comment */}
+              {comment.sub.map((sub_comment) => {
+                return (
+                  <Box
+                    key={sub_comment.id}
+                    sx={{
+                      marginTop: "10px",
+                      marginLeft: "20px",
+                      position: "relative",
+                      border: "1px solid rgba(0,0,0,0.2)",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        padding: "10px 10px 0px",
+                        minHeight: "40px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Avatar>ND</Avatar>
+                      <Box sx={{ marginLeft: "10px" }}>
+                        <Typography fontWeight="700">Nhat Duy</Typography>
+                        <Typography fontSize="13px" color="gray">
+                          28/07/2023 - 08:56
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        padding: "10px",
+                        minHeight: "40px",
+                        color: "gray",
+                      }}
+                    >
+                      {sub_comment.commment}
+                    </Box>
+                  </Box>
+                );
+              })}
             </Box>
-          </Box>
-          <Box
-            sx={{
-              padding: "10px",
-              minHeight: "40px",
-              color: "gray",
-              // backgroundColor: "green",
-            }}
-          >
-            Nếu như bạn đã sẵn sàng để sử dụng tiếng Anh trong 1 năm tới thì tôi
-            tin chắc rằng đây chính là quyển sách quan trọng nhất mà bạn cần
-            đọc.
-          </Box>
-        </Box>
-       
+          );
+        })}
       </Paper>
     </Box>
   );

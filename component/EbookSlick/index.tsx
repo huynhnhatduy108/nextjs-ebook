@@ -71,7 +71,8 @@ function EbookSlick() {
           {"Xem them >>"}
         </Link>
       </Box>
-      <Slider {...settings} className={styles.ebook_slider}>
+      <Box className={styles.ebook_slider}>
+      <Slider {...settings} >
         {ebooks.map((item) => {
           return (
             <Box sx={{ padding: "20px", boxSizing: "border-box" }}>
@@ -80,6 +81,7 @@ function EbookSlick() {
           );
         })}
       </Slider>
+      </Box>
     </Box>
   );
 }

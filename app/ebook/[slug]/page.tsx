@@ -23,6 +23,23 @@ import styles from "./page.module.css";
 import Comment from "@/component/comment";
 import EbookSlick from "@/component/EbookSlick";
 
+const categories = [
+    "Ẩm thực - Nấu ăn",
+    "Học Ngoại Ngữ",
+    "Khoa Học - Kỹ Thuật",
+    "Kinh Tế - Quản Lý",
+    "Nông - Lâm - Ngư",
+    "Tài Liệu Học Tập",
+    "Thư Viện Pháp Luật",
+    "Triết Học",
+    "Truyện Ma - Truyện Kinh Dị",
+    "Truyện Tranh",
+    "Văn Học Việt Nam",
+    "Cổ Tích - Thần Thoại",
+    "Hồi Ký - Tuỳ Bút",
+    "Kiếm Hiệp - Tiên Hiệp",
+  ];
+
 type Params = {
   params: {
     slug: string;
@@ -278,7 +295,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                     }}
                   ></Box>
                   {/* Intro content */}
-                  <Box sx={{ padding: "20px" }}>
+                  <div className={styles.ebook_content} style={{ padding: "20px",  }}>
                     <Typography
                       style={{
                         fontSize: "20px",
@@ -322,7 +339,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                       đọc. Hãy đọc, tin tưởng và thực hành. Tôi tin rằng bạn sẽ
                       đạt được kết quả kỳ diệu trong 1 năm tới.
                     </p>
-                  </Box>
+                  </div>
                   {/* gap */}
                   <Box sx={{ height: "40px" }}></Box>
                   {/* share book  */}
@@ -469,7 +486,42 @@ export default async function EbookDetail({ params: { slug } }: Params) {
               </Box>
             </Grid>
             <Grid item lg={4} md={12} sm={12} xs={12}>
-              <Paper style={{ height: "100vh" }}>{"Helele "}</Paper>
+              <Paper style={{ borderRadius: "5px" }}>
+                <Typography
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    padding: "13px 0px",
+                    backgroundColor: "#1976d1",
+                    borderTopRightRadius: "5px",
+                    borderTopLeftRadius: "5px",
+                    color: "white",
+                  }}
+                >
+                  Danh muc sach
+                </Typography>
+                <ul style={{ margin: "0px", padding: "20px 40px" }}>
+                  {categories.map((cate) => {
+                    return (
+                      <li
+                        style={{
+                          listStyle: "none",
+                          padding: "8px 0px",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Link
+                          href={"/"}
+                          style={{ textDecoration: "none", color: "#1976d1" }}
+                        >
+                          {cate}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Paper>
             </Grid>
           </Grid>
         </Box>
