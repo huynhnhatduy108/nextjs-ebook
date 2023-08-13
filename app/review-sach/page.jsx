@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Container, Grid, Typography, Paper } from "@mui/material";
+import { Box, Container, Grid, Typography, Paper, Button } from "@mui/material";
 import styles from "./page.module.css";
 
-const category = [
+const posts = [
   1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
   23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
 ];
@@ -23,8 +23,8 @@ export default function ReviewPage() {
             Review sach
           </Typography>
           <Grid container spacing={2}>
-            {category?.length &&
-              category.map((cate) => {
+            {posts?.length &&
+              posts.map((post) => {
                 return (
                   <Grid item lg={4} md={6} sm={6} xs={12} key={cate}>
                     <Paper className={styles.post} style={{ }}>
@@ -61,6 +61,9 @@ export default function ReviewPage() {
                 );
               })}
           </Grid>
+          <Box style={{textAlign:"center", marginTop:"30px"}}>
+             <Button variant="contained" >Xem them</Button>
+          </Box>
         </Box>
       </Container>
     </main>
