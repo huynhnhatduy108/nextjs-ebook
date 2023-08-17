@@ -26,6 +26,13 @@ import Link from "next/link";
 import { ListItem, ListItemButton } from "@mui/material";
 import styles from "./header.module.css";
 
+import { Lexend_Deca } from "next/font/google";
+
+const lexendDeca = Lexend_Deca({
+  weight: "300",
+  subsets: ["vietnamese"],
+});
+
 const pages = [
   { name: "Trang chu", key: "home", icon: faHouse, link: "/" },
   {
@@ -100,7 +107,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={lexendDeca.className}>
       <SideBarDrawer
         open={isShowSideBar}
         hanleOpenCloseSideBar={hanleOpenCloseSideBar}
@@ -171,7 +178,7 @@ function ResponsiveAppBar() {
                 }}
                 onClick={() => handleExpand(page.key)}
               >
-                <Typography>{page.name}</Typography>
+                <Typography className={lexendDeca.className}>{page.name}</Typography>
                 {page?.sub && (
                   <FontAwesomeIcon
                     fontSize="12px"
@@ -199,7 +206,7 @@ function ResponsiveAppBar() {
                       return (
                         <ListItem key={indx} disablePadding>
                           <Link
-                            className={styles.sub_menu_item}
+                            className={`${lexendDeca.className} ${styles.sub_menu_item}`}
                             href="/"
                             style={{
                               textDecoration: "none",
@@ -211,7 +218,7 @@ function ResponsiveAppBar() {
                               height: "30px",
                             }}
                           >
-                            <Typography style={{ fontSize: "14px" }}>
+                            <Typography className={lexendDeca.className} style={{ fontSize: "14px" }}>
                               {subs}
                             </Typography>
                           </Link>
@@ -238,6 +245,7 @@ function ResponsiveAppBar() {
               }}
             >
               <InputBase
+                className={lexendDeca.className}
                 sx={{
                   width: "350px",
                   color: "white",

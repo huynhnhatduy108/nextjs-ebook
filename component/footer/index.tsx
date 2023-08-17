@@ -6,6 +6,13 @@ import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
 import Link from "next/link";
 
+import { Lexend_Deca } from "next/font/google";
+
+const lexendDeca = Lexend_Deca({
+  weight: "300",
+  subsets: ["vietnamese"],
+});
+
 function Footer() {
   return (
     <footer
@@ -74,7 +81,7 @@ function Footer() {
             margin: "20px auto 10px",
           }}
         ></div>
-        <Typography style={{ textAlign: "center" }}>
+        <Typography className={lexendDeca.className} style={{ textAlign: "center" }}>
           Copyright ©2023 All rights reserved | This template is made with Ebook
         </Typography>
       </Container>

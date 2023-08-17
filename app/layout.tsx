@@ -1,12 +1,13 @@
 import "./globals.css";
-import { Roboto } from "next/font/google";
+import { Lexend_Deca } from "next/font/google";
 import Header from "@/component/header";
 import style from "./page.module.css";
 import Footer from "@/component/footer";
 
-const roboto = Roboto({
-  weight: "400",
-  subsets: ["latin"],
+
+const lexendDeca = Lexend_Deca({
+  weight: "300",
+  subsets: ["vietnamese"],
 });
 
 export const metadata = {
@@ -21,10 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} ${style.body}`}>
+      <body className={`${lexendDeca.className} ${style.body}`}>
           <Header />
           {children}
-          <Footer/>
+          <Footer />
       </body>
     </html>
   );

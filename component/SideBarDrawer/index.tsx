@@ -22,6 +22,13 @@ import Link from "next/link";
 import { useState } from "react";
 import styles from "./drawer.module.css";
 
+import { Lexend_Deca } from "next/font/google";
+
+const lexendDeca = Lexend_Deca({
+  weight: "300",
+  subsets: ["vietnamese"],
+});
+
 const pages = [
   { name: "Trang chu", key: "home", icon: faHouse, link: "/" },
   {
@@ -92,6 +99,7 @@ function SideBarDrawer(props: any) {
             }}
           >
             <InputBase
+            className={lexendDeca.className}
               sx={{
                 flex: 1,
                 width: "100%",
@@ -135,7 +143,7 @@ function SideBarDrawer(props: any) {
                 >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <FontAwesomeIcon icon={page.icon} />
-                    <Typography style={{ marginLeft: "10px" }}>
+                    <Typography className={lexendDeca.className} style={{ marginLeft: "10px" }}>
                       {page.name}
                     </Typography>
                   </Box>
@@ -170,6 +178,7 @@ function SideBarDrawer(props: any) {
                         }}
                       >
                         <Typography
+                          className={lexendDeca.className}
                           style={{ marginLeft: "28px", fontSize: "13px" }}
                         >
                           {sub}

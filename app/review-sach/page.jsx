@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Container, Grid, Typography, Paper, Button } from "@mui/material";
+import { Box, Container, Grid, Typography, Paper, Button, Pagination, InputBase } from "@mui/material";
+import {
+  faMagnifyingGlass, 
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
+
 
 const posts = [
   1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
@@ -18,15 +23,50 @@ export default function ReviewPage() {
             fontSize="20px"
             fontWeight="bold"
             align="center"
-            marginBottom="30px"
+            // marginBottom="0px"
           >
             Review sach
           </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                height: "45px",
+                borderRadius: "5px",
+                // backgroundColor: "#448ad9",
+                margin:"40px 0px",
+                // border:"1px solid gray",
+                boxShadow:"0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);"
+              }}
+            >
+              <InputBase
+                sx={{
+                  flex: 1,
+                  color: "gray",
+                  height: "45px",
+                  paddingLeft: "15px",
+                  borderRadius: "5px",
+                }}
+                placeholder="Search..."
+              />
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                fontSize="20px"
+                color="gray"
+                width="40px"
+                height="40px"
+                style={{
+                  cursor: "pointer",
+                }}
+              />
+            </Box>
+
           <Grid container spacing={2}>
             {posts?.length &&
               posts.map((post) => {
                 return (
-                  <Grid item lg={4} md={6} sm={6} xs={12} key={cate}>
+                  <Grid item lg={4} md={6} sm={6} xs={12} key={post}>
                     <Paper className={styles.post} style={{ }}>
                       <div className={styles.post_day}>
                         <p className={styles.post_day_date}>24</p>
@@ -61,9 +101,27 @@ export default function ReviewPage() {
                 );
               })}
           </Grid>
-          <Box style={{textAlign:"center", marginTop:"30px"}}>
-             <Button variant="contained" >Xem them</Button>
-          </Box>
+          <Box
+                sx={{
+                  width: "100%",
+                  position: "relative",
+                  height: "100px",
+                  marginTop: "20px",
+                }}
+              >
+                <Pagination
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%,-50%)",
+                  }}
+                  count={10}
+                  variant="outlined"
+                  shape="rounded"
+                  color="primary"
+                />
+              </Box>
         </Box>
       </Container>
     </main>

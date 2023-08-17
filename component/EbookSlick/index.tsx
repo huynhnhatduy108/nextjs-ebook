@@ -2,9 +2,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
-import { Avatar, Paper, Typography } from "@mui/material";
+import { Avatar, Paper, Typography, Rating } from "@mui/material";
 import Link from "next/link";
-import { faReply } from "@fortawesome/free-solid-svg-icons";
+import { faReply, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -72,15 +72,55 @@ function EbookSlick() {
         </Link>
       </Box>
       <Box className={styles.ebook_slider}>
-      <Slider {...settings} >
-        {ebooks.map((item) => {
-          return (
-            <Box sx={{ padding: "20px", boxSizing: "border-box" }}>
-              <Paper sx={{ height: "200px" }}>{item}</Paper>
-            </Box>
-          );
-        })}
-      </Slider>
+        <Slider {...settings}>
+          {ebooks.map((item) => {
+            return (
+              <Box sx={{ padding: "20px 10px", boxSizing: "border-box" }}>
+                <Paper className={styles.ebook}>
+                  <img
+                    className={styles.ebook_image}
+                    src="https://manybooks.net/sites/default/files/styles/220x330sc/public/2023-08/51NmhibPg%2BL.jpg?itok=AUurEj_q"
+                    alt="Celestial Magic"
+                  />
+                  <p className={styles.ebook_name}>
+                    OpenCoin được đổi tên thành Ripple Labs, sau đó được đổi tên
+                    thành Ripple vào năm 2015.
+                  </p>
+                  <div className={styles.ebook_dowload_view}>
+                    <div className={styles.ebook_dowload}>
+                      <Rating max={1} value={0.7} precision={0.5} readOnly />
+                      <Typography
+                        style={{
+                          marginLeft: "5px",
+                          fontSize: "14px",
+                          color: "gray",
+                        }}
+                      >
+                        5/5
+                      </Typography>
+                    </div>
+                    <div className={styles.ebook_view}>
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        color="gray"
+                        fontSize="15px"
+                      />
+                      <Typography
+                        style={{
+                          marginLeft: "5px",
+                          fontSize: "14px",
+                          color: "gray",
+                        }}
+                      >
+                        100
+                      </Typography>
+                    </div>
+                  </div>
+                </Paper>
+              </Box>
+            );
+          })}
+        </Slider>
       </Box>
     </Box>
   );
