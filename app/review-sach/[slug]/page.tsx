@@ -72,12 +72,12 @@ export default async function UserPage({ params: { slug } }: Params) {
                     }}
                   >
                     <Avatar>ND</Avatar>
-                    <Typography fontWeight="bold" marginLeft="10px">
+                    <p  style={{margin:"0px 0px 0px 10px", fontWeight:"500"}}>
                       Nhat Duy
-                    </Typography>
-                    <Typography marginLeft="10px" color="gray" fontSize="15px">
+                    </p>
+                    <p  style={{margin:"0px 0px 0px 10px", fontSize:"14px"}}>
                       24/07/2022 | 23:05
-                    </Typography>
+                    </p>
                   </Box>
                   <Box
                     sx={{
@@ -101,9 +101,9 @@ export default async function UserPage({ params: { slug } }: Params) {
                         }}
                         icon={faComment}
                       />
-                      <Typography color="gray" fontSize="15px">
+                      <p style={{margin:"0px", color:"gray", fontSize:"15px"}}>
                         10
-                      </Typography>
+                      </p>
                     </Box>
                     <Box
                       sx={{
@@ -121,9 +121,9 @@ export default async function UserPage({ params: { slug } }: Params) {
                         }}
                         icon={faEye}
                       />
-                      <Typography color="gray" fontSize="15px">
+                      <p style={{margin:"0px", color:"gray", fontSize:"15px"}}>
                         97
-                      </Typography>
+                      </p>
                     </Box>
                   </Box>
                 </Box>
@@ -160,16 +160,17 @@ export default async function UserPage({ params: { slug } }: Params) {
                   {tags.length &&
                     tags.map((tag) => {
                       return (
-                        <Typography
+                        <p
                           style={{
-                            border: "1px solid black",
-                            padding: "5px 25px",
+                            border: "1px solid gray",
+                            padding: "6px 25px",
                             borderRadius: "5px",
-                            marginRight: "10px",
+                            color:"gray",
+                            margin:"0px 10px 0px 0px",
                           }}
                         >
                           #{tag}
-                        </Typography>
+                        </p>
                       );
                     })}
                 </Box>
@@ -184,7 +185,7 @@ export default async function UserPage({ params: { slug } }: Params) {
                   alignItems: "center",
                 }}
               >
-                <Typography>Chia se:</Typography>
+                <p style={{margin:"0px"}}>Chia se:</p>
                 <Box
                   sx={{
                     display: "flex",
@@ -317,7 +318,7 @@ export default async function UserPage({ params: { slug } }: Params) {
             </Grid>
             <Grid item lg={4} md={12} sm={12} xs={12}>
               <Paper style={{ borderRadius: "5px" }}>
-                <Typography
+                <p
                   style={{
                     textAlign: "center",
                     fontWeight: "bold",
@@ -326,10 +327,11 @@ export default async function UserPage({ params: { slug } }: Params) {
                     borderTopRightRadius: "5px",
                     borderTopLeftRadius: "5px",
                     color: "white",
+                    margin:"0px",
                   }}
                 >
                   Bai viet lien quan
-                </Typography>
+                </p>
                 <div className={styles.post_relate}>
                   {postRelate.map((post) => {
                     return (

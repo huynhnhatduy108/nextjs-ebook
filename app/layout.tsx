@@ -6,7 +6,6 @@ import Footer from "@/component/footer";
 
 
 const lexendDeca = Lexend_Deca({
-  weight: "300",
   subsets: ["vietnamese"],
 });
 

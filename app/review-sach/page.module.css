@@ -12,7 +12,7 @@
 }
 
 .post:hover .post_title{
-    font-weight: 800;
+    font-weight: 500;
 
 
 }
@@ -33,6 +33,7 @@
 
 .post_day_date{
     margin: 0px;
+    font-weight: 400;
 }
 
 .post_day_line{
@@ -56,7 +57,7 @@
     line-height: 1.3;
     padding: 10px;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 400;
     text-align: justify;
     height: 42px;
     display: -webkit-box;

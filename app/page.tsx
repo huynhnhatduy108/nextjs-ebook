@@ -5,10 +5,17 @@ import { Box, Container, Grid, Typography, Paper } from "@mui/material";
 import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Rating from "@mui/material/Rating";
+import { Lexend_Deca } from "next/font/google";
 
 const posts = [1, 2, 3, 4, 5, 6];
 const ebooks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16,17,18,19,20,21,22,23,24];
 const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11 ,12];
+
+
+const lexendDeca = Lexend_Deca({
+  subsets: ["vietnamese"],
+});
+
 
 
 export default function Home() {
@@ -26,7 +33,7 @@ export default function Home() {
               mb: "20px",
             }}
           >
-            <Typography fontSize="20px" fontWeight="bold">
+            <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
               Danh mục nổi bật
             </Typography>
             <Link
@@ -68,7 +75,7 @@ export default function Home() {
               mb: "20px",
             }}
           >
-            <Typography fontSize="20px" fontWeight="bold">
+            <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
               Sach duoc doc nhieu nhat
             </Typography>
             <Link
@@ -143,7 +150,7 @@ export default function Home() {
               mb: "20px",
             }}
           >
-            <Typography fontSize="20px" fontWeight="bold">
+            <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
               Review sach
             </Typography>
             <Link

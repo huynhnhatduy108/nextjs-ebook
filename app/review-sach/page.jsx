@@ -5,12 +5,16 @@ import {
   faMagnifyingGlass, 
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Lexend_Deca } from "next/font/google";
 import styles from "./page.module.css";
+
+const lexendDeca = Lexend_Deca({
+  subsets: ["vietnamese"],
+});
 
 
 const posts = [
-  1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+  1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 ];
 
 export default function ReviewPage() {
@@ -19,14 +23,16 @@ export default function ReviewPage() {
       <Container maxWidth="lg">
         {/* category */}
         <Box sx={{ margin: "50px 0px" }}>
-          <Typography
-            fontSize="20px"
-            fontWeight="bold"
-            align="center"
-            // marginBottom="0px"
+          <p
+            style={{
+              fontSize:"25px",
+              fontWeight:"bold",
+              textAlign:"center",
+              margin:"0px"
+            }}
           >
             Review sach
-          </Typography>
+          </p>
 
             <Box
               sx={{
@@ -34,9 +40,7 @@ export default function ReviewPage() {
                 alignItems: "center",
                 height: "45px",
                 borderRadius: "5px",
-                // backgroundColor: "#448ad9",
                 margin:"40px 0px",
-                // border:"1px solid gray",
                 boxShadow:"0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);"
               }}
             >
@@ -48,7 +52,8 @@ export default function ReviewPage() {
                   paddingLeft: "15px",
                   borderRadius: "5px",
                 }}
-                placeholder="Search..."
+                placeholder="Tiem kim..."
+                className={lexendDeca.className}
               />
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}

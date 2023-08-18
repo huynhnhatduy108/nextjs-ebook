@@ -98,7 +98,7 @@ export default function EbookPage() {
             {/* Category */}
             <Grid item lg={4} md={12} sm={12} xs={12}>
               <Paper style={{ minHeight: "100vh", borderRadius: "5px" }}>
-                <Typography
+                <p
                   style={{
                     textAlign: "center",
                     fontWeight: "bold",
@@ -107,10 +107,11 @@ export default function EbookPage() {
                     borderTopRightRadius: "5px",
                     borderTopLeftRadius: "5px",
                     color: "white",
+                    margin:"0px"
                   }}
                 >
                   Danh muc sach
-                </Typography>
+                </p>
                 <ul style={{ margin: "0px", padding: "20px 20px" }}>
                   {categories.map((cate) => {
                     return (

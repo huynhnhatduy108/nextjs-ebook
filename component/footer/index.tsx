@@ -24,64 +24,25 @@ function Footer() {
     >
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center" }}>
-          <Link
-            href="/"
-            style={{
-              color: "white",
-              textDecoration: "none",
-              margin: "0px 10px",
-              fontWeight: "bold",
-              fontSize: "18px",
-            }}
-          >
+          <Link className={styles.page} href="/">
             Trang chu
           </Link>
-          <Link
-            href="/"
-            style={{
-              color: "white",
-              textDecoration: "none",
-              margin: "0px 10px",
-              fontWeight: "bold",
-              fontSize: "18px",
-            }}
-          >
+          <Link href="/" className={styles.page}>
             Blog
           </Link>
-          <Link
-            href="/"
-            style={{
-              color: "white",
-              textDecoration: "none",
-              margin: "0px 10px",
-              fontWeight: "bold",
-              fontSize: "18px",
-            }}
-          >
+          <Link href="/" className={styles.page}>
             Ve chung toi
           </Link>
-          <Link
-            href="/"
-            style={{
-              color: "white",
-              textDecoration: "none",
-              margin: "0px 10px",
-              fontWeight: "bold",
-              fontSize: "18px",
-            }}
-          >
+          <Link className={styles.page} href="/">
             Lien he
           </Link>
         </Box>
         <div
-          style={{
-            height: "1px",
-            backgroundColor: "white",
-            width: "80%",
-            margin: "20px auto 10px",
-          }}
+          className={styles.copyright}
         ></div>
-        <Typography className={lexendDeca.className} style={{ textAlign: "center" }}>
+        <Typography
+          className={`${lexendDeca.className} ${styles.copyright_text}`}
+        >
           Copyright ©2023 All rights reserved | This template is made with Ebook
         </Typography>
       </Container>

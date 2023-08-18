@@ -22,6 +22,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
 import Comment from "@/component/comment";
 import EbookSlick from "@/component/EbookSlick";
+import { Lexend_Deca } from "next/font/google";
+
+const lexendDeca = Lexend_Deca({
+  subsets: ["vietnamese"],
+});
+
 
 const categories = [
     "Ẩm thực - Nấu ăn",
@@ -87,15 +93,17 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                       className={styles.ebook_info}
                       sx={{ width: "70%", padding: "10px 20px 0px 0px" }}
                     >
-                      <Typography
+                      <p
                         style={{
                           fontWeight: "bold",
                           fontSize: "25px",
                           color: "#1976D1",
+                          margin:"0px"
                         }}
+
                       >
                         Nha gia kim
-                      </Typography>
+                      </p>
                       <Box
                         sx={{
                           display: "flex",
@@ -104,12 +112,12 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <Typography style={{ width: "100px" }}>
+                        <p style={{ width: "100px" , margin:"0px"}}>
                           Tác giả:
-                        </Typography>
-                        <Typography style={{ fontWeight: "bold" }}>
+                        </p>
+                        <p style={{ fontWeight: "500", margin:"0px" }}>
                           Tony De Saulles
-                        </Typography>
+                        </p>
                       </Box>
                       <Box
                         sx={{
@@ -118,12 +126,12 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <Typography style={{ width: "100px" }}>
+                        <p style={{ width: "100px", margin:"0px" }}>
                           Thể loại:
-                        </Typography>
-                        <Typography style={{ fontWeight: "bold" }}>
+                        </p>
+                        <p style={{ fontWeight: "500", margin:"0px" }}>
                           Khoa Học - Kỹ Thuật
-                        </Typography>
+                        </p>
                       </Box>
                       <Box
                         sx={{
@@ -132,10 +140,10 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <Typography style={{ width: "100px" }}>
+                        <p style={{ width: "100px", margin:"0px" }}>
                           Luot xem:
-                        </Typography>
-                        <Typography style={{}}>1238</Typography>
+                        </p>
+                        <p style={{margin:"0px"}}>1238</p>
                       </Box>
                       <Box
                         sx={{
@@ -144,10 +152,10 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <Typography style={{ width: "100px" }}>
+                        <p style={{ width: "100px",  margin:"0px"  }}>
                           Luot tai:
-                        </Typography>
-                        <Typography style={{}}>568</Typography>
+                        </p>
+                        <p style={{ margin:"0px" }}>568</p>
                       </Box>
                       <Box
                         sx={{
@@ -156,16 +164,15 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <Typography style={{ width: "100px" }}>
+                        <p style={{ width: "100px",  margin:"0px"  }}>
                           Review:
-                        </Typography>
+                        </p>
                         <Rating name="no-value" value={null} />
-                        <Typography
-                          style={{ marginLeft: "5px", color: "gray" }}
+                        <p
+                          style={{ marginLeft: "5px", color: "gray",  margin:"0px"  }}
                         >
-                          {" "}
                           {`(${0})`}
-                        </Typography>
+                        </p>
                       </Box>
                       <Box
                         sx={{
@@ -176,16 +183,15 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           borderRadius: "4px",
                           display: "flex",
                           alignItems: "center",
-                          fontSize: "12px",
                         }}
                       >
                         <FontAwesomeIcon
                           icon={faDownload}
-                          style={{ width: "60px", fontSize: "16px" }}
+                          style={{ width: "60px", fontSize: "14px" }}
                         />
-                        <Typography>
+                        <p style={{ margin:"0px", fontSize: "14px" }}>
                           Vui lòng chọn định dạng file để tải hoặc đọc online.
-                        </Typography>
+                        </p>
                       </Box>
 
                       {/* download file */}
@@ -296,15 +302,16 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                   ></Box>
                   {/* Intro content */}
                   <div className={styles.ebook_content} style={{ padding: "20px",  }}>
-                    <Typography
+                    <p
                       style={{
                         fontSize: "20px",
-                        fontWeight: "bold",
+                        fontWeight: "600",
                         textAlign: "left",
+                        margin:"0px"
                       }}
                     >
                       Gioi thieu sach
-                    </Typography>
+                    </p>
                     <p>
                       Nếu như bạn mong muốn giao tiếp tiếng Anh thành thạo,
                       chuyên nghiệp từ 3 tới 6 tháng thì cuốn sách này sẽ làm
@@ -352,7 +359,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                       alignItems: "center",
                     }}
                   >
-                    <Typography>Chia se:</Typography>
+                    <p>Chia se:</p>
                     <Box
                       sx={{
                         display: "flex",
@@ -487,7 +494,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
             </Grid>
             <Grid item lg={4} md={12} sm={12} xs={12}>
               <Paper style={{ borderRadius: "5px" }}>
-                <Typography
+                <p
                   style={{
                     textAlign: "center",
                     fontWeight: "bold",
@@ -496,10 +503,11 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                     borderTopRightRadius: "5px",
                     borderTopLeftRadius: "5px",
                     color: "white",
+                    margin:"0px"
                   }}
                 >
                   Danh muc sach
-                </Typography>
+                </p>
                 <ul style={{ margin: "0px", padding: "20px 40px" }}>
                   {categories.map((cate) => {
                     return (

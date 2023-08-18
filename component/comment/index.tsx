@@ -6,7 +6,13 @@ import { Avatar, Paper, Typography } from "@mui/material";
 import Link from "next/link";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Lexend_Deca } from "next/font/google";
+
 import styles from "./comment.module.css";
+
+const lexendDeca = Lexend_Deca({
+  subsets: ["vietnamese"],
+});
 
 const comments = [
   {
@@ -88,7 +94,7 @@ function Comment() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
-        <Typography>{`Binh luan (${0})`}</Typography>
+        <Typography className={lexendDeca.className}>{`Binh luan (${0})`}</Typography>
         {/* Main comment */}
         <Box
           sx={{
@@ -99,6 +105,7 @@ function Comment() {
           }}
         >
           <textarea
+          className={lexendDeca.className}
             style={{
               boxSizing: "border-box",
               display: "block",
@@ -106,6 +113,7 @@ function Comment() {
               height: "100px",
               padding: "10px",
               outline: "none",
+              fontSize:"14px",
               borderRadius: "5px",
               backgroundColor: "#f3f4f6",
               border: "none",
@@ -147,7 +155,6 @@ function Comment() {
                 sx={{
                   marginTop: "20px",
                   width: "100%",
-                  // height: "100px",
                   position: "relative",
                   border: "1px solid rgba(0,0,0,0.2)",
                   borderRadius: "5px",
@@ -163,8 +170,8 @@ function Comment() {
                 >
                   <Avatar>ND</Avatar>
                   <Box sx={{ marginLeft: "10px" }}>
-                    <Typography fontWeight="700">Nhat Duy</Typography>
-                    <Typography fontSize="13px" color="gray">
+                    <Typography fontWeight="500"  className={lexendDeca.className}>Nhat Duy</Typography>
+                    <Typography fontSize="13px" color="gray" className={lexendDeca.className}>
                       28/07/2023 - 08:56
                     </Typography>
                   </Box>
@@ -174,6 +181,7 @@ function Comment() {
                     padding: "10px",
                     minHeight: "30px",
                     color: "gray",
+                    fontSize:"14px"
                     // backgroundColor: "green",
                   }}
                 >
@@ -192,8 +200,8 @@ function Comment() {
                     cursor: "pointer",
                   }}
                 >
-                  <FontAwesomeIcon color="#1976d1" icon={faReply} />
-                  <Typography color="#1976d1" marginLeft="5px">
+                  <FontAwesomeIcon color="#1976d1" icon={faReply} fontSize="14px"  />
+                  <Typography color="#1976d1" marginLeft="5px" fontSize="14px" className={lexendDeca.className} >
                     Phan hoi
                   </Typography>
                 </Box>
@@ -210,6 +218,7 @@ function Comment() {
                   }}
                 >
                   <textarea
+                  className={lexendDeca.className}
                     style={{
                       display: "block",
                       boxSizing: "border-box",
@@ -217,6 +226,7 @@ function Comment() {
                       height: "100px",
                       padding: "10px",
                       outline: "none",
+                      fontSize:"14px",
                       borderRadius: "5px",
                       backgroundColor: "#f3f4f6",
                       border: "none",
@@ -266,8 +276,8 @@ function Comment() {
                     >
                       <Avatar>ND</Avatar>
                       <Box sx={{ marginLeft: "10px" }}>
-                        <Typography fontWeight="700">Nhat Duy</Typography>
-                        <Typography fontSize="13px" color="gray">
+                        <Typography fontWeight="500" className={lexendDeca.className}>Nhat Duy</Typography>
+                        <Typography fontSize="13px" color="gray" className={lexendDeca.className}>
                           28/07/2023 - 08:56
                         </Typography>
                       </Box>
@@ -277,6 +287,8 @@ function Comment() {
                         padding: "10px",
                         minHeight: "40px",
                         color: "gray",
+                        fontSize:"14px"
+
                       }}
                     >
                       {sub_comment.commment}

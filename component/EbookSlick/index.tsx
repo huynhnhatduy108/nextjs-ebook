@@ -9,7 +9,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Lexend_Deca } from "next/font/google";
 import styles from "./ebookslick.module.css";
+
+
+const lexendDeca = Lexend_Deca({
+  subsets: ["vietnamese"],
+});
+
+
 
 const ebooks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -57,7 +65,7 @@ function EbookSlick() {
           justifyContent: "space-between",
         }}
       >
-        <Typography fontSize="20px" fontWeight="bold">
+        <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
           Sach duoc doc nhieu nhat
         </Typography>
         <Link

@@ -16,6 +16,7 @@ import {
   faList,
   faChevronDown,
   faChevronUp,
+  faBook
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -30,7 +31,6 @@ const lexendDeca = Lexend_Deca({
 });
 
 const pages = [
-  { name: "Trang chu", key: "home", icon: faHouse, link: "/" },
   {
     name: "The loai sach",
     key: "categories",
@@ -53,6 +53,7 @@ const pages = [
       "Kiếm Hiệp - Tiên Hiệp",
     ],
   },
+  { name: "Ebook", key: "ebook", icon: faBook, link: "/ebook" },
   { name: "Review sach", key: "reivew", icon: faCopy, link: "/review-sach" },
 ];
 
