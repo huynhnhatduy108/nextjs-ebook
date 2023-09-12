@@ -1,5 +1,16 @@
 
 
+.download_file{
+    padding: 8px 15px;
+    background-color: #3379b7;
+    color: white;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 .download_icon_box{
 
 }

@@ -43,7 +43,7 @@ export async function generateMetadata({
   params: { slug },
 }: Params): Promise<Metadata> {
   const metadata: Metadata = {
-    title: slug,
+    title: `Danh mục ${slug}`,
     description: `This is the page of ${slug}`,
   };
   return metadata;
@@ -63,10 +63,11 @@ export default function CategoyEbook({ params: { slug } }: Params) {
                     return (
                       <Grid item lg={3} md={3} sm={3} xs={6}>
                         <Paper className={styles.ebook}>
-                          <img
+                          <Image
                             className={styles.ebook_image}
                             src="https://manybooks.net/sites/default/files/styles/220x330sc/public/2023-08/51NmhibPg%2BL.jpg?itok=AUurEj_q"
                             alt="Celestial Magic"
+                            width={100} height={100}
                           />
                           <p className={styles.ebook_name}>
                             OpenCoin được đổi tên thành Ripple Labs, sau đó được

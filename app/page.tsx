@@ -8,21 +8,20 @@ import Rating from "@mui/material/Rating";
 import { Lexend_Deca } from "next/font/google";
 
 const posts = [1, 2, 3, 4, 5, 6];
-const ebooks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16,17,18,19,20,21,22,23,24];
-const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11 ,12];
-
+const ebooks = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24,
+];
+const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
-
-
 export default function Home() {
   return (
     <main style={{ minHeight: "100vh" }}>
       <Container maxWidth="lg">
-
         {/* category */}
         <div className={styles.section}>
           <Box
@@ -33,7 +32,11 @@ export default function Home() {
               mb: "20px",
             }}
           >
-            <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
+            <Typography
+              fontSize="22px"
+              fontWeight="bold"
+              className={lexendDeca.className}
+            >
               Danh mục nổi bật
             </Typography>
             <Link
@@ -52,16 +55,22 @@ export default function Home() {
               categories.map((cate) => {
                 return (
                   <Grid item lg={3} md={4} sm={6} xs={6} key={cate}>
-                    <div className={styles.category} style={{  }}>
-                      <img  className={styles.category_image} src="https://bloganchoi.com/wp-content/uploads/2020/07/tieu-thuyet-trinh-tham-viet-nam-0.jpg"/>
+                    <div className={styles.category} style={{}}>
+                      <Image
+                        className={styles.category_image}
+                        src="https://vnn-imgs-f.vgcloud.vn/2020/01/18/13/nhung-cuon-sach-dang-nghien-ngam-cho-fan-trinh-tham-mua-tet.jpg"
+                        width={100} height={100}
+                        alt={"category item"}
+                      />
                       <div className={styles.category_intro}>
-                        <p className={styles.category_name}>{"Danh mục nổi bật"}</p>
+                        <p className={styles.category_name}>
+                          {"Danh mục nổi bật"}
+                        </p>
                       </div>
                     </div>
                   </Grid>
                 );
               })}
-           
           </Grid>
         </div>
 
@@ -75,7 +84,11 @@ export default function Home() {
               mb: "20px",
             }}
           >
-            <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
+            <Typography
+              fontSize="22px"
+              fontWeight="bold"
+              className={lexendDeca.className}
+            >
               Sách được đọc nhiều nhất
             </Typography>
             <Link
@@ -94,10 +107,11 @@ export default function Home() {
               return (
                 <Grid item lg={2} md={3} sm={3} xs={6} key={book}>
                   <Paper className={styles.ebook}>
-                    <img
+                    <Image
                       className={styles.ebook_image}
                       src="https://static.8cache.com/cover/o/eJzLyTDW1zULTa4wdYuyiA8I1A8zytT1cDIwzfDy1HeEgoC0bH1j78QU55DEcnMzRw-TwjwPf3MXT0en7NzMdJNMt8x033Rn53z9YgMAsFUYBA==/nha-gia-kim-cau-chuyen-mot-giac-mo.jpg"
                       alt="Celestial Magic"
+                      width={100} height={100}
                     />
                     <p className={styles.ebook_name}>
                       OpenCoin được đổi tên thành Ripple Labs, sau đó được đổi
@@ -141,7 +155,7 @@ export default function Home() {
         </div>
 
         {/* Review book */}
-        <div className={styles.section} style={{margin:"70px 0px 100px"}}>
+        <div className={styles.section} style={{ margin: "70px 0px 100px" }}>
           <Box
             sx={{
               display: "flex",
@@ -150,7 +164,11 @@ export default function Home() {
               mb: "20px",
             }}
           >
-            <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
+            <Typography
+              fontSize="22px"
+              fontWeight="bold"
+              className={lexendDeca.className}
+            >
               Review sách
             </Typography>
             <Link
@@ -175,9 +193,12 @@ export default function Home() {
                         <p className={styles.post_day_line}></p>
                         <p className={styles.post_day_date}>08</p>
                       </div>
-                      <img
+                      <Image
                         className={styles.post_image}
                         src="https://blogapp-320606.web.app/static/media/sand-ads.d62cdd9da061919a9c45.webp"
+                        width={100}
+                        height={100}
+                        alt={"post name"}
                       />
                       <p className={styles.post_title}>
                         Ripple là một hệ thống thanh toán tổng hợp theo thời

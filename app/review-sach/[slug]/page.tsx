@@ -133,12 +133,14 @@ export default async function UserPage({ params: { slug } }: Params) {
                     margin: "20px 0px",
                   }}
                 >
-                  <img
+                  <Image
                     style={{
                       width: "100%",
                       objectFit: "cover",
                       borderRadius: "10px",
                     }}
+                    width={100} height={100}
+                    alt="blog detail"
                     src="https://www.totolink.vn/public/uploads/img_post/ebook-la-gi-co-gi-noi-troi-so-voi-sach-thuong-lam-sao-de-xem-duoc-ebook-1.png"
                   />
                 </Box>
@@ -338,11 +340,13 @@ export default async function UserPage({ params: { slug } }: Params) {
                       <div className={styles.post_relate_container}>
                         <div className={styles.post_relate_image}>
                           {" "}
-                          <img
+                          <Image
                             className={styles.post_relate_thumbnail}
                             src={
                               "https://blogapp-320606.web.app/static/media/ethereum_ads.c39650f77645d744f3c8.jpeg"
                             }
+                            width={100} height={100}
+                            alt={"post  relate"}
                           />
                         </div>
                         <div className={styles.post_relate_intro}>

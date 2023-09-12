@@ -79,9 +79,11 @@ export default function ReviewPage() {
                         <p className={styles.post_day_date}>08</p>
 
                       </div>
-                      <img
+                      <Image
                         className={styles.post_image}
                         src="https://blogapp-320606.web.app/static/media/sand-ads.d62cdd9da061919a9c45.webp"
+                        width={100} height={100}
+                        alt={"review detail"}
                       />
                       <p className={styles.post_title}>
                         Ripple là một hệ thống thanh toán tổng hợp theo thời

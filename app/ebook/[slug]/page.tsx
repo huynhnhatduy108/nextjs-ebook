@@ -22,29 +22,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
 import Comment from "@/component/comment";
 import EbookSlick from "@/component/EbookSlick";
+import EbookRelate from "@/component/EbookRelate";
+
 import { Lexend_Deca } from "next/font/google";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
-
 const categories = [
-    "Ẩm thực - Nấu ăn",
-    "Học Ngoại Ngữ",
-    "Khoa Học - Kỹ Thuật",
-    "Kinh Tế - Quản Lý",
-    "Nông - Lâm - Ngư",
-    "Tài Liệu Học Tập",
-    "Thư Viện Pháp Luật",
-    "Triết Học",
-    "Truyện Ma - Truyện Kinh Dị",
-    "Truyện Tranh",
-    "Văn Học Việt Nam",
-    "Cổ Tích - Thần Thoại",
-    "Hồi Ký - Tuỳ Bút",
-    "Kiếm Hiệp - Tiên Hiệp",
-  ];
+  "Ẩm thực - Nấu ăn",
+  "Học Ngoại Ngữ",
+  "Khoa Học - Kỹ Thuật",
+  "Kinh Tế - Quản Lý",
+  "Nông - Lâm - Ngư",
+  "Tài Liệu Học Tập",
+  "Thư Viện Pháp Luật",
+  "Triết Học",
+  "Truyện Ma - Truyện Kinh Dị",
+  "Truyện Tranh",
+  "Văn Học Việt Nam",
+  "Cổ Tích - Thần Thoại",
+  "Hồi Ký - Tuỳ Bút",
+  "Kiếm Hiệp - Tiên Hiệp",
+];
 
 type Params = {
   params: {
@@ -78,7 +79,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                       className={styles.ebook_image}
                       sx={{ width: "30%", padding: "20px" }}
                     >
-                      <img
+                      <Image
                         className={styles.ebook_image_thumbnail}
                         style={{
                           borderRadius: "5px",
@@ -86,6 +87,9 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           height: "auto",
                           objectFit: "cover",
                         }}
+                        width={100}
+                        height={100}
+                        alt={"eboook thumnail"}
                         src="https://static.8cache.com/cover/o/eJzLyTDW1zULTa4wdYuyiA8I1A8zytT1cDIwzfDy1HeEgoC0bH1j78QU55DEcnMzRw-TwjwPf3MXT0en7NzMdJNMt8x033Rn53z9YgMAsFUYBA==/nha-gia-kim-cau-chuyen-mot-giac-mo.jpg"
                       />
                     </Box>
@@ -98,9 +102,8 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           fontWeight: "bold",
                           fontSize: "25px",
                           color: "#1976D1",
-                          margin:"0px"
+                          margin: "0px",
                         }}
-
                       >
                         Nha gia kim
                       </p>
@@ -112,10 +115,10 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <p style={{ width: "100px" , margin:"0px"}}>
+                        <p style={{ width: "100px", margin: "0px" }}>
                           Tác giả:
                         </p>
-                        <p style={{ fontWeight: "500", margin:"0px" }}>
+                        <p style={{ fontWeight: "500", margin: "0px" }}>
                           Tony De Saulles
                         </p>
                       </Box>
@@ -126,10 +129,10 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <p style={{ width: "100px", margin:"0px" }}>
+                        <p style={{ width: "100px", margin: "0px" }}>
                           Thể loại:
                         </p>
-                        <p style={{ fontWeight: "500", margin:"0px" }}>
+                        <p style={{ fontWeight: "500", margin: "0px" }}>
                           Khoa Học - Kỹ Thuật
                         </p>
                       </Box>
@@ -140,10 +143,10 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <p style={{ width: "100px", margin:"0px" }}>
+                        <p style={{ width: "100px", margin: "0px" }}>
                           Luot xem:
                         </p>
-                        <p style={{margin:"0px"}}>1238</p>
+                        <p style={{ margin: "0px" }}>1238</p>
                       </Box>
                       <Box
                         sx={{
@@ -152,10 +155,10 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <p style={{ width: "100px",  margin:"0px"  }}>
+                        <p style={{ width: "100px", margin: "0px" }}>
                           Luot tai:
                         </p>
-                        <p style={{ margin:"0px" }}>568</p>
+                        <p style={{ margin: "0px" }}>568</p>
                       </Box>
                       <Box
                         sx={{
@@ -164,12 +167,14 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           marginTop: "10px",
                         }}
                       >
-                        <p style={{ width: "100px",  margin:"0px"  }}>
-                          Review:
-                        </p>
+                        <p style={{ width: "100px", margin: "0px" }}>Review:</p>
                         <Rating name="no-value" value={null} />
                         <p
-                          style={{ marginLeft: "5px", color: "gray",  margin:"0px"  }}
+                          style={{
+                            marginLeft: "5px",
+                            color: "gray",
+                            margin: "0px",
+                          }}
                         >
                           {`(${0})`}
                         </p>
@@ -189,106 +194,82 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           icon={faDownload}
                           style={{ width: "60px", fontSize: "14px" }}
                         />
-                        <p style={{ margin:"0px", fontSize: "14px" }}>
+                        <p style={{ margin: "0px", fontSize: "14px" }}>
                           Vui lòng chọn định dạng file để tải hoặc đọc online.
                         </p>
                       </Box>
 
                       {/* download file */}
-                      <Box
-                        sx={{
+                      <div
+                        style={{
                           display: "flex",
                           alignItems: "center",
                           flexWrap: "wrap",
                           marginTop: "10px",
                         }}
                       >
-                        <Box
-                          sx={{
-                            padding: "8px 15px",
+                        <div
+                          className={styles.download_file}
+                          style={{
                             backgroundColor: "#3379b7",
-                            color: "white",
-                            borderRadius: "4px",
-                            marginRight: "10px",
-                            marginTop: "10px",
                           }}
                         >
                           PDF
-                        </Box>
-                        <Box
-                          sx={{
-                            padding: "8px 15px",
+                        </div>
+                        <div
+                          className={styles.download_file}
+                          style={{
                             backgroundColor: "#c9302c",
-                            color: "white",
-                            borderRadius: "4px",
-                            marginRight: "10px",
-                            marginTop: "10px",
                           }}
                         >
                           AWZ
-                        </Box>
-                        <Box
-                          sx={{
-                            padding: "8px 15px",
+                        </div>
+                        <div
+                          className={styles.download_file}
+                          style={{
                             backgroundColor: "#5cb95b",
-                            color: "white",
-                            borderRadius: "4px",
-                            marginRight: "10px",
-                            marginTop: "10px",
                           }}
                         >
                           EPUB
-                        </Box>
-                        <Box
-                          sx={{
-                            padding: "8px 15px",
+                        </div>
+                        <div
+                          className={styles.download_file}
+                          style={{
                             backgroundColor: "#3379b7",
-                            color: "white",
-                            borderRadius: "4px",
-                            marginRight: "10px",
-                            marginTop: "10px",
                           }}
                         >
                           MOBI
-                        </Box>
-                        <Box
-                          sx={{
-                            padding: "8px 15px",
+                        </div>
+                        <div
+                          className={styles.download_file}
+                          style={{
                             backgroundColor: "#c9302c",
-                            color: "white",
-                            borderRadius: "4px",
-                            marginRight: "10px",
-                            marginTop: "10px",
                           }}
                         >
                           PRC
-                        </Box>
-                      </Box>
+                        </div>
+                      </div>
                       {/* read file */}
-                      <Box
-                        sx={{
+                      <div
+                        style={{
                           display: "flex",
                           alignItems: "center",
                           flexWrap: "wrap",
                         }}
                       >
-                        <Box
-                          sx={{
-                            padding: "8px 15px",
+                        <div
+                          style={{
                             backgroundColor: "#f0ae4d",
-                            color: "white",
-                            borderRadius: "4px",
-                            marginRight: "10px",
-                            marginTop: "10px",
                           }}
+                          className={styles.download_file}
                         >
                           <FontAwesomeIcon
                             icon={faBookOpen}
                             style={{ marginRight: "5px" }}
                           />
                           Doc online
-                        </Box>
-                      </Box>
+                        </div>
+                      </div>
                     </Box>
                   </Box>
                   {/* Line */}
@@ -301,13 +282,16 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                     }}
                   ></Box>
                   {/* Intro content */}
-                  <div className={styles.ebook_content} style={{ padding: "20px",  }}>
+                  <div
+                    className={styles.ebook_content}
+                    style={{ padding: "20px" }}
+                  >
                     <p
                       style={{
                         fontSize: "20px",
                         fontWeight: "600",
                         textAlign: "left",
-                        margin:"0px"
+                        margin: "0px",
                       }}
                     >
                       Gioi thieu sach
@@ -489,7 +473,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
               </Box>
               {/* Comment */}
               <Box sx={{ marginTop: "50px" }}>
-                 <Comment/>
+                <Comment />
               </Box>
             </Grid>
             <Grid item lg={4} md={12} sm={12} xs={12}>
@@ -503,7 +487,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                     borderTopRightRadius: "5px",
                     borderTopLeftRadius: "5px",
                     color: "white",
-                    margin:"0px"
+                    margin: "0px",
                   }}
                 >
                   Danh mục sách
@@ -521,7 +505,11 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                       >
                         <Link
                           href={"/"}
-                          style={{ textDecoration: "none", color: "#1976d1", fontSize:"14px" }}
+                          style={{
+                            textDecoration: "none",
+                            color: "#1976d1",
+                            fontSize: "14px",
+                          }}
                         >
                           {cate}
                         </Link>
@@ -533,7 +521,8 @@ export default async function EbookDetail({ params: { slug } }: Params) {
             </Grid>
           </Grid>
         </Box>
-        <EbookSlick/>
+        {/* <EbookSlick/> */}
+        <EbookRelate />
       </Container>
     </main>
   );
