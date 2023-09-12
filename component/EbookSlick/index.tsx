@@ -66,17 +66,17 @@ function EbookSlick() {
         }}
       >
         <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
-          Sach duoc doc nhieu nhat
+          Sách được đọc nhiều nhất
         </Typography>
         <Link
-          href="/"
+          href="/ebook"
           style={{
             cursor: "pointer",
             textDecoration: "none",
             color: "#1976d1",
           }}
         >
-          {"Xem them >>"}
+          {"Xem thêm >>"}
         </Link>
       </Box>
       <Box className={styles.ebook_slider}>

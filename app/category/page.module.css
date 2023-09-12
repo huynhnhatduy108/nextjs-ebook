@@ -15,14 +15,13 @@
 }
 
 .category_name{
-    position: absolute;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 0px;
   text-align: center;
- color: #4589d9;
-
+  color: #4589d9;
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Limit the text to two lines */
   -webkit-box-orient: vertical;

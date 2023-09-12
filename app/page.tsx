@@ -37,14 +37,14 @@ export default function Home() {
               Danh mục nổi bật
             </Typography>
             <Link
-              href="/"
+              href="/category"
               style={{
                 cursor: "pointer",
                 textDecoration: "none",
                 color: "#1976d1",
               }}
             >
-              {"Xem them >>"}
+              {"Xem thêm >>"}
             </Link>
           </Box>
           <Grid container spacing={2}>
@@ -76,17 +76,17 @@ export default function Home() {
             }}
           >
             <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
-              Sach duoc doc nhieu nhat
+              Sách được đọc nhiều nhất
             </Typography>
             <Link
-              href="/"
+              href="/ebook"
               style={{
                 cursor: "pointer",
                 textDecoration: "none",
                 color: "#1976d1",
               }}
             >
-              {"Xem them >>"}
+              {"Xem thêm >>"}
             </Link>
           </Box>
           <Grid container spacing={2}>
@@ -151,7 +151,7 @@ export default function Home() {
             }}
           >
             <Typography fontSize="22px"  fontWeight="bold" className={lexendDeca.className} >
-              Review sach
+              Review sách
             </Typography>
             <Link
               href="/review-sach"
@@ -161,7 +161,7 @@ export default function Home() {
                 color: "#1976d1",
               }}
             >
-              {"Xem them >>"}
+              {"Xem thêm >>"}
             </Link>
           </Box>
           <Grid container spacing={2}>

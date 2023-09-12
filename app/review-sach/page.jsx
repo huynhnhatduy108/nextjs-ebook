@@ -31,7 +31,7 @@ export default function ReviewPage() {
               margin:"0px"
             }}
           >
-            Review sach
+            Review sách
           </p>
 
             <Box
@@ -52,7 +52,7 @@ export default function ReviewPage() {
                   paddingLeft: "15px",
                   borderRadius: "5px",
                 }}
-                placeholder="Tiem kim..."
+                placeholder="Tìm kiếm..."
                 className={lexendDeca.className}
               />
               <FontAwesomeIcon

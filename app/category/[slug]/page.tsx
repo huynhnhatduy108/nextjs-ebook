@@ -10,7 +10,7 @@ import {
     faEye
   } from "@fortawesome/free-solid-svg-icons";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-{/* <FontAwesomeIcon icon={faDownload} /> */}
+  import type { Metadata } from "next";
 
 const categories = [
   "Ẩm thực - Nấu ăn",
@@ -33,7 +33,23 @@ const eBook = [
   1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 ];
 
-export default function EbookPage() {
+type Params = {
+  params: {
+    slug: string;
+  };
+};
+
+export async function generateMetadata({
+  params: { slug },
+}: Params): Promise<Metadata> {
+  const metadata: Metadata = {
+    title: slug,
+    description: `This is the page of ${slug}`,
+  };
+  return metadata;
+}
+
+export default function CategoyEbook({ params: { slug } }: Params) {
   return (
     <main style={{ minHeight: "100vh" }}>
       <Container maxWidth="lg">
@@ -128,7 +144,7 @@ export default function EbookPage() {
                         <Checkbox size="small" style={{}} />
                         <Link
                           href={"/"}
-                          style={{ textDecoration: "none", color: "#1976d1", fontSize:"14px"  }}
+                          style={{ fontSize:"14px" ,textDecoration: "none", color: "#1976d1" }}
                         >
                           {cate}
                         </Link>

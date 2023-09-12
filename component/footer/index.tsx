@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import Link from "next/link";
 
 import { Lexend_Deca } from "next/font/google";
+import ContactFormModel from "../ContactForm";
 
 const lexendDeca = Lexend_Deca({
   weight: "300",
@@ -14,6 +15,17 @@ const lexendDeca = Lexend_Deca({
 });
 
 function Footer() {
+
+  const [isOpenContactForm, setIsOpenContactForm] = useState<boolean>(false);
+
+  const handleOpenContactForm =()=>{
+    setIsOpenContactForm(true)
+  }
+
+  const handleCloseContactForm =()=>{
+    setIsOpenContactForm(false)
+  }
+
   return (
     <footer
       style={{
@@ -22,20 +34,21 @@ function Footer() {
         padding: "20px 0px 20px",
       }}
     >
+      <ContactFormModel open={isOpenContactForm} handleClose={handleCloseContactForm}/>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center" }}>
           <Link className={styles.page} href="/">
-            Trang chu
+            Trang chủ
           </Link>
           <Link href="/" className={styles.page}>
             Blog
           </Link>
           <Link href="/" className={styles.page}>
-            Ve chung toi
+            Về chúng tôi
           </Link>
-          <Link className={styles.page} href="/">
-            Lien he
-          </Link>
+          <a className={styles.page} onClick={handleOpenContactForm}>
+            Liên hệ
+          </a>
         </Box>
         <div
           className={styles.copyright}
@@ -43,7 +56,7 @@ function Footer() {
         <Typography
           className={`${lexendDeca.className} ${styles.copyright_text}`}
         >
-          Copyright ©2023 All rights reserved | This template is made with Ebook
+          Copyright ©2023 All rights reserved | This template is made by Nhat Duy
         </Typography>
       </Container>
     </footer>

@@ -506,7 +506,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                     margin:"0px"
                   }}
                 >
-                  Danh muc sach
+                  Danh mục sách
                 </p>
                 <ul style={{ margin: "0px", padding: "20px 40px" }}>
                   {categories.map((cate) => {
@@ -521,7 +521,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                       >
                         <Link
                           href={"/"}
-                          style={{ textDecoration: "none", color: "#1976d1" }}
+                          style={{ textDecoration: "none", color: "#1976d1", fontSize:"14px" }}
                         >
                           {cate}
                         </Link>

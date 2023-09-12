@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from 'next/navigation';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -37,10 +38,11 @@ const lexendDeca = Lexend_Deca({
 const pages = [
   
   {
-    name: "The loai sach",
+    name: "Thể loại sách",
     key: "categories",
     icon: faList,
-    link: "/category",
+    link: "/",
+    direct:false,
     sub: [
       "Ẩm thực - Nấu ăn",
       "Học Ngoại Ngữ",
@@ -58,13 +60,14 @@ const pages = [
       "Kiếm Hiệp - Tiên Hiệp",
     ],
   },
-  { name: "Ebook", key: "ebook", icon: faBook, link: "/ebook" },
-  { name: "Review sach", key: "reivew", icon: faCopy, link: "/review-sach" },
+  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct:true},
+  { name: "Review sách", key: "reivew", icon: faCopy, link: "/review-sach" , direct:true},
 ];
 const login = ["Logout"];
 const logout = ["Login"];
 
 function ResponsiveAppBar() {
+  const router = useRouter()
   const subMenuRef = useRef<HTMLDivElement>(null);
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -81,7 +84,7 @@ function ResponsiveAppBar() {
         subMenuRef.current &&
         !subMenuRef.current.contains(event.target as Node)
       ) {
-        handleExpand("");
+        // handleExpand("", "/", false);
       }
     };
 
@@ -91,10 +94,18 @@ function ResponsiveAppBar() {
     };
   }, [subMenuRef]);
 
-  const handleExpand = (key: string) => {
+  const handleExpand = (key: string, link:string, isDirect:boolean) => {
     const keyExpand = key === expandKey ? "" : key;
     setExpandKey(keyExpand);
+
+    if (isDirect){
+      router.push(link)
+    }
   };
+
+  const handleChangePage =(link:string)=>{        
+    router.push(`/category/${link}`)
+  }
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -167,8 +178,7 @@ function ResponsiveAppBar() {
           {/* Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Link
-                href={page.link}
+              <div
                 key={page.name}
                 style={{
                   marginRight: "15px",
@@ -177,8 +187,9 @@ function ResponsiveAppBar() {
                   display: "flex",
                   alignItems: "center",
                   position: "relative",
+                  cursor:"pointer"
                 }}
-                onClick={() => handleExpand(page.key)}
+                onClick={() => handleExpand(page.key, page.link, page.direct)}
               >
                 <Typography className={lexendDeca.className}>{page.name}</Typography>
                 {page?.sub && (
@@ -207,9 +218,8 @@ function ResponsiveAppBar() {
                     page?.sub.map((subs, indx) => {
                       return (
                         <ListItem key={indx} disablePadding>
-                          <Link
+                          <div
                             className={`${lexendDeca.className} ${styles.sub_menu_item}`}
-                            href="/"
                             style={{
                               textDecoration: "none",
                               color: "#e3f2fd",
@@ -219,16 +229,17 @@ function ResponsiveAppBar() {
                               alignItems: "center",
                               height: "30px",
                             }}
+                            onClick={()=>handleChangePage(subs)}
                           >
-                            <Typography className={lexendDeca.className} style={{ fontSize: "14px" }}>
+                            <Typography className={lexendDeca.className} style={{ fontSize: "14px" }} >
                               {subs}
                             </Typography>
-                          </Link>
+                          </div>
                         </ListItem>
                       );
                     })}
                 </Box>
-              </Link>
+              </div>
             ))}
           </Box>
 

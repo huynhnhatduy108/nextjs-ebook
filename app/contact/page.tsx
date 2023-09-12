@@ -24,7 +24,7 @@ export default function Contact() {
               margin: "0px 0px 30px 0px ",
             }}
           >
-            Lien he
+            Liên hệ
           </p>
           <Paper style={{  maxWidth:"700px", margin:"0px auto" }}>
             <div style={{width:"90%", margin:"0px auto"}}><input placeholder="Ten cua ban" className={`${styles.contact_input} ${lexendDeca.className}`} /></div>

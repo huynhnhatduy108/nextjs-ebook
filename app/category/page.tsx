@@ -48,7 +48,7 @@ export default function CategoryPage() {
               margin: "0px 0px 30px 0px ",
             }}
           >
-            Danh mục sach
+            Danh mục sách
           </p>
           <Grid container spacing={2}>
             {categories?.length &&

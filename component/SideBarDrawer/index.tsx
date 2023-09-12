@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -31,11 +32,13 @@ const lexendDeca = Lexend_Deca({
 });
 
 const pages = [
+  
   {
-    name: "The loai sach",
+    name: "Thể loại sách",
     key: "categories",
     icon: faList,
     link: "/",
+    direct:false,
     sub: [
       "Ẩm thực - Nấu ăn",
       "Học Ngoại Ngữ",
@@ -53,18 +56,28 @@ const pages = [
       "Kiếm Hiệp - Tiên Hiệp",
     ],
   },
-  { name: "Ebook", key: "ebook", icon: faBook, link: "/ebook" },
-  { name: "Review sach", key: "reivew", icon: faCopy, link: "/review-sach" },
+  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct:true},
+  { name: "Review sách", key: "reivew", icon: faCopy, link: "/review-sach" , direct:true},
 ];
 
 function SideBarDrawer(props: any) {
   const { open, hanleOpenCloseSideBar } = props;
+  const router = useRouter()
+
   const [expandKey, setExpandKey] = useState<string>("");
 
-  const handleExpand = (key: string) => {
+  const handleExpand = (key: string, link:string, isDirect:boolean) => {
     const keyExpand = key === expandKey ? "" : key;
     setExpandKey(keyExpand);
+
+    if (isDirect){
+      router.push(link)
+    }
   };
+
+  const handleChangePage =(link:string)=>{
+    router.push(`/category/${link}`)
+  } 
 
   return (
     <SwipeableDrawer
@@ -110,7 +123,7 @@ function SideBarDrawer(props: any) {
                 paddingLeft: "15px",
                 borderRadius: "5px",
               }}
-              placeholder="Search..."
+              placeholder="Tìm kiếm..."
             />
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
@@ -127,9 +140,8 @@ function SideBarDrawer(props: any) {
           {pages.map((page) => (
             <Box>
               <ListItem key={page.key} disablePadding>
-                <Link
+                <div
                   className={styles.menu_item}
-                  href={page.link}
                   style={{
                     textDecoration: "none",
                     color: "white",
@@ -139,9 +151,10 @@ function SideBarDrawer(props: any) {
                     alignItems: "center",
                     justifyContent: "space-between",
                     height: "30px",
+                    cursor:"pointer"
                   }}
-                  onClick={() => handleExpand(page.key)}
-                >
+                  onClick={() => handleExpand(page.key, page.link, page.direct)}
+                  >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <FontAwesomeIcon icon={page.icon} />
                     <Typography className={lexendDeca.className} style={{ marginLeft: "10px" }}>
@@ -156,16 +169,15 @@ function SideBarDrawer(props: any) {
                       }
                     />
                   )}
-                </Link>
+                </div>
               </ListItem>
               {page?.sub &&
                 expandKey === page.key &&
                 page?.sub.map((sub, indx) => {
                   return (
                     <ListItem className={styles.sub_menu} key={indx} disablePadding>
-                      <Link
+                      <div
                         className={styles.sub_menu_item}
-                        href="/"
                         style={{
                           textDecoration: "none",
                           color: "#e3f2fd",
@@ -174,9 +186,10 @@ function SideBarDrawer(props: any) {
                           display: "flex",
                           alignItems: "center",
                           height: "30px",
-                          // backgroundColor:
-                          //   "#2962ff                            ",
+                          cursor:"pointer"
                         }}
+                        onClick={()=>handleChangePage(sub)}
+
                       >
                         <Typography
                           className={lexendDeca.className}
@@ -184,7 +197,7 @@ function SideBarDrawer(props: any) {
                         >
                           {sub}
                         </Typography>
-                      </Link>
+                      </div>
                     </ListItem>
                   );
                 })}
