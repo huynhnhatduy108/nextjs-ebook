@@ -267,7 +267,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                             icon={faBookOpen}
                             style={{ marginRight: "5px" }}
                           />
-                          Doc online
+                          Đọc online
                         </div>
                       </div>
                     </Box>

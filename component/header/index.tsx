@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,7 +19,7 @@ import {
   faList,
   faChevronDown,
   faChevronUp,
-  faBook
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputBase from "@mui/material/InputBase";
@@ -29,6 +29,7 @@ import { ListItem, ListItemButton } from "@mui/material";
 import styles from "./header.module.css";
 
 import { Lexend_Deca } from "next/font/google";
+import AuthFormModel from "../AuthForm";
 
 const lexendDeca = Lexend_Deca({
   weight: "300",
@@ -36,13 +37,12 @@ const lexendDeca = Lexend_Deca({
 });
 
 const pages = [
-  
   {
     name: "Thể loại sách",
     key: "categories",
     icon: faList,
     link: "/",
-    direct:false,
+    direct: false,
     sub: [
       "Ẩm thực - Nấu ăn",
       "Học Ngoại Ngữ",
@@ -60,14 +60,20 @@ const pages = [
       "Kiếm Hiệp - Tiên Hiệp",
     ],
   },
-  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct:true},
-  { name: "Review sách", key: "reivew", icon: faCopy, link: "/review-sach" , direct:true},
+  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct: true },
+  {
+    name: "Review sách",
+    key: "reivew",
+    icon: faCopy,
+    link: "/review-sach",
+    direct: true,
+  },
 ];
 const login = ["Logout"];
 const logout = ["Login"];
 
 function ResponsiveAppBar() {
-  const router = useRouter()
+  const router = useRouter();
   const subMenuRef = useRef<HTMLDivElement>(null);
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -77,6 +83,8 @@ function ResponsiveAppBar() {
     false
   );
   const [expandKey, setExpandKey] = useState<string>("");
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isOpenModelAuth, setIsOpenModelAuth] =  useState<boolean>(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -94,18 +102,18 @@ function ResponsiveAppBar() {
     };
   }, [subMenuRef]);
 
-  const handleExpand = (key: string, link:string, isDirect:boolean) => {
+  const handleExpand = (key: string, link: string, isDirect: boolean) => {
     const keyExpand = key === expandKey ? "" : key;
     setExpandKey(keyExpand);
 
-    if (isDirect){
-      router.push(link)
+    if (isDirect) {
+      router.push(link);
     }
   };
 
-  const handleChangePage =(link:string)=>{        
-    router.push(`/category/${link}`)
-  }
+  const handleChangePage = (link: string) => {
+    router.push(`/category/${link}`);
+  };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -119,12 +127,19 @@ function ResponsiveAppBar() {
     setIsShowSideBar(!isShowSideBar);
   };
 
+  const hanleOpenCloseModelAuth = () => {
+    setIsOpenModelAuth(!isOpenModelAuth);
+  };
+
   return (
     <AppBar position="static" className={lexendDeca.className}>
+      {/* Side bar */}
       <SideBarDrawer
         open={isShowSideBar}
         hanleOpenCloseSideBar={hanleOpenCloseSideBar}
       />
+      {/* Auth model */}
+      <AuthFormModel open={isOpenModelAuth} onClose={hanleOpenCloseModelAuth}/>
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Typography
@@ -187,11 +202,13 @@ function ResponsiveAppBar() {
                   display: "flex",
                   alignItems: "center",
                   position: "relative",
-                  cursor:"pointer"
+                  cursor: "pointer",
                 }}
                 onClick={() => handleExpand(page.key, page.link, page.direct)}
               >
-                <Typography className={lexendDeca.className}>{page.name}</Typography>
+                <Typography className={lexendDeca.className}>
+                  {page.name}
+                </Typography>
                 {page?.sub && (
                   <FontAwesomeIcon
                     fontSize="12px"
@@ -229,9 +246,12 @@ function ResponsiveAppBar() {
                               alignItems: "center",
                               height: "30px",
                             }}
-                            onClick={()=>handleChangePage(subs)}
+                            onClick={() => handleChangePage(subs)}
                           >
-                            <Typography className={lexendDeca.className} style={{ fontSize: "14px" }} >
+                            <Typography
+                              className={lexendDeca.className}
+                              style={{ fontSize: "14px" }}
+                            >
                               {subs}
                             </Typography>
                           </div>
@@ -281,9 +301,21 @@ function ResponsiveAppBar() {
           </Box>
           {/*  Avatar */}
           <Box sx={{ flexGrow: 0 }}>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="Nhat Duy" src="/static/images/avatar/2.jpg" />
-            </IconButton>      
+            {isLogin ? (
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Nhat Duy" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            ) : (
+              <Box
+                sx={{
+                  cursor: "pointer",
+                  borderRadius: "5px",
+                }}
+                onClick={()=>setIsOpenModelAuth(true)}
+              >
+                Login
+              </Box>
+            )}
           </Box>
         </Toolbar>
       </Container>

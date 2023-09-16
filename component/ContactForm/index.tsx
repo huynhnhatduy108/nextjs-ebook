@@ -12,13 +12,14 @@ import {
   Modal,
 } from "@mui/material";
 import Link from "next/link";
-import { faReply, faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Lexend_Deca } from "next/font/google";
 import styles from "./contactform.module.css";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -40,11 +41,11 @@ function ContactFormModel(props: IProps) {
           margin: "50px auto",
           outline: "none",
           border: "none",
-          
+          padding:"30px 0px" 
         }}
       >
         <div>
-            <p style={{textAlign:"center", fontSize:"22px", margin:"0px", fontWeight:"700", paddingTop:"40px"}}>Liên hệ</p>
+            <p style={{textAlign:"center", fontSize:"22px", margin:"0px", fontWeight:"500", }}>Liên hệ</p>
         </div>
         <div style={{ width: "90%", margin: "0px auto" }}>
           <input
@@ -70,15 +71,34 @@ function ContactFormModel(props: IProps) {
             className={`${styles.contact_area} ${lexendDeca.className}`}
           ></textarea>
         </div>
-        <div style={{ width: "90%", textAlign: "right", margin: "auto" }}>
-          {" "}
-          <Button
-            className={`${styles.contact_btn} ${lexendDeca.className}`}
-            variant="contained"
+        <div
+            style={{
+              width: "90%",
+              textAlign: "center",
+              margin: "25px auto 10px",
+              fontSize: "16px",
+            }}
           >
-            Gui
-          </Button>
-        </div>
+            <Box
+              sx={{
+                height: "40px",
+                color: "white",
+                backgroundColor: "#1976d1",
+                borderRadius: "4px",
+                cursor: "pointer",
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              // onClick={()=>handleSendComment("","")}
+            >
+              <FontAwesomeIcon
+                style={{ marginRight: "10px" }}
+                icon={faPaperPlane}
+              />
+              Gui
+            </Box>
+          </div>
       </Paper>
     </Modal>
   );
