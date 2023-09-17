@@ -138,7 +138,7 @@ function SideBarDrawer(props: any) {
         </Box>
         <List>
           {pages.map((page) => (
-            <Box>
+            <Box key={page.key}>
               <ListItem key={page.key} disablePadding>
                 <div
                   className={styles.menu_item}

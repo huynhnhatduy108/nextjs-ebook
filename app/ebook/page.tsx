@@ -10,6 +10,8 @@ import {
     faEye
   } from "@fortawesome/free-solid-svg-icons";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  import { useRouter } from "next/navigation";
+
 
 const categories = [
   "Ẩm thực - Nấu ăn",
@@ -32,7 +34,22 @@ const eBook = [
   1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 ];
 
-export default function EbookPage() {
+const getBooks = async (page:number =1, page_size:number=20) => {
+	try {
+		const res = await fetch(`http://localhost:8000/ebook/?page=${1}&page_size=${20}`);
+		return await res.json();
+	} catch (err) {
+		console.log(err);
+	}
+};
+const EbookPage = async ()=> {  
+
+
+  const ebookPaging = await getBooks()
+  const {items:ebooks, page, page_size, total_record, total_page} = ebookPaging;
+
+  
+
   return (
     <main style={{ minHeight: "100vh" }}>
       <Container maxWidth="lg">
@@ -42,19 +59,18 @@ export default function EbookPage() {
               {/* Ebook */}
               <Box sx={{}}>
                 <Grid container spacing={2}>
-                  {eBook.map((book) => {
+                  {ebooks.length  && ebooks.map((ebook:any) => {
                     return (
-                      <Grid item lg={3} md={3} sm={3} xs={6}>
+                      <Grid item lg={3} md={3} sm={3} xs={6} key={ebook._id}>
                         <Paper className={styles.ebook}>
                           <Image
                             className={styles.ebook_image}
-                            src="https://manybooks.net/sites/default/files/styles/220x330sc/public/2023-08/51NmhibPg%2BL.jpg?itok=AUurEj_q"
-                            alt="Celestial Magic"
+                            src={ebook.img_url}
+                            alt={ebook.name}
                             width={100} height={100}
                           />
                           <p className={styles.ebook_name}>
-                            OpenCoin được đổi tên thành Ripple Labs, sau đó được
-                            đổi tên thành Ripple vào năm 2015.
+                               {ebook.name}
                           </p>
                           <div className={styles.ebook_dowload_view}>
                             <div className={styles.ebook_dowload}>
@@ -63,7 +79,7 @@ export default function EbookPage() {
                             </div>
                             <div className={styles.ebook_view}>
                                 <FontAwesomeIcon icon={faEye} color="gray" fontSize="15px"/>
-                                <Typography  style={{marginLeft:"5px", fontSize:'14px', color:"gray"}}>100</Typography>
+                                <Typography  style={{marginLeft:"5px", fontSize:'14px', color:"gray"}}>{ebook.views}</Typography>
                             </div>
                           </div>
                         </Paper>
@@ -88,7 +104,8 @@ export default function EbookPage() {
                     left: "50%",
                     transform: "translate(-50%,-50%)",
                   }}
-                  count={10}
+                  page={page}
+                  count={total_page}
                   variant="outlined"
                   shape="rounded"
                   color="primary"
@@ -144,3 +161,15 @@ export default function EbookPage() {
     </main>
   );
 }
+
+export default EbookPage;
+
+// export async function getStaticProps() {
+//   const coffeeJson = await fetch('https://exampleapi.com/coffelist');
+//    return {
+//        props: {
+//            coffeeJson
+//        }
+//    }
+// }
+

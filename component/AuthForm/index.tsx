@@ -30,9 +30,30 @@ interface IProps {
   onClose?: () => void;
 }
 
+const formInit = {
+  username: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
 function AuthFormModel(props: IProps) {
   const { open, onClose } = props;
   const [isSingin, setIsSingin] = useState<boolean>(true);
+  const [user, setUser] = useState({ ...formInit });
+
+  const handleChangeValue = (key: string, value: string) => {
+    setUser({ ...user, [key]: value });
+  };
+
+  const handleSubmit = () => {
+    console.log("user==>", user);
+  };
+
+  const changeForm = () => {
+    setIsSingin(!isSingin);
+    setUser({...formInit});
+  };
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -44,7 +65,7 @@ function AuthFormModel(props: IProps) {
           outline: "none",
           border: "none",
           padding: "30px 0px",
-          position:"relative",
+          position: "relative",
         }}
       >
         <div>
@@ -62,30 +83,54 @@ function AuthFormModel(props: IProps) {
           </div>
           <div style={{ width: "90%", margin: "0px auto" }}>
             <input
-              placeholder="Username"
+              placeholder="Ten dang nhap"
               className={`${styles.auth_input} ${lexendDeca.className}`}
+              value={user.username}
+              onChange={(event) =>
+                handleChangeValue("username", event.target.value)
+              }
             />
           </div>
-          <div style={{ width: "90%", margin: "0px auto" }}>
-            <input
-              placeholder="Email"
-              className={`${styles.auth_input} ${lexendDeca.className}`}
-            />
-          </div>
+          {!isSingin ? (
+            <div style={{ width: "90%", margin: "0px auto" }}>
+              <input
+                placeholder="Email"
+                className={`${styles.auth_input} ${lexendDeca.className}`}
+                value={user.email}
+                onChange={(event) =>
+                  handleChangeValue("email", event.target.value)
+                }
+              />
+            </div>
+          ) : (
+            ""
+          )}
           <div style={{ width: "90%", margin: "0px auto" }}>
             <input
               placeholder="Mật khẩu"
               type="password"
               className={`${styles.auth_input} ${lexendDeca.className}`}
+              value={user.password}
+              onChange={(event) =>
+                handleChangeValue("password", event.target.value)
+              }
             />
           </div>
-          <div style={{ width: "90%", margin: "0px auto" }}>
-            <input
-              placeholder="Nhập lại mật khẩu"
-              type="password"
-              className={`${styles.auth_input} ${lexendDeca.className}`}
-            />
-          </div>
+          {!isSingin ? (
+            <div style={{ width: "90%", margin: "0px auto" }}>
+              <input
+                placeholder="Nhập lại mật khẩu"
+                type="password"
+                className={`${styles.auth_input} ${lexendDeca.className}`}
+                value={user.confirmPassword}
+                onChange={(event) =>
+                  handleChangeValue("confirmPassword", event.target.value)
+                }
+              />
+            </div>
+          ) : (
+            ""
+          )}
           <div
             style={{
               width: "90%",
@@ -96,7 +141,7 @@ function AuthFormModel(props: IProps) {
           >
             <Box
               sx={{
-                height: "40px",
+                height: "42px",
                 color: "white",
                 backgroundColor: "#1976d1",
                 borderRadius: "4px",
@@ -105,7 +150,7 @@ function AuthFormModel(props: IProps) {
                 display: "flex",
                 justifyContent: "center",
               }}
-              // onClick={()=>handleSendComment("","")}
+              onClick={handleSubmit}
             >
               <FontAwesomeIcon
                 style={{ marginRight: "10px" }}
@@ -133,7 +178,7 @@ function AuthFormModel(props: IProps) {
           {/* Google login */}
           <div
             style={{
-              height: "40px",
+              height: "42px",
               backgroundColor: "#e60000",
               borderRadius: "4px",
               width: "90%",
@@ -174,7 +219,7 @@ function AuthFormModel(props: IProps) {
           {/* Facebook login */}
           <div
             style={{
-              height: "40px",
+              height: "42px",
               backgroundColor: "#3b5998",
               borderRadius: "4px",
               width: "90%",
@@ -218,11 +263,12 @@ function AuthFormModel(props: IProps) {
               textAlign: "center",
               cursor: "pointer",
               color: "#1976d1",
-              fontSize:"14px"
+              fontSize: "14px",
             }}
             className={styles.text_register}
+            onClick={changeForm}
           >
-            Ban muon dang ky ?
+            {isSingin ? "Ban muon dang ky ?" : "Dang nhap"}
           </p>
         </div>
       </Paper>

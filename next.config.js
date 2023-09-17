@@ -5,7 +5,7 @@ const nextConfig = {
   },
   images:{
     formats:["image/avif", "image/webp"],
-    domains:["manybooks.net", "bloganchoi.com", "static.8cache.com","blogapp-320606.web.app", "vnn-imgs-f.vgcloud.vn", "www.totolink.vn"]
+    domains:["manybooks.net", "bloganchoi.com", "static.8cache.com","blogapp-320606.web.app", "vnn-imgs-f.vgcloud.vn", "www.totolink.vn", "firebasestorage.googleapis.com"]
   }
 }
 

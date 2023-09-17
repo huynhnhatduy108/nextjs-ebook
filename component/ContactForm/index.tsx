@@ -30,8 +30,25 @@ interface IProps {
   handleClose?: () => void;
 }
 
+const formInit = {
+  name: "",
+  email: "",
+  subject: "",
+  content: "",
+};
+
 function ContactFormModel(props: IProps) {
   const { open, handleClose } = props;
+  const [contactForm, setContactForm] = useState({ ...formInit });
+
+  const handleChangeValue = (key: string, value: string) => {
+    setContactForm({ ...contactForm, [key]: value });
+  };
+
+  const handleSubmit = () => {
+    console.log("contactForm==>", contactForm);
+  };
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Paper
@@ -51,24 +68,40 @@ function ContactFormModel(props: IProps) {
           <input
             placeholder="Ten cua ban"
             className={`${styles.contact_input} ${lexendDeca.className}`}
+            value={contactForm.name}
+            onChange={(event) =>
+              handleChangeValue("name", event.target.value)
+            }
           />
         </div>
         <div style={{ width: "90%", margin: "0px auto" }}>
           <input
             placeholder="Email"
             className={`${styles.contact_input} ${lexendDeca.className}`}
+            value={contactForm.email}
+            onChange={(event) =>
+              handleChangeValue("email", event.target.value)
+            }
           />
         </div>
         <div style={{ width: "90%", margin: "0px auto" }}>
           <input
             placeholder="Tieu de"
             className={`${styles.contact_input} ${lexendDeca.className}`}
+            value={contactForm.subject}
+            onChange={(event) =>
+              handleChangeValue("subject", event.target.value)
+            }
           />
         </div>
         <div style={{ width: "90%", margin: "0px auto" }}>
           <textarea
             placeholder="Noi dung"
             className={`${styles.contact_area} ${lexendDeca.className}`}
+            value={contactForm.content}
+            onChange={(event) =>
+              handleChangeValue("content", event.target.value)
+            }
           ></textarea>
         </div>
         <div
@@ -90,7 +123,7 @@ function ContactFormModel(props: IProps) {
                 display: "flex",
                 justifyContent: "center",
               }}
-              // onClick={()=>handleSendComment("","")}
+              onClick={handleSubmit}
             >
               <FontAwesomeIcon
                 style={{ marginRight: "10px" }}

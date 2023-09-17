@@ -1,3 +1,4 @@
+// "use client"
 import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Rating from "@mui/material/Rating";
 import { Lexend_Deca } from "next/font/google";
+// import { useEffect, useState } from "react";
 
 const posts = [1, 2, 3, 4, 5, 6];
 const ebooks = [
@@ -18,7 +20,32 @@ const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
-export default function Home() {
+const getCategory = async () => {
+	try {
+		const res = await fetch(`http://localhost:8000/category/full`);
+		return await res.json();
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const getBooks = async () => {
+	try {
+		const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24`);
+		return await res.json();
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+export default async function Home() {
+
+  const listCate = await getCategory()
+  const categories = listCate.slice(0, 12)
+  const ebookPaging = await getBooks()
+  const ebooks = ebookPaging.items  
+  
+    
   return (
     <main style={{ minHeight: "100vh" }}>
       <Container maxWidth="lg">
@@ -52,19 +79,19 @@ export default function Home() {
           </Box>
           <Grid container spacing={2}>
             {categories?.length &&
-              categories.map((cate) => {
+              categories.map((cate:any) => {
                 return (
-                  <Grid item lg={3} md={4} sm={6} xs={6} key={cate}>
+                  <Grid item lg={3} md={4} sm={6} xs={6} key={cate._id}>
                     <div className={styles.category} style={{}}>
                       <Image
                         className={styles.category_image}
                         src="https://vnn-imgs-f.vgcloud.vn/2020/01/18/13/nhung-cuon-sach-dang-nghien-ngam-cho-fan-trinh-tham-mua-tet.jpg"
                         width={100} height={100}
-                        alt={"category item"}
+                        alt={cate.name}
                       />
                       <div className={styles.category_intro}>
                         <p className={styles.category_name}>
-                          {"Danh mục nổi bật"}
+                         {cate.name}
                         </p>
                       </div>
                     </div>
@@ -103,19 +130,18 @@ export default function Home() {
             </Link>
           </Box>
           <Grid container spacing={2}>
-            {ebooks.map((book) => {
+            {ebooks?.length && ebooks?.map((ebook:any) => {
               return (
-                <Grid item lg={2} md={3} sm={3} xs={6} key={book}>
+                <Grid item lg={2} md={3} sm={3} xs={6} key={ebook._id}>
                   <Paper className={styles.ebook}>
                     <Image
                       className={styles.ebook_image}
-                      src="https://static.8cache.com/cover/o/eJzLyTDW1zULTa4wdYuyiA8I1A8zytT1cDIwzfDy1HeEgoC0bH1j78QU55DEcnMzRw-TwjwPf3MXT0en7NzMdJNMt8x033Rn53z9YgMAsFUYBA==/nha-gia-kim-cau-chuyen-mot-giac-mo.jpg"
-                      alt="Celestial Magic"
+                      src={ebook.img_url}
+                      alt={ebook.name}
                       width={100} height={100}
                     />
                     <p className={styles.ebook_name}>
-                      OpenCoin được đổi tên thành Ripple Labs, sau đó được đổi
-                      tên thành Ripple vào năm 2015.
+                      {ebook.name}
                     </p>
                     <div className={styles.ebook_dowload_view}>
                       <div className={styles.ebook_dowload}>
@@ -143,7 +169,7 @@ export default function Home() {
                             color: "gray",
                           }}
                         >
-                          100
+                          {ebook.views}
                         </Typography>
                       </div>
                     </div>
@@ -229,3 +255,6 @@ export default function Home() {
     </main>
   );
 }
+
+
+
