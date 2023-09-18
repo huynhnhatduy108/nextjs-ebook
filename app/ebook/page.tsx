@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Box, Container, Grid, Typography, Paper } from "@mui/material";
@@ -5,13 +6,10 @@ import Checkbox from "@mui/material/Checkbox";
 import Pagination from "@mui/material/Pagination";
 import styles from "./page.module.css";
 import Rating from "@mui/material/Rating";
-import {
-    faDownload,
-    faEye
-  } from "@fortawesome/free-solid-svg-icons";
-  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-  import { useRouter } from "next/navigation";
-
+import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const categories = [
   "Ẩm thực - Nấu ăn",
@@ -30,25 +28,43 @@ const categories = [
   "Kiếm Hiệp - Tiên Hiệp",
 ];
 
-const eBook = [
-  1, 2, 3, 4, 5, 6, 7, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-];
-
-const getBooks = async (page:number =1, page_size:number=20) => {
-	try {
-		const res = await fetch(`http://localhost:8000/ebook/?page=${1}&page_size=${20}`);
-		return await res.json();
-	} catch (err) {
-		console.log(err);
-	}
+const ebookState = {
+  items: [],
+  page: 1,
+  page_size: 20,
+  total_record: 0,
+  total_page: 0,
 };
-const EbookPage = async ()=> {  
 
+const EbookPage = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const page = searchParams?.get("page")
+    ? Number(searchParams?.get("page"))
+    : 1;
+  const [ebookData, setEbookData] = useState({ ...ebookState });
 
-  const ebookPaging = await getBooks()
-  const {items:ebooks, page, page_size, total_record, total_page} = ebookPaging;
+  useEffect(() => {
+    if (page) {
+      const getBooks = async (page: number = 1, page_size: number = 20) => {
+        try {
+          const res = await fetch(
+            `http://localhost:8000/ebook/?page=${page}&page_size=${page_size}`
+          );
+          const data = await res.json();
+          setEbookData({ ...data });
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getBooks(page, 20);
+    }
+  }, [page]);
 
-  
+  const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) =>{
+    router.replace(`?page=${page}`)
+  }
+
 
   return (
     <main style={{ minHeight: "100vh" }}>
@@ -59,33 +75,58 @@ const EbookPage = async ()=> {
               {/* Ebook */}
               <Box sx={{}}>
                 <Grid container spacing={2}>
-                  {ebooks.length  && ebooks.map((ebook:any) => {
-                    return (
-                      <Grid item lg={3} md={3} sm={3} xs={6} key={ebook._id}>
-                        <Paper className={styles.ebook}>
-                          <Image
-                            className={styles.ebook_image}
-                            src={ebook.img_url}
-                            alt={ebook.name}
-                            width={100} height={100}
-                          />
-                          <p className={styles.ebook_name}>
-                               {ebook.name}
-                          </p>
-                          <div className={styles.ebook_dowload_view}>
-                            <div className={styles.ebook_dowload}>
-                                <Rating max={1} value={0.7} precision={0.5} readOnly/>
-                                <Typography style={{marginLeft:"5px", fontSize:'14px',color:"gray"}}>5/5</Typography>
+                  {ebookData.items.length &&
+                    ebookData.items.map((ebook: any) => {
+                      return (
+                        <Grid item lg={3} md={3} sm={3} xs={6} key={ebook._id}>
+                          <Paper className={styles.ebook} onClick={()=> router.push(`ebook/${ebook.slug}`)}>
+                            <Image
+                              className={styles.ebook_image}
+                              src={ebook.img_url}
+                              alt={ebook.name}
+                              width={100}
+                              height={100}
+                            />
+                            <p className={styles.ebook_name}>{ebook.name}</p>
+                            <div className={styles.ebook_dowload_view}>
+                              <div className={styles.ebook_dowload}>
+                                <Rating
+                                  max={1}
+                                  value={0.7}
+                                  precision={0.5}
+                                  readOnly
+                                />
+                                <Typography
+                                  style={{
+                                    marginLeft: "5px",
+                                    fontSize: "14px",
+                                    color: "gray",
+                                  }}
+                                >
+                                  5/5
+                                </Typography>
+                              </div>
+                              <div className={styles.ebook_view}>
+                                <FontAwesomeIcon
+                                  icon={faEye}
+                                  color="gray"
+                                  fontSize="15px"
+                                />
+                                <Typography
+                                  style={{
+                                    marginLeft: "5px",
+                                    fontSize: "14px",
+                                    color: "gray",
+                                  }}
+                                >
+                                  {ebook.views}
+                                </Typography>
+                              </div>
                             </div>
-                            <div className={styles.ebook_view}>
-                                <FontAwesomeIcon icon={faEye} color="gray" fontSize="15px"/>
-                                <Typography  style={{marginLeft:"5px", fontSize:'14px', color:"gray"}}>{ebook.views}</Typography>
-                            </div>
-                          </div>
-                        </Paper>
-                      </Grid>
-                    );
-                  })}
+                          </Paper>
+                        </Grid>
+                      );
+                    })}
                 </Grid>
               </Box>
               {/* Pagination */}
@@ -104,8 +145,9 @@ const EbookPage = async ()=> {
                     left: "50%",
                     transform: "translate(-50%,-50%)",
                   }}
-                  page={page}
-                  count={total_page}
+                  onChange={handleChangePage}
+                  page={ebookData.page}
+                  count={ebookData.total_page}
                   variant="outlined"
                   shape="rounded"
                   color="primary"
@@ -124,7 +166,7 @@ const EbookPage = async ()=> {
                     borderTopRightRadius: "5px",
                     borderTopLeftRadius: "5px",
                     color: "white",
-                    margin:"0px"
+                    margin: "0px",
                   }}
                 >
                   Danh mục sách
@@ -139,13 +181,17 @@ const EbookPage = async ()=> {
                           padding: "2px 0px",
                           display: "flex",
                           alignItems: "center",
-                          fontSize:"14px",
+                          fontSize: "14px",
                         }}
                       >
                         <Checkbox size="small" style={{}} />
                         <Link
                           href={"/"}
-                          style={{ textDecoration: "none", color: "#1976d1", fontSize:"14px"  }}
+                          style={{
+                            textDecoration: "none",
+                            color: "#1976d1",
+                            fontSize: "14px",
+                          }}
                         >
                           {cate}
                         </Link>
@@ -160,16 +206,6 @@ const EbookPage = async ()=> {
       </Container>
     </main>
   );
-}
+};
 
 export default EbookPage;
-
-// export async function getStaticProps() {
-//   const coffeeJson = await fetch('https://exampleapi.com/coffelist');
-//    return {
-//        props: {
-//            coffeeJson
-//        }
-//    }
-// }
-

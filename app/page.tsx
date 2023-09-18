@@ -31,7 +31,7 @@ const getCategory = async () => {
 
 const getBooks = async () => {
 	try {
-		const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24`);
+		const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24&ordering=-views`);
 		return await res.json();
 	} catch (err) {
 		console.log(err);
@@ -133,7 +133,7 @@ export default async function Home() {
             {ebooks?.length && ebooks?.map((ebook:any) => {
               return (
                 <Grid item lg={2} md={3} sm={3} xs={6} key={ebook._id}>
-                  <Paper className={styles.ebook}>
+                  <Paper className={styles.ebook} >
                     <Image
                       className={styles.ebook_image}
                       src={ebook.img_url}
