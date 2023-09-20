@@ -20,9 +20,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
-import Comment from "@/component/comment";
-import EbookSlick from "@/component/EbookSlick";
-import EbookRelate from "@/component/EbookRelate";
+import Comment from "@/component/Comment";
+import EbookSlick from "@/component/Ebook/EbookSlick";
+import EbookRelate from "@/component/Ebook/EbookRelate";
 
 import { Lexend_Deca } from "next/font/google";
 import { htmlToPlainText } from "@/utils/helper";

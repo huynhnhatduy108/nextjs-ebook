@@ -101,7 +101,7 @@ export const getLocalItem = (name:string)=>{
 export const getUserLocal =() =>{
     let user = getLocalItem('user')
     if(user) return user
-    return null
+    return ""
 }
 
 export const removeLocalItem = (name:string) => {

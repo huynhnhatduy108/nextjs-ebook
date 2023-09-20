@@ -1,9 +1,9 @@
 import "./globals.css";
 import { Lexend_Deca } from "next/font/google";
-import Header from "@/component/header";
+import Header from "@/component/Header";
 import style from "./page.module.css";
-import Footer from "@/component/footer";
-
+import Footer from "@/component/Footer";
+import { Providers } from "@/store/provider";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -20,10 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${lexendDeca.className} ${style.body}`}>
+    <html lang="en" >
+      <body className={`${lexendDeca.className} ${style.body}`} suppressHydrationWarning={true}>
           <Header />
-          {children}
+          <Providers>{children}</Providers>
           <Footer />
       </body>
     </html>

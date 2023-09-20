@@ -20,6 +20,9 @@ import { Lexend_Deca } from "next/font/google";
 import styles from "./authform.module.css";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { api } from "@/utils/api";
+import Notification from "../Notification";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -39,20 +42,42 @@ const formInit = {
 
 function AuthFormModel(props: IProps) {
   const { open, onClose } = props;
+  // const dispatch = useDispatch()
   const [isSingin, setIsSingin] = useState<boolean>(true);
   const [user, setUser] = useState({ ...formInit });
+  const [isNotification, setIsNotification] = useState<boolean>(false);
+
 
   const handleChangeValue = (key: string, value: string) => {
     setUser({ ...user, [key]: value });
   };
 
-  const handleSubmit = () => {
-    console.log("user==>", user);
+  const handleSubmit = async () => {
+    setIsNotification(true)
+
+    if (isSingin){
+    // const res = await api("POST", "/auth/login", {username: user.username,password: user.password,},"",{});
+
+    // console.log("res==>", res);
+    
+
+    }
+    else{
+      // const data = {
+    //   username: user.username,
+    //   email: user.email,
+    //   full_name: user.email,
+    //   avatar_url: "",
+    //   password: user.password,
+    // };
+    // const res = await api("POST", "/auth/register", data,"",{});
+    }
+    
   };
 
   const changeForm = () => {
     setIsSingin(!isSingin);
-    setUser({...formInit});
+    setUser({ ...formInit });
   };
 
   return (
@@ -68,6 +93,7 @@ function AuthFormModel(props: IProps) {
           position: "relative",
         }}
       >
+        <Notification  open={isNotification} onClose={()=>setIsNotification(false)} mess={"Dang nhap that bai"}/>
         <div>
           <div>
             <p

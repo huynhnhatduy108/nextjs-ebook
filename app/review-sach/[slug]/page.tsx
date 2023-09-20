@@ -17,7 +17,7 @@ import {
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Comment from "@/component/comment";
+import Comment from "@/component/Comment";
 
 import styles from "./page.module.css";
 
