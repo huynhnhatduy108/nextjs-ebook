@@ -50,6 +50,7 @@ function CategoryHomePage(props: IProps){
           categories.map((cate: any) => {
             return (
               <Grid item lg={3} md={4} sm={6} xs={6} key={cate._id}>
+                <Link href={`/ebook?categories=${cate.slug}`}>
                 <div className={styles.category} style={{}}>
                   <Image
                     className={styles.category_image}
@@ -62,6 +63,7 @@ function CategoryHomePage(props: IProps){
                     <p className={styles.category_name}>{cate.name}</p>
                   </div>
                 </div>
+                </Link>
               </Grid>
             );
           })}

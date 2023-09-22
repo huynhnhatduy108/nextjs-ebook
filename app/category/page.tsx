@@ -3,38 +3,19 @@ import Link from "next/link";
 import { Box, Container, Grid, Typography, Paper } from "@mui/material";
 import styles from "./page.module.css";
 
-const categories = [
-  "Ẩm thực - Nấu ăn",
-  "Học Ngoại Ngữ",
-  "Khoa Học - Kỹ Thuật",
-  "Kinh Tế - Quản Lý",
-  "Nông - Lâm - Ngư",
-  "Tài Liệu Học Tập",
-  "Thư Viện Pháp Luật",
-  "Triết Học",
-  "Truyện Ma - Truyện Kinh Dị Truyện Ma - Truyện Kinh Dị",
-  "Truyện Tran Truyện Ma",
-  "Văn Học Việt Nam",
-  "Cổ Tích - Thần Thoại",
-  "Hồi Ký - Tuỳ Bút",
-  "Kiếm Hiệp - Tiên Hiệp",
-  "Ẩm thực - Nấu ăn",
-  "Học Ngoại Ngữ",
-  "Khoa Học - Kỹ Thuật",
-  "Kinh Tế - Quản Lý",
-  "Nông - Lâm - Ngư",
-  "Tài Liệu Học Tập",
-  "Thư Viện Pháp Luật",
-  "Triết Học",
-  "Truyện Ma - Truyện Kinh Dị  Truyện Kinh Dị Truyện Ma - Truyện Kinh Dị",
-  "Truyện Tranh",
-  "Văn Học Việt Nam",
-  "Cổ Tích - Thần Thoại",
-  "Hồi Ký - Tuỳ Bút",
-  "Kiếm Hiệp - Tiên Hiệp",
-];
+const getCategory = async () => {
+  try {
+    const res = await fetch(`http://localhost:8000/category/full`);
+    if (res.status === 200) return await res.json();
+    return [];
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-export default function CategoryPage() {
+export default async function CategoryPage() {
+  const categories = await getCategory();
+
   return (
     <main style={{ minHeight: "100vh" }}>
       <Container maxWidth="lg">
@@ -52,12 +33,14 @@ export default function CategoryPage() {
           </p>
           <Grid container spacing={2}>
             {categories?.length &&
-              categories.map((cate, index) => {
+              categories.map((cate: any) => {
                 return (
-                  <Grid item lg={3} md={4} sm={6} xs={6} key={index}>
-                    <Paper className={styles.category} style={{}}>
-                      <p className={styles.category_name}>{cate}</p>
-                    </Paper>
+                  <Grid item lg={3} md={4} sm={6} xs={6} key={cate._id}>
+                    <Link href={`/ebook?categories=${cate.slug}`} style={{textDecoration:"none"}}>
+                      <Paper className={styles.category} style={{}}>
+                        <p className={styles.category_name}>{cate.name}</p>
+                      </Paper>
+                    </Link>
                   </Grid>
                 );
               })}

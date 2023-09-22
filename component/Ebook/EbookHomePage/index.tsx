@@ -6,6 +6,7 @@ import { Lexend_Deca } from "next/font/google";
 import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Rating from "@mui/material/Rating";
+import { abbreviateNumber } from "@/utils/helper";
 
 interface IProps {
   ebooks: Array<any>;
@@ -52,46 +53,51 @@ function EbookHomePage(props: IProps) {
           ebooks?.map((ebook: any) => {
             return (
               <Grid item lg={2} md={3} sm={3} xs={6} key={ebook._id}>
-                <Paper className={styles.ebook}>
-                  <Image
-                    className={styles.ebook_image}
-                    src={ebook.img_url}
-                    alt={ebook.name}
-                    width={100}
-                    height={100}
-                  />
-                  <p className={styles.ebook_name}>{ebook.name}</p>
-                  <div className={styles.ebook_dowload_view}>
-                    <div className={styles.ebook_dowload}>
-                      <Rating max={1} value={0.7} precision={0.5} readOnly />
-                      <Typography
-                        style={{
-                          marginLeft: "5px",
-                          fontSize: "14px",
-                          color: "gray",
-                        }}
-                      >
-                        5/5
-                      </Typography>
+                <Link
+                  href={`/ebook/${ebook.slug}`}
+                  style={{textDecoration: "none" }}
+                >
+                  <Paper className={styles.ebook}>
+                    <Image
+                      className={styles.ebook_image}
+                      src={ebook.img_url}
+                      alt={ebook.name}
+                      width={100}
+                      height={100}
+                    />
+                    <p className={styles.ebook_name}>{ebook.name}</p>
+                    <div className={styles.ebook_dowload_view}>
+                      <div className={styles.ebook_dowload}>
+                        <Rating max={1} value={0.7} precision={0.5} readOnly />
+                        <Typography
+                          style={{
+                            marginLeft: "5px",
+                            fontSize: "14px",
+                            color: "gray",
+                          }}
+                        >
+                          5/5
+                        </Typography>
+                      </div>
+                      <div className={styles.ebook_view}>
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          color="gray"
+                          fontSize="15px"
+                        />
+                        <Typography
+                          style={{
+                            marginLeft: "5px",
+                            fontSize: "14px",
+                            color: "gray",
+                          }}
+                        >
+                          {abbreviateNumber(ebook.views)}
+                        </Typography>
+                      </div>
                     </div>
-                    <div className={styles.ebook_view}>
-                      <FontAwesomeIcon
-                        icon={faEye}
-                        color="gray"
-                        fontSize="15px"
-                      />
-                      <Typography
-                        style={{
-                          marginLeft: "5px",
-                          fontSize: "14px",
-                          color: "gray",
-                        }}
-                      >
-                        {ebook.views}
-                      </Typography>
-                    </div>
-                  </div>
-                </Paper>
+                  </Paper>
+                </Link>
               </Grid>
             );
           })}

@@ -1,11 +1,7 @@
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import InputBase from "@mui/material/InputBase";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -17,10 +13,9 @@ import {
   faList,
   faChevronDown,
   faChevronUp,
-  faBook
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import { useState } from "react";
 import styles from "./drawer.module.css";
 
@@ -32,13 +27,12 @@ const lexendDeca = Lexend_Deca({
 });
 
 const pages = [
-  
   {
     name: "Thể loại sách",
     key: "categories",
     icon: faList,
     link: "/",
-    direct:false,
+    direct: false,
     sub: [
       "Ẩm thực - Nấu ăn",
       "Học Ngoại Ngữ",
@@ -56,28 +50,58 @@ const pages = [
       "Kiếm Hiệp - Tiên Hiệp",
     ],
   },
-  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct:true},
-  { name: "Review sách", key: "reivew", icon: faCopy, link: "/review-sach" , direct:true},
+  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct: true },
+  {
+    name: "Review sách",
+    key: "reivew",
+    icon: faCopy,
+    link: "/review-sach",
+    direct: true,
+  },
 ];
 
-function SideBarDrawer(props: any) {
+interface IProps {
+  open: boolean;
+  hanleOpenCloseSideBar: () => void;
+}
+
+
+function SideBarDrawer(props: IProps) {
   const { open, hanleOpenCloseSideBar } = props;
-  const router = useRouter()
+  const router = useRouter();
 
   const [expandKey, setExpandKey] = useState<string>("");
+  const [keyWord, setKeyWord] = useState<string>("");
 
-  const handleExpand = (key: string, link:string, isDirect:boolean) => {
+  const handleExpand = (key: string, link: string, isDirect: boolean) => {
     const keyExpand = key === expandKey ? "" : key;
     setExpandKey(keyExpand);
 
-    if (isDirect){
-      router.push(link)
+    if (isDirect) {
+      router.push(link);
     }
   };
 
-  const handleChangePage =(link:string)=>{
-    router.push(`/category/${link}`)
-  } 
+  const handleChangePage = (link: string) => {
+    router.push(`/category/${link}`);
+  };
+
+  const handleChangeKeyWord = (event: any) => {
+    setKeyWord(event.target.value);
+  };
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === "Enter") {
+      router.push(`/ebook?keyword=${keyWord}`);
+      hanleOpenCloseSideBar()
+    }
+  };
+
+  const handleSearch = () => {
+    router.push(`/ebook?keyword=${keyWord}`);
+    hanleOpenCloseSideBar()
+
+  };
 
   return (
     <SwipeableDrawer
@@ -113,7 +137,7 @@ function SideBarDrawer(props: any) {
             }}
           >
             <InputBase
-            className={lexendDeca.className}
+              className={lexendDeca.className}
               sx={{
                 flex: 1,
                 width: "100%",
@@ -124,6 +148,9 @@ function SideBarDrawer(props: any) {
                 borderRadius: "5px",
               }}
               placeholder="Tìm kiếm..."
+              value={keyWord}
+              onChange={handleChangeKeyWord}
+              onKeyPress={handleKeyPress}
             />
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
@@ -133,6 +160,7 @@ function SideBarDrawer(props: any) {
               style={{
                 cursor: "pointer",
               }}
+              onClick={handleSearch}
             />
           </Box>
         </Box>
@@ -151,13 +179,16 @@ function SideBarDrawer(props: any) {
                     alignItems: "center",
                     justifyContent: "space-between",
                     height: "30px",
-                    cursor:"pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => handleExpand(page.key, page.link, page.direct)}
-                  >
+                >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <FontAwesomeIcon icon={page.icon} />
-                    <Typography className={lexendDeca.className} style={{ marginLeft: "10px" }}>
+                    <Typography
+                      className={lexendDeca.className}
+                      style={{ marginLeft: "10px" }}
+                    >
                       {page.name}
                     </Typography>
                   </Box>
@@ -175,7 +206,11 @@ function SideBarDrawer(props: any) {
                 expandKey === page.key &&
                 page?.sub.map((sub, indx) => {
                   return (
-                    <ListItem className={styles.sub_menu} key={indx} disablePadding>
+                    <ListItem
+                      className={styles.sub_menu}
+                      key={indx}
+                      disablePadding
+                    >
                       <div
                         className={styles.sub_menu_item}
                         style={{
@@ -186,10 +221,9 @@ function SideBarDrawer(props: any) {
                           display: "flex",
                           alignItems: "center",
                           height: "30px",
-                          cursor:"pointer"
+                          cursor: "pointer",
                         }}
-                        onClick={()=>handleChangePage(sub)}
-
+                        onClick={() => handleChangePage(sub)}
                       >
                         <Typography
                           className={lexendDeca.className}

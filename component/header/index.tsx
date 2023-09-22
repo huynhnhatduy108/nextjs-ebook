@@ -79,12 +79,13 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-  const [isShowSideBar, setIsShowSideBar] = useState<boolean | undefined>(
+  const [isShowSideBar, setIsShowSideBar] = useState<boolean>(
     false
   );
   const [expandKey, setExpandKey] = useState<string>("");
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isOpenModelAuth, setIsOpenModelAuth] =  useState<boolean>(false);
+  const [keyWord, setKeyWord] = useState<string>("");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -131,8 +132,25 @@ function ResponsiveAppBar() {
     setIsOpenModelAuth(!isOpenModelAuth);
   };
 
+  const handleChangeKeyWord = (event: any) => {
+      setKeyWord(event.target.value);
+  };
+
+  const handleKeyPress = (event:any) => {
+    if (event.key === "Enter") {
+      router.push(`/ebook?keyword=${keyWord}`);
+    }
+  }
+
+  const handleSearch =()=>{
+    router.push(`/ebook?keyword=${keyWord}`);
+  }
+
+  
+  
   return (
     <AppBar position="static" className={lexendDeca.className}>
+
       {/* Side bar */}
       <SideBarDrawer
         open={isShowSideBar}
@@ -140,6 +158,8 @@ function ResponsiveAppBar() {
       />
       {/* Auth model */}
       <AuthFormModel open={isOpenModelAuth} onClose={hanleOpenCloseModelAuth}/>
+
+      {/* Main header */}
       <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Typography
@@ -287,6 +307,9 @@ function ResponsiveAppBar() {
                   borderRadius: "5px",
                 }}
                 placeholder="Search..."
+                value={keyWord}
+                onChange={handleChangeKeyWord}
+                onKeyPress={handleKeyPress}
               />
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
@@ -296,6 +319,7 @@ function ResponsiveAppBar() {
                 style={{
                   cursor: "pointer",
                 }}
+                onClick={handleSearch}
               />
             </Box>
           </Box>

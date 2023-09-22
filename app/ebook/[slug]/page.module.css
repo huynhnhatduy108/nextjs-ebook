@@ -38,6 +38,14 @@
     transform: translate(-50%,-50%);
 }
 
+.category_list{
+
+}
+
+.category_link{
+    
+}
+
 /* setting comon attribute mobile and table */
 @media (max-width: 739px) {
     .ebook_intro{

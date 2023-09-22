@@ -10,15 +10,10 @@ import CategoryHomePage from '@/component/Category/CategoryHomePage';
 import EbookHomePage from '@/component/Ebook/EbookHomePage';
 import PostHomePage from '@/component/Post/PostHomePage';
 // import { useRouter, useSearchParams } from "next/navigation";
-
 // import { useEffect, useState } from "react";
 
 const posts = [1, 2, 3, 4, 5, 6];
-const ebooks = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24,
-];
-const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -27,7 +22,8 @@ const lexendDeca = Lexend_Deca({
 const getCategory = async () => {
 	try {
 		const res = await fetch(`http://localhost:8000/category/full`);
-		return await res.json();
+    if (res.status ===200) return await res.json();
+		return []
 	} catch (err) {
 		console.log(err);
 	}
@@ -36,7 +32,18 @@ const getCategory = async () => {
 const getBooks = async () => {
 	try {
 		const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24&ordering=-views`);
-		return await res.json();
+		if (res.status ===200) return await res.json();
+		return []
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const getPosts = async () => {
+	try {
+		// const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24&ordering=-views`);
+		// if (res.status ===200) return await res.json();
+		return []
 	} catch (err) {
 		console.log(err);
 	}
