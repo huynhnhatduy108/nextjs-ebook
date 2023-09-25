@@ -9,8 +9,6 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
 import {
   faBars,
   faMagnifyingGlass,
@@ -20,16 +18,17 @@ import {
   faChevronDown,
   faChevronUp,
   faBook,
+  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InputBase from "@mui/material/InputBase";
 import SideBarDrawer from "../SideBarDrawer";
-import Link from "next/link";
 import { ListItem, ListItemButton } from "@mui/material";
 import styles from "./header.module.css";
 
 import { Lexend_Deca } from "next/font/google";
 import AuthFormModel from "../AuthForm";
+import { getLocalItem, removeLocalItem } from "@/utils/helper";
 
 const lexendDeca = Lexend_Deca({
   weight: "300",
@@ -69,23 +68,21 @@ const pages = [
     direct: true,
   },
 ];
-const login = ["Logout"];
-const logout = ["Login"];
+
+const userToken: any = getLocalItem("userToken");
 
 function ResponsiveAppBar() {
   const router = useRouter();
   const subMenuRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [isShowSideBar, setIsShowSideBar] = useState<boolean>(
-    false
-  );
+  const [userMenu, setUserMenu] = useState<boolean>(false);
+  const [isShowSideBar, setIsShowSideBar] = useState<boolean>(false);
   const [expandKey, setExpandKey] = useState<string>("");
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [isOpenModelAuth, setIsOpenModelAuth] =  useState<boolean>(false);
+  const [isOpenModelAuth, setIsOpenModelAuth] = useState<boolean>(false);
   const [keyWord, setKeyWord] = useState<string>("");
+  const [userLocal, setUserLocal] = useState<any>({});
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -95,6 +92,12 @@ function ResponsiveAppBar() {
       ) {
         // handleExpand("", "/", false);
       }
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        handleCloseUserMenu()
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -102,6 +105,16 @@ function ResponsiveAppBar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [subMenuRef]);
+
+  // set user from localStroge
+  useEffect(() => {
+    if (userToken.access_token) {
+      setUserLocal({ ...userLocal, ...userToken });
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [userToken]);
 
   const handleExpand = (key: string, link: string, isDirect: boolean) => {
     const keyExpand = key === expandKey ? "" : key;
@@ -116,14 +129,6 @@ function ResponsiveAppBar() {
     router.push(`/category/${link}`);
   };
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   const hanleOpenCloseSideBar = () => {
     setIsShowSideBar(!isShowSideBar);
   };
@@ -133,31 +138,42 @@ function ResponsiveAppBar() {
   };
 
   const handleChangeKeyWord = (event: any) => {
-      setKeyWord(event.target.value);
+    setKeyWord(event.target.value);
   };
 
-  const handleKeyPress = (event:any) => {
+  const handleKeyPress = (event: any) => {
     if (event.key === "Enter") {
       router.push(`/ebook?keyword=${keyWord}`);
     }
-  }
+  };
 
-  const handleSearch =()=>{
+  const handleSearch = () => {
     router.push(`/ebook?keyword=${keyWord}`);
+  };
+
+  const handleOpenUserMenu =()=>{
+    setUserMenu(true);
   }
 
-  
-  
+  const handleCloseUserMenu =()=>{
+    setUserMenu(false);
+  }
+
+  const hanldleLogout =() =>{
+    removeLocalItem("userToken");
+    setUserLocal({})
+    setUserMenu(false);
+  }
+
   return (
     <AppBar position="static" className={lexendDeca.className}>
-
       {/* Side bar */}
       <SideBarDrawer
         open={isShowSideBar}
         hanleOpenCloseSideBar={hanleOpenCloseSideBar}
       />
       {/* Auth model */}
-      <AuthFormModel open={isOpenModelAuth} onClose={hanleOpenCloseModelAuth}/>
+      <AuthFormModel open={isOpenModelAuth} onClose={hanleOpenCloseModelAuth} />
 
       {/* Main header */}
       <Container maxWidth="lg">
@@ -326,16 +342,52 @@ function ResponsiveAppBar() {
           {/*  Avatar */}
           <Box sx={{ flexGrow: 0 }}>
             {isLogin ? (
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Nhat Duy" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+              <div style={{ position: "relative" }}>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt={userLocal?.full_name}
+                    src={userLocal?.avatar_url}
+                  />
+                </IconButton>
+               {userMenu? <div
+                  ref={userMenuRef}
+                  style={{
+                    position: "absolute",
+                    top: "42px",
+                    right: 0,
+                    width: "202px",
+                    height: "40px",
+                    backgroundColor: "#448ad9",
+                    zIndex: 10,
+                    borderRadius: "5px",
+                    cursor:"pointer"
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      display:"flex",
+                      alignItems:"center"
+                    }}
+                    onClick={hanldleLogout}
+                  >
+                    <p style={{ margin: "0px", textAlign: "center" }}>
+                      Dang xuat
+                    </p>
+                    <FontAwesomeIcon icon={faRightFromBracket} style={{paddingLeft:"5px"}} />
+                  </div>
+                </div>:""}
+              </div>
             ) : (
               <Box
                 sx={{
                   cursor: "pointer",
                   borderRadius: "5px",
                 }}
-                onClick={()=>setIsOpenModelAuth(true)}
+                onClick={() => setIsOpenModelAuth(true)}
               >
                 Login
               </Box>

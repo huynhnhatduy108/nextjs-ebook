@@ -74,9 +74,6 @@ const EbookPage = () => {
     page: number
   ) => {
     const path = covertQuerySearch({ page, keyword });
-
-    console.log("path", path);
-
     router.replace(path);
   };
 

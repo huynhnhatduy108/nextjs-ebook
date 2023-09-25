@@ -23,6 +23,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { api } from "@/utils/api";
 import Notification from "../Notification";
+import { setLocalItem } from "@/utils/helper";
+import { apiLogin } from "@/store/features/auth/api";
+import { useDispatch } from "react-redux";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -42,7 +45,7 @@ const formInit = {
 
 function AuthFormModel(props: IProps) {
   const { open, onClose } = props;
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const [isSingin, setIsSingin] = useState<boolean>(true);
   const [user, setUser] = useState({ ...formInit });
   const [isNotification, setIsNotification] = useState<boolean>(false);
@@ -53,14 +56,9 @@ function AuthFormModel(props: IProps) {
   };
 
   const handleSubmit = async () => {
-    setIsNotification(true)
 
     if (isSingin){
-    // const res = await api("POST", "/auth/login", {username: user.username,password: user.password,},"",{});
-
-    // console.log("res==>", res);
-    
-
+       dispatch(apiLogin({username: user.username,password: user.password}))
     }
     else{
       // const data = {

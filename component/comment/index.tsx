@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Lexend_Deca } from "next/font/google";
 
 import styles from "./comment.module.css";
+import { useDispatch } from "react-redux";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -55,46 +56,70 @@ const comments = [
   { id: 5, commment: "The APE Foundation sử dụng Ecosystem Fund,", sub: [] },
   { id: 6, commment: "ahsahsaskasnaksa s sds sd sd sd sd s ds ds d", sub: [] },
 ];
+interface IProps {
+  id: string;
+}
 
-function Comment() {
-  const [currentComentId, setCurrentComentId] = useState<number|string>("");
-  const [commentText, setCommentText]= useState<string>("")
-  const [commentReplyText, setCommentReplyText]= useState<string>("")
+function Comment(props: IProps) {
+  const { id } = props;
+  const dispatch = useDispatch();
 
+  const [currentComentId, setCurrentComentId] = useState<number | string>("");
+  const [commentText, setCommentText] = useState<string>("");
+  const [commentReplyText, setCommentReplyText] = useState<string>("");
+  const [comments, setComments] = useState<Array<any>>([]);
 
-  const handleClickReply = (id:string|number) =>{
-    setCommentReplyText("")
-    setCurrentComentId(id===currentComentId?"":id)
-  }
+  useEffect(() => {
+    if (id) {
+      const getCommentByBookId = async (ebook_id: string) => {
+        try {
+          const res = await fetch(
+            `http://localhost:8000/comment/ebook/${ebook_id}`
+          );
+          if (res.status === 200) {
+            const data = await res.json();
+            console.log("data==>", data);
+            
+            setComments(data);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getCommentByBookId(id);
+    }
+  }, [id]);
 
+  const handleClickReply = (id: string | number) => {
+    setCommentReplyText("");
+    setCurrentComentId(id === currentComentId ? "" : id);
+  };
 
-  const handleChangeComment =(value:string)=>{
-    setCommentText(value)
-  }
+  const handleChangeComment = (value: string) => {
+    setCommentText(value);
+  };
 
+  const handleChangeCommentReply = (value: string) => {
+    setCommentReplyText(value);
+  };
 
-  const handleChangeCommentReply =(value:string)=>{
-    setCommentReplyText(value)
-  }
-
-  const handleSendComment =(bookId: string|number, parentId:string|number)=>{
-      if (!parentId){
-        console.log("id, commentText", bookId, commentText);
-
-      }
-      else{
-        console.log("id, commentReplyText", bookId, commentReplyText);
-
-      }
-      
-  }
-
-  
+  const handleSendComment = (
+    bookId: string | number,
+    parentId: string | number
+  ) => {
+    if (!parentId) {
+      console.log("id, commentText", bookId, commentText);
+    } else {
+      console.log("id, commentReplyText", bookId, commentReplyText);
+    }
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
       <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
-        <Typography className={lexendDeca.className}>{`Binh luan (${0})`}</Typography>
+        <Typography
+          className={lexendDeca.className}
+        >{`Binh luan (${0})`}</Typography>
         {/* Main comment */}
         <Box
           sx={{
@@ -105,7 +130,7 @@ function Comment() {
           }}
         >
           <textarea
-          className={lexendDeca.className}
+            className={lexendDeca.className}
             style={{
               boxSizing: "border-box",
               display: "block",
@@ -113,14 +138,15 @@ function Comment() {
               height: "100px",
               padding: "10px",
               outline: "none",
-              fontSize:"14px",
+              fontSize: "14px",
               borderRadius: "5px",
               backgroundColor: "#f3f4f6",
               border: "none",
             }}
             placeholder="Viet binh luan"
-            onChange={(event)=>handleChangeComment(event.target.value)}
-          >{commentText}</textarea>
+            value={commentText}
+            onChange={(event) => handleChangeComment(event.target.value)}
+         />
           <Box
             sx={{
               position: "absolute",
@@ -132,8 +158,7 @@ function Comment() {
               borderRadius: "4px",
               cursor: "pointer",
             }}
-            onClick={()=>handleSendComment("","")}
-
+            onClick={() => handleSendComment("", "")}
           >
             Gui
           </Box>
@@ -150,7 +175,7 @@ function Comment() {
         {/* List comment */}
         {comments.map((comment) => {
           return (
-            <Box key={comment.id}>
+            <Box key={comment._id}>
               <Box
                 sx={{
                   marginTop: "20px",
@@ -170,8 +195,17 @@ function Comment() {
                 >
                   <Avatar>ND</Avatar>
                   <Box sx={{ marginLeft: "10px" }}>
-                    <Typography fontWeight="500"  className={lexendDeca.className}>Nhat Duy</Typography>
-                    <Typography fontSize="13px" color="gray" className={lexendDeca.className}>
+                    <Typography
+                      fontWeight="500"
+                      className={lexendDeca.className}
+                    >
+                      Nhat Duy
+                    </Typography>
+                    <Typography
+                      fontSize="13px"
+                      color="gray"
+                      className={lexendDeca.className}
+                    >
                       28/07/2023 - 08:56
                     </Typography>
                   </Box>
@@ -181,7 +215,7 @@ function Comment() {
                     padding: "10px",
                     minHeight: "30px",
                     color: "gray",
-                    fontSize:"14px"
+                    fontSize: "14px",
                     // backgroundColor: "green",
                   }}
                 >
@@ -190,7 +224,7 @@ function Comment() {
 
                 <Box sx={{ position: "relative", height: "20px" }}></Box>
                 <Box
-                  onClick={()=>handleClickReply(comment.id)}
+                  onClick={() => handleClickReply(comment._id)}
                   sx={{
                     position: "absolute",
                     display: "flex",
@@ -200,14 +234,23 @@ function Comment() {
                     cursor: "pointer",
                   }}
                 >
-                  <FontAwesomeIcon color="#1976d1" icon={faReply} fontSize="14px"  />
-                  <Typography color="#1976d1" marginLeft="5px" fontSize="14px" className={lexendDeca.className} >
+                  <FontAwesomeIcon
+                    color="#1976d1"
+                    icon={faReply}
+                    fontSize="14px"
+                  />
+                  <Typography
+                    color="#1976d1"
+                    marginLeft="5px"
+                    fontSize="14px"
+                    className={lexendDeca.className}
+                  >
                     Phan hoi
                   </Typography>
                 </Box>
               </Box>
               {/* Reply */}
-              {currentComentId === comment.id ? (
+              {currentComentId === comment._id ? (
                 <Box
                   sx={{
                     marginTop: "10px",
@@ -218,7 +261,7 @@ function Comment() {
                   }}
                 >
                   <textarea
-                  className={lexendDeca.className}
+                    className={lexendDeca.className}
                     style={{
                       display: "block",
                       boxSizing: "border-box",
@@ -226,14 +269,17 @@ function Comment() {
                       height: "100px",
                       padding: "10px",
                       outline: "none",
-                      fontSize:"14px",
+                      fontSize: "14px",
                       borderRadius: "5px",
                       backgroundColor: "#f3f4f6",
                       border: "none",
                     }}
                     placeholder="Viet binh luan"
-                    onChange={(event)=>handleChangeCommentReply(event.target.value)}
-                  >{commentReplyText}</textarea>
+                    value={commentReplyText}
+                    onChange={(event) =>
+                      handleChangeCommentReply(event.target.value)
+                    }
+                  />
                   <Box
                     sx={{
                       position: "absolute",
@@ -245,7 +291,7 @@ function Comment() {
                       borderRadius: "4px",
                       cursor: "pointer",
                     }}
-                    onClick={()=>handleSendComment("",comment.id)}
+                    onClick={() => handleSendComment("", comment._id)}
                   >
                     Gui
                   </Box>
@@ -254,10 +300,10 @@ function Comment() {
                 ""
               )}
               {/* Child comment */}
-              {comment.sub.map((sub_comment) => {
+              {comment.sub.map((sub_comment:any) => {
                 return (
                   <Box
-                    key={sub_comment.id}
+                    key={sub_comment._id}
                     sx={{
                       marginTop: "10px",
                       marginLeft: "20px",
@@ -276,8 +322,17 @@ function Comment() {
                     >
                       <Avatar>ND</Avatar>
                       <Box sx={{ marginLeft: "10px" }}>
-                        <Typography fontWeight="500" className={lexendDeca.className}>Nhat Duy</Typography>
-                        <Typography fontSize="13px" color="gray" className={lexendDeca.className}>
+                        <Typography
+                          fontWeight="500"
+                          className={lexendDeca.className}
+                        >
+                          Nhat Duy
+                        </Typography>
+                        <Typography
+                          fontSize="13px"
+                          color="gray"
+                          className={lexendDeca.className}
+                        >
                           28/07/2023 - 08:56
                         </Typography>
                       </Box>
@@ -287,8 +342,7 @@ function Comment() {
                         padding: "10px",
                         minHeight: "40px",
                         color: "gray",
-                        fontSize:"14px"
-
+                        fontSize: "14px",
                       }}
                     >
                       {sub_comment.commment}

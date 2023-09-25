@@ -459,7 +459,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                 </Box>
                 {/* Comment */}
                 <Box sx={{ marginTop: "50px" }}>
-                  <Comment />
+                  <Comment id={bookDetail?._id} />
                 </Box>
               </Grid>
               <Grid item lg={4} md={12} sm={12} xs={12}>

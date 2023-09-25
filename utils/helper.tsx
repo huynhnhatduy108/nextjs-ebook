@@ -30,27 +30,22 @@ export const htmlToPlainText = (html: string) => {
   return "";
 };
 
-export function abbreviateNumber(number:number) {
+export function abbreviateNumber(number: number) {
   if (number >= 1e6) {
-    return '+ ' + (number / 1e6).toFixed(0) + 'tr';
-  } 
+    return "+ " + (number / 1e6).toFixed(0) + "tr";
+  }
   return number.toString();
 }
 
-export function splitString(text:string) {
-  if(!text) return []
+export function splitString(text: string) {
+  if (!text) return [];
   return text.split(",");
-
 }
 
-export function joinArrayToString(arr:Array<string>) {
-  if(!arr.length) return ""
+export function joinArrayToString(arr: Array<string>) {
+  if (!arr.length) return "";
   return arr.join(",");
 }
-
-
-
-
 
 // export function convertToDate(dateTime) {
 //     const current_time = new Date(dateTime)
@@ -58,49 +53,49 @@ export function joinArrayToString(arr:Array<string>) {
 //     return moment(current_time, "YYYY-MM-DD");
 // }
 
-// export const formatPath = (path, ...params) => {
-//     if (!path) return path;
+export const formatPath = (path:string, ...params:any) => {
+    if (!path) return path;
 
-//     let match = path.match(/:[a-z][a-z\d_]*\??/gi);
-//     if (!match) return path;
+    let match = path.match(/:[a-z][a-z\d_]*\??/gi);
+    if (!match) return path;
 
-//     match
-//       .map(param => param.replace(/\?$/, ''))
-//       .filter((value, index, self) => self.indexOf(value) === index)
-//       .map((param, index) => path = path.replace(
-//         new RegExp(param + '\\??', 'gi'),
-//         (params[index] ?? '').toString()
-//       ));
+    match
+      .map(param => param.replace(/\?$/, ''))
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .map((param, index) => path = path.replace(
+        new RegExp(param + '\\??', 'gi'),
+        (params[index] ?? '').toString()
+      ));
 
-//     return path;
-// }
+    return path;
+}
 
-// export const trueTypeOf = (obj) => Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
+export const trueTypeOf = (obj:any) => Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
 
-// export const getQueryString = (init) => {
-//   const params = new URLSearchParams();
-//   Object.keys(init).map((k) => {
-//     const type = trueTypeOf(init[k]);
-//     switch (type) {
-//       case 'object':
-//         // params
-//         break;
-//       case 'string':
-//       case 'number':
-//         params.append(k,init[k].toString())
-//         break;
-//       case 'array':
-//         init[k].map((item)=>{
-//           params.append(k,item)
-//         })
-//         break;
-//       default:
-//         break;
-//     }
-//     return k;
-//   })
-//   return params.toString()
-// }
+export const getQueryString = (init:any) => {
+  const params = new URLSearchParams();
+  Object.keys(init).map((k) => {
+    const type = trueTypeOf(init[k]);
+    switch (type) {
+      case 'object':
+        // params
+        break;
+      case 'string':
+      case 'number':
+        params.append(k,init[k].toString())
+        break;
+      case 'array':
+        init[k].map((item:any)=>{
+          params.append(k,item)
+        })
+        break;
+      default:
+        break;
+    }
+    return k;
+  })
+  return params.toString()
+}
 
 // Scroll
 export const scrollTo = (top = 0, left = 0, behavior: any = "smooth") => {
@@ -109,19 +104,22 @@ export const scrollTo = (top = 0, left = 0, behavior: any = "smooth") => {
 
 // local stroge
 export const getLocalItem = (name: string) => {
-  let data = localStorage.getItem(name) ?? "";
-  try {
-    data = JSON.parse(data);
-  } catch (e) {
-    return null;
+  if (typeof window !== "undefined") {
+    let data = localStorage.getItem(name) ?? "";
+    try {
+      data = JSON.parse(data);
+    } catch (e) {
+      return {};
+    }
+    return data;
   }
-  return data;
+  return {};
 };
 
 export const getUserLocal = () => {
   let user = getLocalItem("user");
   if (user) return user;
-  return "";
+  return {};
 };
 
 export const removeLocalItem = (name: string) => {
@@ -142,5 +140,5 @@ export const covertQuerySearch = (object: Object) => {
     )
     .join("&");
 
-   return `?${filteredParams}`;
+  return `?${filteredParams}`;
 };

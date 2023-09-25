@@ -53,6 +53,7 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
                 // }
             }
             const result = {
+                status:200,
                 data: null,
                 success: false,
                 headers: null,
@@ -62,6 +63,7 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
             try {
                 result.success = Math.floor(response.status / 200) === 1;
                 if (result.success) {
+                    result.status = response.status;
                     result.data = response.data;
                     result.success = true;
                     result.errors = [];
@@ -84,12 +86,12 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
                 if (error.response.status === 403) {
                     // message.error("AUTHENTICATION PERMISSION DENINE");
                     if (error.response.data.error_code ==="INVALID_TOKEN_OR_EXPIRE"){
-                        removeLocalItem("user");
+                        removeLocalItem("userToken");
                         setTimeout(reloadToLogin, 2000);
                     }
                 }
                 if (error.response.status === 401) {
-                    removeLocalItem("user")
+                    removeLocalItem("userToken")
                 } 
                 return error.response;
             } else {
@@ -103,6 +105,6 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
         });
 }
 
-export function api(method:string, url:string, data:any, params:any, headers:any) {
+export function api(method:string, url:string, data?:any, params?:any, headers?:any) {
     return execApi(method, url, data, params, headers);
 }

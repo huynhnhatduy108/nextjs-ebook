@@ -102,7 +102,7 @@ function ContactFormModel(props: IProps) {
             onChange={(event) =>
               handleChangeValue("content", event.target.value)
             }
-          ></textarea>
+          />
         </div>
         <div
             style={{
