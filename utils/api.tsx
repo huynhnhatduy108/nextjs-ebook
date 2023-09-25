@@ -10,6 +10,9 @@ async function reloadToLogin() {
     await window.location.replace("/admin/login");
 }
 
+const userLocal:any= getUserLocal();
+
+
 export const METHOD = {
     GET: "get",
     POST: "post",
@@ -34,7 +37,6 @@ const API = axios.create({
     withCredentials: true,
 });
 
-const userLocal:any= getUserLocal();
 
 function execApi(method:string, url:string, data:any, params:any, headers:any) {
     return API.request({

@@ -1,31 +1,19 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
 import {
-  Avatar,
   Paper,
-  Typography,
-  Rating,
-  Dialog,
-  Button,
   Modal,
-  Tabs,
-  Tab,
 } from "@mui/material";
-import Link from "next/link";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Lexend_Deca } from "next/font/google";
 import styles from "./authform.module.css";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import { api } from "@/utils/api";
 import Notification from "../Notification";
-import { setLocalItem } from "@/utils/helper";
-import { apiLogin } from "@/store/features/auth/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthSlice, login } from "@/store/features/auth/slice";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -50,6 +38,16 @@ function AuthFormModel(props: IProps) {
   const [user, setUser] = useState({ ...formInit });
   const [isNotification, setIsNotification] = useState<boolean>(false);
 
+  const authStore = useSelector(getAuthSlice);
+  const dataUser = authStore.data;
+  console.log("authStore==>", authStore);
+
+  useEffect(()=>{ 
+    if(dataUser && dataUser?.access_token){
+      setUser({...formInit})
+    }
+  },[dataUser])
+  
 
   const handleChangeValue = (key: string, value: string) => {
     setUser({ ...user, [key]: value });
@@ -58,7 +56,7 @@ function AuthFormModel(props: IProps) {
   const handleSubmit = async () => {
 
     if (isSingin){
-       dispatch(apiLogin({username: user.username,password: user.password}))
+      dispatch(login({username: user.username,password: user.password}))      
     }
     else{
       // const data = {

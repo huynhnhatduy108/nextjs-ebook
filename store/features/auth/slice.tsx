@@ -31,8 +31,6 @@ const AuthSlice = createSlice({
 
         // Login
         login(state, action) {
-            console.log("loginAction===>", action);
-
             state.isFetching = true
             state.errors = []
         },
@@ -79,7 +77,7 @@ export const registerError = AuthSlice.actions.registerError;
 
 
 // ************************** Store *******************************
-export const getAuthSlice = (state:any) => state.Auth;
+export const getAuthSlice = (state:any) => state.auth;
 
 const AuthReducer = AuthSlice.reducer;
 export default AuthReducer;
