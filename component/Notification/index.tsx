@@ -1,29 +1,47 @@
-import * as React from "react";
-
+"use client"
+import React, { useEffect } from "react";
+import {
+  getNotificationSlice,
+  clearNotification,
+} from "@/store/features/notification/slice";
 import Box from "@mui/material/Box";
 import Snackbar from "@mui/material/Snackbar";
+import { useDispatch, useSelector } from "react-redux";
 
-interface Props {
-  open: boolean;
-  onClose?: () => void;
-  mess?: string;
-  type?: string;
-}
+export default function Notification() {
+  const dispatch = useDispatch();
+  const notiState = useSelector(getNotificationSlice);
 
+  const {
+    isShow = false,
+    duration = 1000,
+    message = "Thong bao!",
+    type = "default",
+  } = notiState;
 
-export default function Notification(props: Props) {
-  const { open, onClose, mess = "Hello Ebook!", type="default" } = props;
+  useEffect(() => {
+    if (isShow) {
+      const timeOut = setTimeout(() => {
+        dispatch(clearNotification());
+      }, duration);
 
-  const colors:{ [key: string]: string } = {
-    success:"#00cc33",
-    error:"#e60000",
-    info:"#1976d1",
-    warnming:"#cc6600",
-    default:"#1976d1"
-}
-  const handleClose = () => {
-    onClose && onClose();
+      return () => clearTimeout(timeOut);
+    }
+  }, [isShow]);
+
+  const colors: { [key: string]: string } = {
+    success: "#00cc33",
+    error: "#e60000",
+    info: "#1976d1",
+    warnming: "#cc6600",
+    default: "#1976d1",
   };
+
+  const handleClose = () => {
+    dispatch(clearNotification());
+  };
+
+  if (!isShow) return null;
 
   return (
     <Box sx={{ width: 400 }}>
@@ -33,11 +51,11 @@ export default function Notification(props: Props) {
             backgroundColor: colors[type],
           },
         }}
-        autoHideDuration={1000}
+        autoHideDuration={duration}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        open={open}
+        open={isShow}
         onClose={handleClose}
-        message={mess}
+        message={message}
         key="top right"
       />
     </Box>

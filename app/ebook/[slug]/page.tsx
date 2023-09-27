@@ -73,8 +73,6 @@ export default async function EbookDetail({ params: { slug } }: Params) {
   const bookDetail = await getBook(slug);
   const categories = await getCategories();
 
-  console.log("bookDetail==>", bookDetail);
-
   return (
     <main style={{ minHeight: "100vh" }}>
       {bookDetail ? (

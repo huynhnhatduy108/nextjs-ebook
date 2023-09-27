@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
 import { Avatar, Paper, Typography } from "@mui/material";
@@ -9,55 +9,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Lexend_Deca } from "next/font/google";
 
 import styles from "./comment.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
+import { FormatDate } from "@/utils/helper";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
-const comments = [
-  {
-    id: 1,
-    commment:
-      "Nếu như bạn mong muốn giao tiếp tiếng Anh thành thạo, chuyên nghiệp từ 3 tới 6 tháng thì cuốn sách này sẽ làm bạn thất vọng. Thực tế cho thấy chưa có ai mới bắt đầu học tiếng Anh có thể giao tiếp được trôi chảy trong thời gian từ 3 – 6 tháng. Đó là ảo tưởng. Nhưng nếu như bạn đang Tìm kiế làm như thế nào có thể sử dụng tiếng Anh giao tiếp thành thạo, chuyên nghiệp trong 1 năm tới thì xin chúc mừng bạn. ",
-    sub: [],
-  },
-  {
-    id: 2,
-    commment: "Apecoin là gì?",
-    sub: [
-      {
-        id: 7,
-        commment: "Apecoin là token quản trị phi tập trung (DAO) ",
-      },
-      { id: 8, commment: "Điểm nổi bật của Apecoin  " },
-      {
-        id: 9,
-        commment: "The APE Foundation sử dụng Ecosystem Fund,",
-      },
-    ],
-  },
-  {
-    id: 3,
-    commment: "Apecoin là token quản trị phi tập trung (DAO) ",
-    sub: [],
-  },
-  {
-    id: 4,
-    commment: "Điểm nổi bật của Apecoin  ",
-    sub: [
-      {
-        id: 10,
-        commment: "Apecoin là token quản trị phi tập trung (DAO) ",
-      },
-      { id: 11, commment: "Điểm nổi bật của Apecoin  " },
-    ],
-  },
-  { id: 5, commment: "The APE Foundation sử dụng Ecosystem Fund,", sub: [] },
-  { id: 6, commment: "ahsahsaskasnaksa s sds sd sd sd sd s ds ds d", sub: [] },
-];
 interface IProps {
   id: string;
+}
+
+const countComment = (comments:any)=>{  
+  if(!comments.length) return 0
+  let count = comments.length;
+  for (let index = 0; index < comments.length; index++) {
+    count += comments[index].sub_comments.length;
+  }
+  return count;
 }
 
 function Comment(props: IProps) {
@@ -90,6 +59,8 @@ function Comment(props: IProps) {
     }
   }, [id]);
 
+  const countComments = useMemo(() => countComment(comments), [comments]);
+
   const handleClickReply = (id: string | number) => {
     setCommentReplyText("");
     setCurrentComentId(id === currentComentId ? "" : id);
@@ -107,10 +78,13 @@ function Comment(props: IProps) {
     bookId: string | number,
     parentId: string | number
   ) => {
+
+    console.log("bookId==>", bookId);
+    
     if (!parentId) {
       console.log("id, commentText", bookId, commentText);
     } else {
-      console.log("id, commentReplyText", bookId, commentReplyText);
+      console.log("id, commentReplyText", bookId, parentId,commentReplyText);
     }
   };
 
@@ -119,7 +93,7 @@ function Comment(props: IProps) {
       <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
         <Typography
           className={lexendDeca.className}
-        >{`Binh luan (${0})`}</Typography>
+        >{`Binh luan (${countComments})`}</Typography>
         {/* Main comment */}
         <Box
           sx={{
@@ -158,7 +132,7 @@ function Comment(props: IProps) {
               borderRadius: "4px",
               cursor: "pointer",
             }}
-            onClick={() => handleSendComment("", "")}
+            onClick={() => handleSendComment(id, "")}
           >
             Gui
           </Box>
@@ -199,14 +173,14 @@ function Comment(props: IProps) {
                       fontWeight="500"
                       className={lexendDeca.className}
                     >
-                      Nhat Duy
+                      {comment?.user_comment.full_name}
                     </Typography>
                     <Typography
                       fontSize="13px"
                       color="gray"
                       className={lexendDeca.className}
                     >
-                      28/07/2023 - 08:56
+                     {FormatDate(comment.created_at)}
                     </Typography>
                   </Box>
                 </Box>
@@ -219,7 +193,7 @@ function Comment(props: IProps) {
                     // backgroundColor: "green",
                   }}
                 >
-                  {comment.commment}
+                  {comment.content}
                 </Box>
 
                 <Box sx={{ position: "relative", height: "20px" }}></Box>
@@ -291,7 +265,7 @@ function Comment(props: IProps) {
                       borderRadius: "4px",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleSendComment("", comment._id)}
+                    onClick={() => handleSendComment(id, comment._id)}
                   >
                     Gui
                   </Box>
@@ -300,7 +274,7 @@ function Comment(props: IProps) {
                 ""
               )}
               {/* Child comment */}
-              {comment.sub.map((sub_comment:any) => {
+              {comment?.sub_comments && comment.sub_comments.map((sub_comment:any) => {
                 return (
                   <Box
                     key={sub_comment._id}
@@ -326,14 +300,14 @@ function Comment(props: IProps) {
                           fontWeight="500"
                           className={lexendDeca.className}
                         >
-                          Nhat Duy
+                         {sub_comment?.user_comment.full_name}
                         </Typography>
                         <Typography
                           fontSize="13px"
                           color="gray"
                           className={lexendDeca.className}
                         >
-                          28/07/2023 - 08:56
+                          {FormatDate(sub_comment.created_at)}
                         </Typography>
                       </Box>
                     </Box>
@@ -345,7 +319,7 @@ function Comment(props: IProps) {
                         fontSize: "14px",
                       }}
                     >
-                      {sub_comment.commment}
+                      {sub_comment.content}
                     </Box>
                   </Box>
                 );

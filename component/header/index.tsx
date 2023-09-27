@@ -29,6 +29,8 @@ import styles from "./header.module.css";
 import { Lexend_Deca } from "next/font/google";
 import AuthFormModel from "../AuthForm";
 import { getLocalItem, removeLocalItem } from "@/utils/helper";
+import { clearLogin, getAuthSlice } from "@/store/features/auth/slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const lexendDeca = Lexend_Deca({
   weight: "300",
@@ -73,8 +75,13 @@ const userToken: any = getLocalItem("userToken");
 
 function ResponsiveAppBar() {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const subMenuRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  
+  const authStore = useSelector(getAuthSlice);
+  const userSignin = authStore.login;
 
   const [userMenu, setUserMenu] = useState<boolean>(false);
   const [isShowSideBar, setIsShowSideBar] = useState<boolean>(false);
@@ -83,6 +90,7 @@ function ResponsiveAppBar() {
   const [isOpenModelAuth, setIsOpenModelAuth] = useState<boolean>(false);
   const [keyWord, setKeyWord] = useState<string>("");
   const [userLocal, setUserLocal] = useState<any>({});
+  
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -108,13 +116,13 @@ function ResponsiveAppBar() {
 
   // set user from localStroge
   useEffect(() => {
-    if (userToken.access_token) {
-      setUserLocal({ ...userLocal, ...userToken });
+    if (userToken.access_token || userSignin?.access_token) {
+      setUserLocal({ ...userLocal, ...userToken, ...userSignin });
       setIsLogin(true);
     } else {
       setIsLogin(false);
     }
-  }, [userToken]);
+  }, [userToken, userSignin]);
 
   const handleExpand = (key: string, link: string, isDirect: boolean) => {
     const keyExpand = key === expandKey ? "" : key;
@@ -161,8 +169,9 @@ function ResponsiveAppBar() {
 
   const hanldleLogout =() =>{
     removeLocalItem("userToken");
-    setUserLocal({})
     setUserMenu(false);
+    window.location.reload()
+    
   }
 
   return (

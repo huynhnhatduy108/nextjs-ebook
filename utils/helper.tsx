@@ -4,8 +4,8 @@ export const convertObjKey = (dataForm: any) => {
   return {};
 };
 
-export const FomatDate = (date: any) => {
-  if (date) return date.format("DD/MM/YYYY");
+export const FormatDate = (date: any) => {
+  if (date) return moment(date).format("DD/MM/YYYY HH:mm");
   return "";
 };
 

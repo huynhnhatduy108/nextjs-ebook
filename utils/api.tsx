@@ -39,12 +39,23 @@ const API = axios.create({
 
 
 function execApi(method:string, url:string, data:any, params:any, headers:any) {
+
+    const authHeaders:{Authorization:string} = {Authorization:''};
+    if (userLocal && userLocal.access_token) {
+        authHeaders.Authorization = `Bearer ${userLocal.access_token}`;
+    }
+    const requestHeaders = {
+        ...authHeaders,
+        "Content-Type": "application/json",
+        ...headers,
+    };
+
     return API.request({
         method: method,
         url: url,
         data: data,
         params: params,
-        headers: { Authorization: ` Bear ${userLocal?.access_token}`, ...headers },
+        headers: requestHeaders,
     })
         .then((response) => {
             if ("access_token" in response.headers) {

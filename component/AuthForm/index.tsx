@@ -1,19 +1,16 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
-import {
-  Paper,
-  Modal,
-} from "@mui/material";
+import { Paper, Modal } from "@mui/material";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Lexend_Deca } from "next/font/google";
 import styles from "./authform.module.css";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Notification from "../Notification";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthSlice, login } from "@/store/features/auth/slice";
+import { clearRegister, getAuthSlice, login, register } from "@/store/features/auth/slice";
+import { setNotification } from "@/store/features/notification/slice";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -26,6 +23,7 @@ interface IProps {
 
 const formInit = {
   username: "",
+  full_name:"",
   email: "",
   password: "",
   confirmPassword: "",
@@ -33,42 +31,53 @@ const formInit = {
 
 function AuthFormModel(props: IProps) {
   const { open, onClose } = props;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [isSingin, setIsSingin] = useState<boolean>(true);
   const [user, setUser] = useState({ ...formInit });
-  const [isNotification, setIsNotification] = useState<boolean>(false);
 
   const authStore = useSelector(getAuthSlice);
-  const dataUser = authStore.data;
-  console.log("authStore==>", authStore);
+  const userLogin = authStore.login;
+  const userRegister = authStore.register;
 
-  useEffect(()=>{ 
-    if(dataUser && dataUser?.access_token){
-      setUser({...formInit})
+  useEffect(() => {
+    if (userLogin && userLogin?.access_token) {
+      setUser({ ...formInit });
+      onClose && onClose();
     }
-  },[dataUser])
-  
+    if (userRegister && userRegister?._id){
+      dispatch(setNotification({message:"Dang ky thanh cong", type: "success"}));
+      dispatch(clearRegister());
+      setIsSingin(true); 
+    }
+  }, [userLogin, userRegister]);
+
 
   const handleChangeValue = (key: string, value: string) => {
     setUser({ ...user, [key]: value });
   };
 
   const handleSubmit = async () => {
-
-    if (isSingin){
-      dispatch(login({username: user.username,password: user.password}))      
+    if (isSingin) {
+      const data = {
+        username: user.username,
+        password: user.password,
+      };
+      dispatch(login(data));
+    } else {
+      const data = {
+        username: user.username,
+        email: user.email,
+        full_name: user.full_name,
+        avatar_url: "",
+        password: user.password,
+      };
+      if(user.password!= user.confirmPassword){
+         dispatch(setNotification({message:"Mat khau xac nhan khong giong nhau", type: "error"}));
+      }
+      else{
+        dispatch(register(data));
+      }
     }
-    else{
-      // const data = {
-    //   username: user.username,
-    //   email: user.email,
-    //   full_name: user.email,
-    //   avatar_url: "",
-    //   password: user.password,
-    // };
-    // const res = await api("POST", "/auth/register", data,"",{});
-    }
-    
   };
 
   const changeForm = () => {
@@ -89,7 +98,6 @@ function AuthFormModel(props: IProps) {
           position: "relative",
         }}
       >
-        <Notification  open={isNotification} onClose={()=>setIsNotification(false)} mess={"Dang nhap that bai"}/>
         <div>
           <div>
             <p
@@ -113,6 +121,20 @@ function AuthFormModel(props: IProps) {
               }
             />
           </div>
+          {!isSingin ? (
+            <div style={{ width: "90%", margin: "0px auto" }}>
+              <input
+                placeholder="Ho ve ten"
+                className={`${styles.auth_input} ${lexendDeca.className}`}
+                value={user.full_name}
+                onChange={(event) =>
+                  handleChangeValue("full_name", event.target.value)
+                }
+              />
+            </div>
+          ) : (
+            ""
+          )}
           {!isSingin ? (
             <div style={{ width: "90%", margin: "0px auto" }}>
               <input
@@ -239,7 +261,7 @@ function AuthFormModel(props: IProps) {
           </div>
 
           {/* Facebook login */}
-          <div
+          {/* <div
             style={{
               height: "42px",
               backgroundColor: "#3b5998",
@@ -278,7 +300,7 @@ function AuthFormModel(props: IProps) {
             >
               Dang nhap bang Facebook
             </p>
-          </div>
+          </div> */}
 
           <p
             style={{

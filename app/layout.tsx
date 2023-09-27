@@ -6,6 +6,7 @@ import style from "./page.module.css";
 import { Providers } from "@/store/provider";
 import dynamic from "next/dynamic";
 
+const Notification = dynamic(() => import("./../component/Notification"));
 const Header = dynamic(() => import("./../component/Header"));
 const Footer = dynamic(() => import("./../component/Footer"));
 
@@ -30,6 +31,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <Providers>
+          <Notification/>
           <Header />
           {children}
           <Footer />
