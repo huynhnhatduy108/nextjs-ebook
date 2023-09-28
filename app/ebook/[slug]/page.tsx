@@ -22,7 +22,7 @@ import { htmlToPlainText } from "@/utils/helper";
 import EbookNotFound from "@/component/Ebook/NotFound";
 import EbookRelate from "@/component/Ebook/EbookRelate";
 
-const Comment = dynamic(() => import("@/component/Comment"));
+const Comment = dynamic(() => import("@/component/Comment").then((mod)=>mod.default));
 
 type Params = {
   params: {
