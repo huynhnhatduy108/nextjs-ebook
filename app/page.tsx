@@ -33,7 +33,7 @@ const getBooks = async () => {
 	try {
 		const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24&ordering=-views`);
 		if (res.status ===200) return await res.json();
-		return []
+		return {}
 	} catch (err) {
 		console.log(err);
 	}
@@ -41,9 +41,9 @@ const getBooks = async () => {
 
 const getPosts = async () => {
 	try {
-		// const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24&ordering=-views`);
-		// if (res.status ===200) return await res.json();
-		return []
+		const res = await fetch(`http://localhost:8000/post/?page=1&page_size=12&ordering=-views`);
+		if (res.status ===200) return await res.json();
+		return {}
 	} catch (err) {
 		console.log(err);
 	}
@@ -55,7 +55,9 @@ export default async function Home() {
   const categories = listCate?.slice(0, 12)
   const ebookPaging = await getBooks()
   const ebooks = ebookPaging?.items  
-  
+  const postPaging = await getPosts()
+  const postsT = postPaging?.items  
+
     
   return (
     <main style={{ minHeight: "100vh" }}>

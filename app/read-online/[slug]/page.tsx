@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -18,11 +17,9 @@ import {
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Comment from "@/component/Comment";
 
 import styles from "./page.module.css";
-
-const Comment = dynamic(() => import("./../../../component/Comment"));
-
 
 const tags = ["asdsadassa", "sacascsacsa", "sacascsac"];
 

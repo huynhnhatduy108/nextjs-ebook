@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,16 +16,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
-import Comment from "@/component/Comment";
+import { htmlToPlainText } from "@/utils/helper";
+
+// import Comment from "@/component/Comment";
+import EbookNotFound from "@/component/Ebook/NotFound";
 import EbookRelate from "@/component/Ebook/EbookRelate";
 
-import { Lexend_Deca } from "next/font/google";
-import { htmlToPlainText } from "@/utils/helper";
-import EbookNotFound from "@/component/Ebook/NotFound";
-
-const lexendDeca = Lexend_Deca({
-  subsets: ["vietnamese"],
-});
+const Comment = dynamic(() => import("./../../../component/Comment"));
 
 type Params = {
   params: {

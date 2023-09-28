@@ -34,14 +34,10 @@ const formInit = {
 function AuthFormModel() {
   const dispatch = useDispatch();
   const authSlice = useSelector(getAuthSlice);
-  const { isOpen } = authSlice;
+  const { isOpen, login:userLogin, register:userRegister } = authSlice;
 
   const [isSingin, setIsSingin] = useState<boolean>(true);
   const [user, setUser] = useState({ ...formInit });
-
-  const authStore = useSelector(getAuthSlice);
-  const userLogin = authStore.login;
-  const userRegister = authStore.register;
 
   useEffect(() => {
     if (userLogin && userLogin?.access_token) {
@@ -239,7 +235,7 @@ function AuthFormModel() {
 
           {/* Google login */}
           <LoginSocialGoogle
-            client_id={"client-id"}
+            client_id={"1082673185880-teesr0b5dc8c8kj1m24motld8aq7g4si.apps.googleusercontent.com"}
             scope="openid profile email"
             discoveryDocs="claims_supported"
             access_type="offline"

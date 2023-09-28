@@ -1,0 +1,213 @@
+
+.post_relate{
+    padding: 10px;
+}
+.post_relate_container{
+    display: flex;
+    margin: 10px 0px;
+    cursor: pointer;
+    transition: transform 0.1s linear;
+
+}
+.post_relate_container:hover{
+    transform: translate(1px, -1px);
+
+}
+
+.post_relate_image{
+
+}
+
+.post_relate_thumbnail{
+    /* width: 100%; */
+    width:115px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 4px;
+
+}
+
+.post_relate_intro{
+    flex: 1;
+    padding-left: 10px;
+}
+
+.post_relate_title{
+    text-align: justify;
+    font-weight: 450;
+    margin: 0px;
+    height: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Limit the text to two lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post_relate_content{
+    text-align: justify;
+    margin: 0px;
+    font-size: 14px;
+    margin-top: 4px;
+    height: 35px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit the text to two lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* setting comon attribute mobile and table */
+@media (max-width: 739px) {
+    
+}
+
+@media (max-width: 500px) {
+   
+}
+
+@media (min-width: 501px) and (max-width: 600px) {
+
+}
+
+
+
+@media (min-width: 601px) and (max-width: 739px) {
+
+}
+
+@media (min-width: 740px) and (max-width: 900px) {
+   
+    .post_relate{
+        padding: 20px;
+    }
+
+    .post_relate_image{
+
+    }
+    
+    .post_relate_thumbnail{
+        /* width: 100%; */
+        width:160px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 4px;
+    
+    }
+   
+    .post_relate_title{
+        text-align: justify;
+        font-weight: 450;
+        margin: 0px;
+        height: 20px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* Limit the text to two lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .post_relate_content{
+        text-align: justify;
+        margin: 0px;
+        font-size: 14px;
+        margin-top: 4px;
+        height: 50px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limit the text to two lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (min-width: 901px) and (max-width: 1023px) {
+
+    .post_relate{
+        padding: 20px;
+    }
+
+    .post_relate_image{
+
+    }
+    
+    .post_relate_thumbnail{
+        /* width: 100%; */
+        width:200px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+    
+    }
+   
+    .post_relate_title{
+        text-align: justify;
+        font-weight: 450;
+        margin: 0px;
+        height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Limit the text to two lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .post_relate_content{
+        text-align: justify;
+        margin: 0px;
+        font-size: 14px;
+        margin-top: 4px;
+        height: 50px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limit the text to two lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1200px){
+
+    .post_relate{
+        padding: 20px;
+    }
+
+    .post_relate_image{
+
+    }
+    
+    .post_relate_thumbnail{
+        /* width: 100%; */
+        width:200px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+    
+    }
+   
+    .post_relate_title{
+        text-align: justify;
+        font-weight: 450;
+        margin: 0px;
+        height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Limit the text to two lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .post_relate_content{
+        text-align: justify;
+        margin: 0px;
+        font-size: 14px;
+        margin-top: 4px;
+        height: 50px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limit the text to two lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+}
