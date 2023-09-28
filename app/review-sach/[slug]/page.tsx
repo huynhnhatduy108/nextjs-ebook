@@ -21,8 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./page.module.css";
 
-const Comment = dynamic(() => import("./../../../component/Comment"));
-
+const Comment = dynamic(() => import("@/component/Comment"));
 
 const tags = ["asdsadassa", "sacascsacsa", "sacascsac"];
 

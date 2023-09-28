@@ -7,8 +7,8 @@ import { Providers } from "@/store/provider";
 import dynamic from "next/dynamic";
 
 const Notification = dynamic(() => import("./../component/Notification"));
-const Header = dynamic(() => import("./../component/Header"));
-const Footer = dynamic(() => import("./../component/Footer"));
+const Header = dynamic(() => import("@/component/Header"));
+const Footer = dynamic(() => import("@/component/Footer"));
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
