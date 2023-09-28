@@ -14,6 +14,7 @@ const initialState = {
     isFetching: false,
     login: null,  
     register: null,
+    isOpen:false,
     errors: [],
 }
 
@@ -26,6 +27,7 @@ const AuthSlice = createSlice({
             state.isFetching = false
             state.login = null
             state.register = null
+            state.isOpen= false
             state.errors = []
         },
 
@@ -71,6 +73,17 @@ const AuthSlice = createSlice({
             state.errors = action.payload
         },
 
+        // ModelAuth
+        openModelAuth(state) {
+            state.isOpen = false 
+        },
+
+        closeModelAuth(state) {
+            state.isOpen = false
+        },
+
+
+
 
 }});
 
@@ -87,6 +100,8 @@ export const register = AuthSlice.actions.register;
 export const registerSuccess = AuthSlice.actions.registerSuccess;
 export const registerError = AuthSlice.actions.registerError;
 
+export const openModelAuth = AuthSlice.actions.openModelAuth;
+export const closeModelAuth = AuthSlice.actions.closeModelAuth;
 
 // ************************** Store *******************************
 export const getAuthSlice = (state:any) => state.auth;

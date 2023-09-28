@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,15 +5,10 @@ import {
   Box,
   Container,
   Grid,
-  Typography,
   Paper,
-  Avatar,
   Rating,
 } from "@mui/material";
 import {
-  faComment,
-  faEye,
-  faEnvelope,
   faDownload,
   faBookOpen,
   faCaretRight,
@@ -22,7 +16,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
 import Comment from "@/component/Comment";
-import EbookSlick from "@/component/Ebook/EbookSlick";
 import EbookRelate from "@/component/Ebook/EbookRelate";
 
 import { Lexend_Deca } from "next/font/google";
@@ -516,8 +509,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
               </Grid>
             </Grid>
           </Box>
-          {/* <EbookSlick/> */}
-          <EbookRelate />
+          <EbookRelate id={bookDetail?._id} categoriesId={bookDetail?.categories}/>
         </Container>
       ) : (
         <EbookNotFound />

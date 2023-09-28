@@ -1,16 +1,16 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { getUserLocal, removeLocalItem } from "./helper";
+import { getLocalItem, getUserLocal, removeLocalItem } from "./helper";
 
 export const contentType = (type:string) => {
     return { "Content-Type": type };
 };
 
-async function reloadToLogin() {
+async function reloadPage() {
     await window.localStorage.clear();
-    await window.location.replace("/admin/login");
+    await window.location.reload()
 }
 
-const userLocal:any= getUserLocal();
+const userLocal:any= getLocalItem("userToken");
 
 
 export const METHOD = {
@@ -33,10 +33,9 @@ const API_BASE_URL = "http://localhost:8000"
 
 const API = axios.create({
     baseURL: API_BASE_URL,
-    headers: { Accept: EContentType.JSON, ...contentType(EContentType.JSON) },
+    headers: {...contentType(EContentType.JSON)},
     withCredentials: true,
 });
-
 
 function execApi(method:string, url:string, data:any, params:any, headers:any) {
 
@@ -46,9 +45,8 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
     }
     const requestHeaders = {
         ...authHeaders,
-        "Content-Type": "application/json",
         ...headers,
-    };
+    };      
 
     return API.request({
         method: method,
@@ -58,13 +56,6 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
         headers: requestHeaders,
     })
         .then((response) => {
-            if ("access_token" in response.headers) {
-                // if (getLocalItem('access_token')) {
-                //     let access_token  = getLocalItem('access_token')
-                //     let access_token = response.headers.get("user-token")
-                //     setLocalItem('access_token' , access_token)
-                // }
-            }
             const result = {
                 status:200,
                 data: null,
@@ -100,11 +91,11 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
                     // message.error("AUTHENTICATION PERMISSION DENINE");
                     if (error.response.data.error_code ==="INVALID_TOKEN_OR_EXPIRE"){
                         removeLocalItem("userToken");
-                        setTimeout(reloadToLogin, 2000);
                     }
                 }
                 if (error.response.status === 401) {
                     removeLocalItem("userToken")
+                    reloadPage()
                 } 
                 return error.response;
             } else {

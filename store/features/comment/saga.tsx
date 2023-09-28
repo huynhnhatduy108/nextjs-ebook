@@ -1,53 +1,65 @@
 import { setLocalItem } from "@/utils/helper";
-import {PayloadAction} from "@reduxjs/toolkit";
-import {call, put, select, takeEvery, takeLatest} from "redux-saga/effects";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { call, put, select, takeEvery, takeLatest } from "redux-saga/effects";
 import { setNotification } from "../notification/slice";
-import { apiLogin, apiRegister} from "./api";
-import {  loginError, loginSuccess, registerError, registerSuccess  } from "./slice";
+import {
+  apiCommentEbook,
+  apiCommentPost,
+  apiGetCommentEbook,
+  apiGetCommentPost,
+} from "./api";
+import {
+  getEbookComment,
+  getEbookCommentError,
+  getEbookCommentSuccess,
+  getPostComment,
+  getPostCommentError,
+  getPostCommentSuccess,
+  ebookComment,
+  ebookCommentError,
+  ebookCommentSuccess,
+  postComment,
+  postCommentError,
+  postCommentSuccess,
+} from "./slice";
 
+// Ebook
 
-function* handleLogin(action:any): Generator<any> {
-    try { 
-        const response:any = yield call(
-            apiLogin,
-            action.payload,
-        );        
-
-        if (response.success) {
-            yield put(loginSuccess(response.data));
-            setLocalItem("userToken",response.data)
-        } 
-        else{
-            yield put(setNotification({message:"sai email hoac mat khau", type: "error"}));
-            yield put(loginError(response.data));
-        }
-    } catch (error) {
-        yield put(setNotification({message:"sai email hoac mat khau", type: "error"}));
-        yield put(loginError(error));
-    }
-}
-
-function* handleRegister(action:any): Generator<any> {
+// Ebook
+function* handleGetCommentEbook(action: any): Generator<any> {    
     try {
-        const response:any= yield call(
-            apiRegister,
-            action.payload,
-        );
-        if (response.success) {
-            yield put(registerSuccess(response.data));
-        } 
-        else{            
-            yield put(setNotification({message:response?.data?.detail, type: "error"}));
-            yield put(registerError(response.data));
-
-        }
+      const response: any = yield call(apiGetCommentEbook, action.payload);
+      if (response.success) {
+        yield put(getEbookCommentSuccess(response.data));
+      } else {
+        yield put(getEbookCommentError(response.data));
+      }
     } catch (error) {
-        yield put(setNotification({message:"Dang ki that bai", type: "error"}));
-        yield put(registerSuccess(error));
+      yield put(getEbookCommentError(error));
     }
+  }
+
+function* handleCommentEbook(action: any): Generator<any> {
+    try {
+        const response: any = yield call(apiCommentEbook, action.payload);
+    
+        if (response.success) {
+          yield put(ebookCommentSuccess(response.data));
+          yield put(getEbookComment(action.payload.ebook_id));
+        } else {
+          yield put(ebookCommentError(response.data));
+        }
+      } catch (error) {
+      
+        yield put(ebookCommentError(error));
+      }
 }
 
-export default function* AuthSaga() {
-    yield takeLatest("Auth/login", handleLogin);
-    yield takeLatest("Auth/register", handleRegister);
+// post
+
+
+
+export default function* CommentSaga() {
+  yield takeLatest("Comment/getEbookComment", handleGetCommentEbook);
+  yield takeLatest("Comment/ebookComment", handleCommentEbook);
 }

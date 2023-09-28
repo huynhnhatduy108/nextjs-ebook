@@ -1,95 +1,149 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-export const AUTH_ACTION ={
-    LOGIN:"LOGIN",
-    REGISTER:"REGISTER"
-}
-
-// Action creator
-export const loginAction = (payload:any) => ({
-  type: AUTH_ACTION.LOGIN,
-  payload,
-});
 
 const initialState = {
     isFetching: false,
-    login: null,  
-    register: null,
+    ebook: {
+        list:[],
+        comment:{}
+    },  
+    post: {
+        list:[],
+        comment:{}
+    },
     errors: [],
 }
 
-const AuthSlice = createSlice({
-    name: "Auth",
+const CommentSlice = createSlice({
+    name: "Comment",
     initialState,
     reducers: {
 
-        clearStoreAuth(state){
+        clearStoreComment(state){
             state.isFetching = false
-            state.login = null
-            state.register = null
+            state.ebook = {
+                list:[],
+                comment:{}
+            }, 
+            state.post =  {
+                list:[],
+                comment:{}
+            },
             state.errors = []
         },
 
-        // Login
-        clearLogin(state){
-            state.login = null
+        // clear ebook comment
+        clearEbookComment(state){
+            state.ebook =  {
+                list:[],
+                comment:{}
+            },
             state.errors = []
         },
 
-        login(state, action) {
+        // get list comment by ebook id
+        getEbookComment(state, action) {
             state.isFetching = true
             state.errors = []
         },
-        loginSuccess(state, action) {
+        getEbookCommentSuccess(state, action) {
             state.isFetching = false
-            state.login = action.payload
+            state.ebook.list = action.payload
             state.errors = []
         },
-        loginError(state, action) {
+        getEbookCommentError(state, action) {
             state.isFetching = false
-            state.login =null
             state.errors = action.payload
         },
 
-        // Resgister
-        clearResgister(state){
-            state.register = null
-            state.errors = []
-        },
-
-        register(state, action) {
+        // create ebook comment  
+        ebookComment(state, action) {
             state.isFetching = true
             state.errors = []
         },
-        registerSuccess(state, action) {
+        ebookCommentSuccess(state, action) {
             state.isFetching = false
-            state.register = action.payload
+            state.ebook.comment = action.payload
             state.errors = []
         },
-        registerError(state, action) {
+        ebookCommentError(state, action) {
             state.isFetching = false
-            state.register =null
             state.errors = action.payload
         },
+
+
+
+        clearPostComment(state){
+            state.post =  {
+                list:[],
+                comment:{}
+            },
+            state.errors = []
+        },
+
+         // get list comment by ebook id
+         getPostComment(state, action) {
+            state.isFetching = true
+            state.errors = []
+        },
+        getPostCommentSuccess(state, action) {
+            state.isFetching = false
+            state.post.list = action.payload
+            state.errors = []
+        },
+        getPostCommentError(state, action) {
+            state.isFetching = false
+            state.errors = action.payload
+        },
+
+        // create post comment
+        postComment(state, action) {
+            state.isFetching = true
+            state.errors = []
+        },
+        postCommentSuccess(state, action) {
+            state.isFetching = false
+            state.post.comment = action.payload
+            state.errors = []
+        },
+        postCommentError(state, action) {
+            state.isFetching = false
+            state.post.comment = {}
+            state.errors = action.payload
+        },
+
+
+
 
 
 }});
 
 // ************************** Action *******************************
-export const clearStoreAuth = AuthSlice.actions.clearStoreAuth;
+export const clearStoreComment = CommentSlice.actions.clearStoreComment;
 
-export const clearLogin = AuthSlice.actions.clearLogin;
-export const login = AuthSlice.actions.login;
-export const loginSuccess = AuthSlice.actions.loginSuccess;
-export const loginError = AuthSlice.actions.loginError;
+export const clearEbookComment = CommentSlice.actions.clearEbookComment;
+export const ebookComment = CommentSlice.actions.ebookComment;
+export const ebookCommentSuccess = CommentSlice.actions.ebookCommentSuccess;
+export const ebookCommentError = CommentSlice.actions.ebookCommentError;
 
-export const clearRegister = AuthSlice.actions.clearResgister;
-export const register = AuthSlice.actions.register;
-export const registerSuccess = AuthSlice.actions.registerSuccess;
-export const registerError = AuthSlice.actions.registerError;
+export const getEbookComment = CommentSlice.actions.getEbookComment;
+export const getEbookCommentSuccess = CommentSlice.actions.getEbookCommentSuccess;
+export const getEbookCommentError = CommentSlice.actions.getEbookCommentError;
+
+export const clearpostComment = CommentSlice.actions.clearPostComment;
+export const postComment = CommentSlice.actions.postComment;
+export const postCommentSuccess = CommentSlice.actions.postCommentSuccess;
+export const postCommentError = CommentSlice.actions.postCommentError;
+
+export const getPostComment = CommentSlice.actions.getPostComment;
+export const getPostCommentSuccess = CommentSlice.actions.getPostCommentSuccess;
+export const getPostCommentError = CommentSlice.actions.getPostCommentError;
 
 
 // ************************** Store *******************************
-export const getAuthSlice = (state:any) => state.auth;
+export const getCommentSlice = (state:any) => state.comment;
+export const getEbookCommentSlice = (state:any) => state.comment.ebook;
+export const getPostCommentSlice = (state:any) => state.comment.post;
 
-const AuthReducer = AuthSlice.reducer;
-export default AuthReducer;
+
+const CommentReducer = CommentSlice.reducer;
+export default CommentReducer;

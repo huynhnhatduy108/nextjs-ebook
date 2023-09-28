@@ -18,11 +18,11 @@ function* handleLogin(action:any): Generator<any> {
             setLocalItem("userToken",response.data)
         } 
         else{
-            yield put(setNotification({message:"sai email hoac mat khau", type: "error"}));
+            yield put(setNotification({message:"Sai tên đăng nhập hoặc mật khẩu", type: "error"}));
             yield put(loginError(response.data));
         }
     } catch (error) {
-        yield put(setNotification({message:"sai email hoac mat khau", type: "error"}));
+        yield put(setNotification({message:"Sai tên đăng nhập hoặc mật khẩu", type: "error"}));
         yield put(loginError(error));
     }
 }
@@ -42,7 +42,7 @@ function* handleRegister(action:any): Generator<any> {
 
         }
     } catch (error) {
-        yield put(setNotification({message:"Dang ki that bai", type: "error"}));
+        yield put(setNotification({message:"Đăng ký thất bại", type: "error"}));
         yield put(registerSuccess(error));
     }
 }

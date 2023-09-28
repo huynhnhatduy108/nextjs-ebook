@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
 import { Avatar, Paper, Typography, Rating, Grid } from "@mui/material";
@@ -15,7 +15,15 @@ const lexendDeca = Lexend_Deca({
 
 const ebooks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-function EbookRelate() {
+interface Iprops{
+  id: string;
+  categoriesId: string[]
+}
+
+function EbookRelate(props: Iprops) {
+  const {id, categoriesId}= props;
+  console.log("ebook relate", id, categoriesId);
+
   return (
     <Box sx={{ width: "100%", margin: "20px 0px" }}>
       <Box
@@ -30,7 +38,7 @@ function EbookRelate() {
           fontWeight="bold"
           className={lexendDeca.className}
         >
-          Sách được đọc nhiều nhất
+          Các tựa sách liên quan
         </Typography>
         <Link
           href="/ebook"

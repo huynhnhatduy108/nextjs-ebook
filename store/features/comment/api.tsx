@@ -3,10 +3,21 @@ import { api, METHOD } from "@/utils/api";
 import { formatPath } from "@/utils/helper";
 import CommentPath from "./path";
 
-export const getCommentEbook= (payload:any) => {
-  return api(METHOD.GET,formatPath(CommentPath.CommentByEbookId), payload);
+// ebook
+export const apiCommentEbook= (payload:any) => {
+  return api(METHOD.POST,formatPath(CommentPath.CommentToEbook), payload);
 }
 
-export const apiRegister = (payload:any) => {
-  return api(METHOD.POST,formatPath(CommentPath.CommentByPostId), payload);
+export const apiGetCommentEbook= (id:string) => {
+  return api(METHOD.GET,formatPath(CommentPath.CommentByEbookId,id));
+}
+
+// post
+
+export const apiCommentPost= (payload:any) => {
+  return api(METHOD.POST,formatPath(CommentPath.CommentToPost), payload);
+}
+
+export const apiGetCommentPost = (id:string) => {
+  return api(METHOD.GET,formatPath(CommentPath.CommentByPostId, id));
 }

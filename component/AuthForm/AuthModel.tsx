@@ -1,4 +1,5 @@
 "use client";
+import { LoginSocialGoogle } from "reactjs-social-login";
 import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
 import { Paper, Modal } from "@mui/material";
@@ -9,29 +10,32 @@ import styles from "./authform.module.css";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { clearRegister, getAuthSlice, login, register } from "@/store/features/auth/slice";
+import {
+  clearRegister,
+  closeModelAuth,
+  getAuthSlice,
+  login,
+  register,
+} from "@/store/features/auth/slice";
 import { setNotification } from "@/store/features/notification/slice";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
-interface IProps {
-  open: boolean;
-  onClose?: () => void;
-}
-
 const formInit = {
   username: "",
-  full_name:"",
+  full_name: "",
   email: "",
   password: "",
   confirmPassword: "",
 };
 
-function AuthFormModel(props: IProps) {
-  const { open, onClose } = props;
+function AuthFormModel() {
   const dispatch = useDispatch();
+  const authSlice = useSelector(getAuthSlice);
+  const { isOpen } = authSlice;
+
   const [isSingin, setIsSingin] = useState<boolean>(true);
   const [user, setUser] = useState({ ...formInit });
 
@@ -42,15 +46,23 @@ function AuthFormModel(props: IProps) {
   useEffect(() => {
     if (userLogin && userLogin?.access_token) {
       setUser({ ...formInit });
-      onClose && onClose();
+      hanldeCloseModel();
     }
-    if (userRegister && userRegister?._id){
-      dispatch(setNotification({message:"Đăng ký thanh cong", type: "success"}));
-      dispatch(clearRegister());
-      setIsSingin(true); 
-    }
-  }, [userLogin, userRegister]);
+  }, [userLogin]);
 
+  useEffect(() => {
+    if (userRegister && userRegister?._id) {
+      dispatch(
+        setNotification({ message: "Đăng ký thành công", type: "success" })
+      );
+      dispatch(clearRegister());
+      setIsSingin(true);
+    }
+  }, [userRegister]);
+
+  const hanldeCloseModel = () => {
+    dispatch(closeModelAuth());
+  };
 
   const handleChangeValue = (key: string, value: string) => {
     setUser({ ...user, [key]: value });
@@ -71,10 +83,14 @@ function AuthFormModel(props: IProps) {
         avatar_url: "",
         password: user.password,
       };
-      if(user.password!= user.confirmPassword){
-         dispatch(setNotification({message:"Mat khau xac nhan khong giong nhau", type: "error"}));
-      }
-      else{
+      if (user.password != user.confirmPassword) {
+        dispatch(
+          setNotification({
+            message: "Mật khẩu xác nhận không khớp",
+            type: "error",
+          })
+        );
+      } else {
         dispatch(register(data));
       }
     }
@@ -85,8 +101,10 @@ function AuthFormModel(props: IProps) {
     setUser({ ...formInit });
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={isOpen} onClose={hanldeCloseModel}>
       <Paper
         className={styles.auth_form}
         style={{
@@ -113,7 +131,7 @@ function AuthFormModel(props: IProps) {
           </div>
           <div style={{ width: "90%", margin: "0px auto" }}>
             <input
-              placeholder="Ten Đăng nhập"
+              placeholder="Tên Đăng nhập"
               className={`${styles.auth_input} ${lexendDeca.className}`}
               value={user.username}
               onChange={(event) =>
@@ -220,45 +238,58 @@ function AuthFormModel(props: IProps) {
           </p>
 
           {/* Google login */}
-          <div
-            style={{
-              height: "42px",
-              backgroundColor: "#e60000",
-              borderRadius: "4px",
-              width: "90%",
-              margin: "auto",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
+          <LoginSocialGoogle
+            client_id={"client-id"}
+            scope="openid profile email"
+            discoveryDocs="claims_supported"
+            access_type="offline"
+            onResolve={({ provider, data }) => {
+              console.log("google login", provider, data);
+            }}
+            onReject={(err) => {
+              console.log(err);
             }}
           >
-            <svg
+            <div
               style={{
-                fontSize: "16px",
-                marginRight: "10px",
-                backgroundColor: "white",
-                padding: "5px 8px",
+                height: "42px",
+                backgroundColor: "#e60000",
                 borderRadius: "4px",
-              }}
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 0 320 512"
-            >
-              <path
-                fill="#e60000"
-                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-              />
-            </svg>
-            <p
-              style={{
-                color: "white",
-                margin: "0px",
+                width: "90%",
+                margin: "auto",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
               }}
             >
-              Đăng nhập bang Google
-            </p>
-          </div>
+              <svg
+                style={{
+                  fontSize: "16px",
+                  marginRight: "10px",
+                  backgroundColor: "white",
+                  padding: "5px 8px",
+                  borderRadius: "4px",
+                }}
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 320 512"
+              >
+                <path
+                  fill="#e60000"
+                  d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+                />
+              </svg>
+              <p
+                style={{
+                  color: "white",
+                  margin: "0px",
+                }}
+              >
+                Đăng nhập bằng Google
+              </p>
+            </div>
+          </LoginSocialGoogle>
 
           {/* Facebook login */}
           {/* <div
