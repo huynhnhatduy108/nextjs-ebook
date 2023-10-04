@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
-import { Avatar, Paper, Typography } from "@mui/material";
+import { Avatar, Paper, Typography, Rating } from "@mui/material";
 import Link from "next/link";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,8 +17,8 @@ import {
   getEbookCommentSlice,
 } from "@/store/features/comment/slice";
 import { setNotification } from "@/store/features/notification/slice";
-import AuthFormModel from "../AuthForm";
-import { getAuthSlice } from "@/store/features/auth/slice";
+import { getAuthSlice, openModelAuth } from "@/store/features/auth/slice";
+import { checkRateEbook, getRateSlice } from "@/store/features/common/slice";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -26,6 +26,7 @@ const lexendDeca = Lexend_Deca({
 
 interface IProps {
   id: string;
+  isShowRate?: boolean;
 }
 
 const countComment = (comments: any) => {
@@ -40,11 +41,20 @@ const countComment = (comments: any) => {
 const userLocal: any = getLocalItem("userToken");
 
 function Comment(props: IProps) {
-  const { id } = props;
+  const { id, isShowRate } = props;
   const dispatch = useDispatch();
 
   const ebookCommentStore = useSelector(getEbookCommentSlice);
   const authStore = useSelector(getAuthSlice);
+  const ebookRateStore = useSelector(getRateSlice);
+
+  const {check} = ebookRateStore;
+  const {_id, rate, is_rate} = check;
+
+  console.log("check==>", check);
+  
+
+
   const userLogin = authStore.login;
 
   const listComments = ebookCommentStore.list;
@@ -53,16 +63,12 @@ function Comment(props: IProps) {
   const [commentText, setCommentText] = useState<string>("");
   const [commentReplyText, setCommentReplyText] = useState<string>("");
   const [comments, setComments] = useState<Array<any>>([]);
-  const [isAuth, setIsAuth] = useState(false);
-
-  console.log("isAuth==>", isAuth);
-
-  console.log('userLogin?.access_token || userLocal?.access_token', userLogin?.access_token , userLocal?.access_token);
-  
+  const [currentRate,setCurrentRate] = useState<number>(0);
 
   useEffect(() => {
     if (id) {
       dispatch(getEbookComment(id));
+      userLocal?.access_token && dispatch(checkRateEbook(id));
     }
   }, [id]);
 
@@ -83,6 +89,10 @@ function Comment(props: IProps) {
 
   const handleChangeCommentReply = (value: string) => {
     setCommentReplyText(value);
+  };
+
+  const handleRate = (event: any, newValue: any) => {
+    console.log("newValue==>", newValue);
   };
 
   const handleSendComment = (
@@ -106,19 +116,41 @@ function Comment(props: IProps) {
         dispatch(ebookComment(data));
       }
     } else {
-      setIsAuth(true);
+      dispatch(openModelAuth());
     }
   };
 
   return (
     <Box sx={{ width: "100%" }}>
       {/* Auth model */}
-      <AuthFormModel open={isAuth} onClose={() => setIsAuth(false)} />
       {/* Comment */}
       <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
-        <Typography
-          className={lexendDeca.className}
-        >{`Binh luan (${countComments})`}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            className={lexendDeca.className}
+          >{`Binh luan (${countComments})`}</Typography>
+          {isShowRate ? (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography
+                className={lexendDeca.className}
+              >{`(${3}/${5})`}</Typography>
+              <Rating
+                name="no-value"
+                value={3}
+                style={{ marginLeft: "5px" }}
+                onChange={handleRate}
+              />
+            </Box>
+          ) : (
+            ""
+          )}
+        </Box>
         {/* Main comment */}
         <Box
           sx={{
@@ -323,10 +355,10 @@ function Comment(props: IProps) {
                           alignItems: "center",
                         }}
                       >
-                         <Avatar
-                            alt={sub_comment?.user_comment.full_name}
-                            src={sub_comment?.user_comment?.avatar_url}
-                          />
+                        <Avatar
+                          alt={sub_comment?.user_comment.full_name}
+                          src={sub_comment?.user_comment?.avatar_url}
+                        />
                         <Box sx={{ marginLeft: "10px" }}>
                           <Typography
                             fontWeight="500"

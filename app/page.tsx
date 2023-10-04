@@ -41,7 +41,7 @@ const getBooks = async () => {
 
 const getPosts = async () => {
 	try {
-		const res = await fetch(`http://localhost:8000/post/?page=1&page_size=12&ordering=-views`);
+		const res = await fetch(`http://localhost:8000/post/?page=1&page_size=6&ordering=-views`);
 		if (res.status ===200) return await res.json();
 		return {}
 	} catch (err) {
@@ -56,7 +56,9 @@ export default async function Home() {
   const ebookPaging = await getBooks()
   const ebooks = ebookPaging?.items  
   const postPaging = await getPosts()
-  const postsT = postPaging?.items  
+  const postsT = postPaging?.items;
+  console.log("postsT==>", postsT);
+  
 
     
   return (

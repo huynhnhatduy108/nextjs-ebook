@@ -15,7 +15,8 @@ function* handleLogin(action:any): Generator<any> {
 
         if (response.success) {
             yield put(loginSuccess(response.data));
-            setLocalItem("userToken",response.data)
+            setLocalItem("userToken",response.data);
+            window.location.reload();
         } 
         else{
             yield put(setNotification({message:"Sai tên đăng nhập hoặc mật khẩu", type: "error"}));

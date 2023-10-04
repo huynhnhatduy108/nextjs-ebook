@@ -1,13 +1,12 @@
 import "./globals.css";
 import { Lexend_Deca } from "next/font/google";
-// import Header from "@/component/Header";
 import style from "./page.module.css";
-// import Footer from "@/component/Footer";
 import { Providers } from "@/store/provider";
 import dynamic from "next/dynamic";
 
 const Notification = dynamic(() => import("./../component/Notification"));
-const Header = dynamic(() => import("@/component/Header"));
+const AuthFormModel = dynamic(() => import("./../component/AuthForm"));
+const Header = dynamic(() => import("./../component/Header"));
 const Footer = dynamic(() => import("@/component/Footer"));
 
 const lexendDeca = Lexend_Deca({
@@ -31,6 +30,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <Providers>
+          <AuthFormModel/>
           <Notification/>
           <Header />
           {children}

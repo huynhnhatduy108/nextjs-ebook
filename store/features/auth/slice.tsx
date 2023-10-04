@@ -75,7 +75,7 @@ const AuthSlice = createSlice({
 
         // ModelAuth
         openModelAuth(state) {
-            state.isOpen = false 
+            state.isOpen = true 
         },
 
         closeModelAuth(state) {

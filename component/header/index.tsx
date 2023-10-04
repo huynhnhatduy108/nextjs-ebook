@@ -29,7 +29,7 @@ import styles from "./header.module.css";
 import { Lexend_Deca } from "next/font/google";
 import AuthFormModel from "../AuthForm";
 import { getLocalItem, removeLocalItem } from "@/utils/helper";
-import { clearLogin, getAuthSlice } from "@/store/features/auth/slice";
+import { clearLogin, getAuthSlice, openModelAuth } from "@/store/features/auth/slice";
 import { useDispatch, useSelector } from "react-redux";
 
 const lexendDeca = Lexend_Deca({
@@ -87,7 +87,6 @@ function ResponsiveAppBar() {
   const [isShowSideBar, setIsShowSideBar] = useState<boolean>(false);
   const [expandKey, setExpandKey] = useState<string>("");
   const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [isOpenModelAuth, setIsOpenModelAuth] = useState<boolean>(false);
   const [keyWord, setKeyWord] = useState<string>("");
   const [userLocal, setUserLocal] = useState<any>({});
   
@@ -141,10 +140,6 @@ function ResponsiveAppBar() {
     setIsShowSideBar(!isShowSideBar);
   };
 
-  const hanleOpenCloseModelAuth = () => {
-    setIsOpenModelAuth(!isOpenModelAuth);
-  };
-
   const handleChangeKeyWord = (event: any) => {
     setKeyWord(event.target.value);
   };
@@ -181,8 +176,6 @@ function ResponsiveAppBar() {
         open={isShowSideBar}
         hanleOpenCloseSideBar={hanleOpenCloseSideBar}
       />
-      {/* Auth model */}
-      <AuthFormModel open={isOpenModelAuth} onClose={hanleOpenCloseModelAuth} />
 
       {/* Main header */}
       <Container maxWidth="lg">
@@ -396,7 +389,7 @@ function ResponsiveAppBar() {
                   cursor: "pointer",
                   borderRadius: "5px",
                 }}
-                onClick={() => setIsOpenModelAuth(true)}
+                onClick={() =>dispatch(openModelAuth())}
               >
                 Login
               </Box>

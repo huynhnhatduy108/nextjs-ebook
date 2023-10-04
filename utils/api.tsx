@@ -88,10 +88,8 @@ function execApi(method:string, url:string, data:any, params:any, headers:any) {
                     // message.error("SERVER ERROR. PLEASE WAIT SOME MIMUTES");
                 }
                 if (error.response.status === 403) {
-                    // message.error("AUTHENTICATION PERMISSION DENINE");
-                    if (error.response.data.error_code ==="INVALID_TOKEN_OR_EXPIRE"){
-                        removeLocalItem("userToken");
-                    }
+                    removeLocalItem("userToken");
+                    reloadPage()
                 }
                 if (error.response.status === 401) {
                     removeLocalItem("userToken")

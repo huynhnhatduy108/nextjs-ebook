@@ -104,7 +104,7 @@ export const scrollTo = (top = 0, left = 0, behavior: any = "smooth") => {
 
 // local stroge
 export const getLocalItem = (name: string) => {
-  if (typeof window !== "undefined") {
+  // if (typeof window !== "undefined") {
     let data = localStorage.getItem(name) ?? "";
     try {
       data = JSON.parse(data);
@@ -112,7 +112,7 @@ export const getLocalItem = (name: string) => {
       return {};
     }
     return data;
-  }
+  // }
   return {};
 };
 
