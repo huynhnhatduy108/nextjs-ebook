@@ -70,6 +70,9 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
             >
               {ebookDetail.name}
             </p>
+            <Box>
+
+            </Box>
             <iframe
               src="https://firebasestorage.googleapis.com/v0/b/ebook-389008.appspot.com/o/ebook%2Fpdf%2Fnha-gia-kim-pdf.pdf?alt=media"
               height="900px"

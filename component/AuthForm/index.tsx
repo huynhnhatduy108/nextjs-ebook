@@ -34,10 +34,7 @@ const formInit = {
 function AuthFormModel() {
   const dispatch = useDispatch();
   const authSlice = useSelector(getAuthSlice);
-  const { isOpen, login:userLogin, register:userRegister } = authSlice;
-
-  console.log("authSlice==>", authSlice);
-  
+  const { isOpen, login:userLogin, register:userRegister } = authSlice;  
 
   const [isSingin, setIsSingin] = useState<boolean>(true);
   const [user, setUser] = useState({ ...formInit });

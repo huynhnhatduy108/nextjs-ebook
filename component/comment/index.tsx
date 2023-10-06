@@ -19,6 +19,7 @@ import {
 import { setNotification } from "@/store/features/notification/slice";
 import { getAuthSlice, openModelAuth } from "@/store/features/auth/slice";
 import { checkRateEbook, getRateSlice } from "@/store/features/common/slice";
+import RatePopup from "../RatePopup";
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -51,10 +52,6 @@ function Comment(props: IProps) {
   const {check} = ebookRateStore;
   const {_id, rate, is_rate} = check;
 
-  console.log("check==>", check);
-  
-
-
   const userLogin = authStore.login;
 
   const listComments = ebookCommentStore.list;
@@ -63,7 +60,9 @@ function Comment(props: IProps) {
   const [commentText, setCommentText] = useState<string>("");
   const [commentReplyText, setCommentReplyText] = useState<string>("");
   const [comments, setComments] = useState<Array<any>>([]);
+  const [isOpenRate, setIsOpenRate]= useState<boolean>(false);
   const [currentRate,setCurrentRate] = useState<number>(0);
+  
 
   useEffect(() => {
     if (id) {
@@ -75,6 +74,12 @@ function Comment(props: IProps) {
   useEffect(() => {
     setComments(listComments);
   }, [listComments]);
+
+  useEffect(() => {
+    if (is_rate) {
+      setCurrentRate(rate);
+  }
+  },[rate,is_rate]);
 
   const countComments = useMemo(() => countComment(comments), [comments]);
 
@@ -92,8 +97,17 @@ function Comment(props: IProps) {
   };
 
   const handleRate = (event: any, newValue: any) => {
-    console.log("newValue==>", newValue);
+    if (userLogin?.access_token || userLocal?.access_token) {
+      setCurrentRate(newValue);
+      setIsOpenRate(true);
+    } else {
+      dispatch(openModelAuth());
+    }
   };
+
+  const handleCloseModelRate = ()=>{
+    setIsOpenRate(false);
+  }
 
   const handleSendComment = (
     bookId: string | number,
@@ -122,7 +136,9 @@ function Comment(props: IProps) {
 
   return (
     <Box sx={{ width: "100%" }}>
-      {/* Auth model */}
+      {/* Rate model */}
+      <RatePopup ebookId={id} open={isOpenRate} onClose={handleCloseModelRate} rate={currentRate} onChangeRate={(event, newValue)=>handleRate(event, newValue)} />
+
       {/* Comment */}
       <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
         <Box
@@ -139,10 +155,10 @@ function Comment(props: IProps) {
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography
                 className={lexendDeca.className}
-              >{`(${3}/${5})`}</Typography>
+              >{`(${currentRate}/5)`}</Typography>
               <Rating
                 name="no-value"
-                value={3}
+                value={currentRate}
                 style={{ marginLeft: "5px" }}
                 onChange={handleRate}
               />
