@@ -9,19 +9,18 @@ import { Lexend_Deca } from "next/font/google";
 import CategoryHomePage from '@/component/Category/CategoryHomePage';
 import EbookHomePage from '@/component/Ebook/EbookHomePage';
 import PostHomePage from '@/component/Post/PostHomePage';
+import { API_BASE_URL } from "@/utils/api";
 // import { useRouter, useSearchParams } from "next/navigation";
 // import { useEffect, useState } from "react";
-
-const posts = [1, 2, 3, 4, 5, 6];
-
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
+
 const getCategory = async () => {
 	try {
-		const res = await fetch(`http://localhost:8000/category/full`);
+		const res = await fetch(`${API_BASE_URL}/category/full`);
     if (res.status ===200) return await res.json();
 		return []
 	} catch (err) {
@@ -31,7 +30,7 @@ const getCategory = async () => {
 
 const getBooks = async () => {
 	try {
-		const res = await fetch(`http://localhost:8000/ebook/?page=1&page_size=24&ordering=-views`);
+		const res = await fetch(`${API_BASE_URL}/ebook/?page=1&page_size=24&ordering=-views`);
 		if (res.status ===200) return await res.json();
 		return {}
 	} catch (err) {
@@ -41,7 +40,7 @@ const getBooks = async () => {
 
 const getPosts = async () => {
 	try {
-		const res = await fetch(`http://localhost:8000/post/?page=1&page_size=6&ordering=-views`);
+		const res = await fetch(`${API_BASE_URL}/post/?page=1&page_size=6`);
 		if (res.status ===200) return await res.json();
 		return {}
 	} catch (err) {
@@ -56,9 +55,7 @@ export default async function Home() {
   const ebookPaging = await getBooks()
   const ebooks = ebookPaging?.items  
   const postPaging = await getPosts()
-  const postsT = postPaging?.items;
-  console.log("postsT==>", postsT);
-  
+  const posts = postPaging?.items;  
 
     
   return (

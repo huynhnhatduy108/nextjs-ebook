@@ -40,7 +40,7 @@ function* handleRateToEbook(action: any): Generator<any> {
     
         if (response.success) {
           yield put(rateEbookSuccess(response.data));
-          yield put(setNotification({message:"Cam on ban da danh gia", type: "success"}));
+          yield put(setNotification({message:"Cảm ơn bạn đã đánh giá", type: "success"}));
 
         } else {
           yield put(rateEbookError(response.data));

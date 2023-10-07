@@ -98,7 +98,7 @@ function Comment(props: IProps) {
 
   const handleRate = (event: any, newValue: any) => {
     if (userLogin?.access_token || userLocal?.access_token) {
-      setCurrentRate(newValue);
+      setCurrentRate(newValue??currentRate);
       setIsOpenRate(true);
     } else {
       dispatch(openModelAuth());
@@ -150,7 +150,7 @@ function Comment(props: IProps) {
         >
           <Typography
             className={lexendDeca.className}
-          >{`Binh luan (${countComments})`}</Typography>
+          >{`Bình luận (${countComments})`}</Typography>
           {isShowRate ? (
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography
@@ -189,8 +189,9 @@ function Comment(props: IProps) {
               borderRadius: "5px",
               backgroundColor: "#f3f4f6",
               border: "none",
+              wordBreak: "break-word"
             }}
-            placeholder="Viet binh luan"
+            placeholder="Viết bình luận"
             value={commentText}
             onChange={(event) => handleChangeComment(event.target.value)}
           />
@@ -199,7 +200,7 @@ function Comment(props: IProps) {
               position: "absolute",
               bottom: "10px",
               right: "10px",
-              padding: "8px 20px",
+              padding: {md:"8px 20px", xs:"5px 20px"},
               color: "white",
               backgroundColor: "#1976d1",
               borderRadius: "4px",
@@ -266,7 +267,7 @@ function Comment(props: IProps) {
                     minHeight: "30px",
                     color: "gray",
                     fontSize: "14px",
-                    // backgroundColor: "green",
+                    wordBreak:  "break-word"
                   }}
                 >
                   {comment.content}
@@ -323,8 +324,9 @@ function Comment(props: IProps) {
                       borderRadius: "5px",
                       backgroundColor: "#f3f4f6",
                       border: "none",
+                      wordBreak:  "break-word"
                     }}
-                    placeholder="Viet binh luan"
+                    placeholder="Viết bình luận"
                     value={commentReplyText}
                     onChange={(event) =>
                       handleChangeCommentReply(event.target.value)
@@ -335,7 +337,7 @@ function Comment(props: IProps) {
                       position: "absolute",
                       bottom: "10px",
                       right: "10px",
-                      padding: "8px 20px",
+                      padding: {md:"8px 20px", xs:"5px 20px"},
                       color: "white",
                       backgroundColor: "#1976d1",
                       borderRadius: "4px",
@@ -397,6 +399,7 @@ function Comment(props: IProps) {
                           minHeight: "40px",
                           color: "gray",
                           fontSize: "14px",
+                          wordBreak:  "break-word"
                         }}
                       >
                         {sub_comment.content}

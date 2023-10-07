@@ -21,6 +21,7 @@ import { htmlToPlainText } from "@/utils/helper";
 // import Comment from "@/component/Comment";
 import EbookNotFound from "@/component/Ebook/NotFound";
 import EbookRelate from "@/component/Ebook/EbookRelate";
+import { API_BASE_URL } from "@/utils/api";
 
 const Comment = dynamic(() => import("@/component/Comment").then((mod)=>mod.default));
 
@@ -30,19 +31,26 @@ type Params = {
   };
 };
 
+
 export async function generateMetadata({
   params: { slug },
-}: Params): Promise<Metadata> {
-  const metadata: Metadata = {
-    title: slug,
-    description: `This is the page of ${slug}`,
-  };
-  return metadata;
+}: Params){
+  const res = await fetch(`${API_BASE_URL}/ebook/slug/${slug}`);
+  const ebookDetail = await res.json();
+  if (ebookDetail){
+    const metadata: Metadata = {
+      title: ebookDetail.name,
+      description: `This is the page of ${slug}`,
+    };
+    return metadata;
+  }
+  return null;
+  
 }
 
 const getBook = async (slug: string) => {
   try {
-    const res = await fetch(`http://localhost:8000/ebook/slug/${slug}`);
+    const res = await fetch(`${API_BASE_URL}/ebook/slug/${slug}`);
     if (res.status === 200) return await res.json();
     return null;
   } catch (err) {
@@ -52,7 +60,7 @@ const getBook = async (slug: string) => {
 
 const getCategories = async () => {
   try {
-    const res = await fetch(`http://localhost:8000/category/full`);
+    const res = await fetch(`${API_BASE_URL}/category/full`);
     if (res.status === 200) return await res.json();
     return [];
   } catch (err) {
@@ -265,6 +273,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                             flexWrap: "wrap",
                           }}
                         >
+                          <Link href={`/read-online/${bookDetail.slug}`} style={{textDecoration:"none"}} >
                           <div
                             style={{
                               backgroundColor: "#f0ae4d",
@@ -277,6 +286,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                             />
                             Đọc online
                           </div>
+                          </Link>
                         </div>
                       </Box>
                     </Box>

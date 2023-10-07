@@ -9,6 +9,21 @@ export const FormatDate = (date: any) => {
   return "";
 };
 
+export const getDay = (date: any) => {
+  if (date) return moment(date).format("DD");
+  return "";
+}; 
+
+export const getMonth = (date: any) => {
+  if (date) return moment(date).format("MM");
+  return "";
+}; 
+
+export const getYear = (date: any) => {
+  if (date) return moment(date).format("YYYY");
+  return "";
+}; 
+
 export const validateEmail = (email: string) => {
   return String(email)
     .toLowerCase()
@@ -47,55 +62,61 @@ export function joinArrayToString(arr: Array<string>) {
   return arr.join(",");
 }
 
+
+
 // export function convertToDate(dateTime) {
 //     const current_time = new Date(dateTime)
 //     current_time.setHours(0,0,0,0)
 //     return moment(current_time, "YYYY-MM-DD");
 // }
 
-export const formatPath = (path:string, ...params:any) => {
-    if (!path) return path;
+export const formatPath = (path: string, ...params: any) => {
+  if (!path) return path;
 
-    let match = path.match(/:[a-z][a-z\d_]*\??/gi);
-    if (!match) return path;
+  let match = path.match(/:[a-z][a-z\d_]*\??/gi);
+  if (!match) return path;
 
-    match
-      .map(param => param.replace(/\?$/, ''))
-      .filter((value, index, self) => self.indexOf(value) === index)
-      .map((param, index) => path = path.replace(
-        new RegExp(param + '\\??', 'gi'),
-        (params[index] ?? '').toString()
-      ));
+  match
+    .map((param) => param.replace(/\?$/, ""))
+    .filter((value, index, self) => self.indexOf(value) === index)
+    .map(
+      (param, index) =>
+        (path = path.replace(
+          new RegExp(param + "\\??", "gi"),
+          (params[index] ?? "").toString()
+        ))
+    );
 
-    return path;
-}
+  return path;
+};
 
-export const trueTypeOf = (obj:any) => Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
+export const trueTypeOf = (obj: any) =>
+  Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
 
-export const getQueryString = (init:any) => {
+export const getQueryString = (init: any) => {
   const params = new URLSearchParams();
   Object.keys(init).map((k) => {
     const type = trueTypeOf(init[k]);
     switch (type) {
-      case 'object':
+      case "object":
         // params
         break;
-      case 'string':
-      case 'number':
-        params.append(k,init[k].toString())
+      case "string":
+      case "number":
+        params.append(k, init[k].toString());
         break;
-      case 'array':
-        init[k].map((item:any)=>{
-          params.append(k,item)
-        })
+      case "array":
+        init[k].map((item: any) => {
+          params.append(k, item);
+        });
         break;
       default:
         break;
     }
     return k;
-  })
-  return params.toString()
-}
+  });
+  return params.toString();
+};
 
 // Scroll
 export const scrollTo = (top = 0, left = 0, behavior: any = "smooth") => {
@@ -104,16 +125,16 @@ export const scrollTo = (top = 0, left = 0, behavior: any = "smooth") => {
 
 // local stroge
 export const getLocalItem = (name: string) => {
-  // if (typeof window !== "undefined") {
-    let data = localStorage.getItem(name) ?? "";
-    try {
+  try {
+    // if (typeof window !== "undefined") {
+      let data = localStorage?.getItem(name) ?? "";
       data = JSON.parse(data);
-    } catch (e) {
-      return {};
-    }
-    return data;
-  // }
-  return {};
+      return data;
+    // }
+    // return {}
+  } catch (e) {
+    return {};
+  }
 };
 
 export const getUserLocal = () => {

@@ -112,7 +112,7 @@ function RatePopup(props: IProps) {
               backgroundColor: "#f3f4f6",
               border: "none",
             }}
-            placeholder="Viet binh luan"
+            placeholder="Viết bình luận"
             value={rateText}
             onChange={(event) => setRateText(event.target.value)}
           />

@@ -88,7 +88,7 @@ function Comment() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
-        <Typography>{`Binh luan (${0})`}</Typography>
+        <Typography>{`Bình luận (${0})`}</Typography>
        
       </Paper>
     </Box>
