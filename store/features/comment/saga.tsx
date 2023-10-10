@@ -56,10 +56,41 @@ function* handleCommentEbook(action: any): Generator<any> {
 }
 
 // post
+function* handleGetCommentPost(action: any): Generator<any> {    
+  try {
+    const response: any = yield call(apiGetCommentPost, action.payload);
+    if (response.success) {
+      yield put(getPostCommentSuccess(response.data));
+    } else {
+      yield put(getPostCommentError(response.data));
+    }
+  } catch (error) {
+    yield put(getPostCommentError(error));
+  }
+}
+
+function* handleCommentPost(action: any): Generator<any> {
+  try {
+      const response: any = yield call(apiCommentPost, action.payload);
+  
+      if (response.success) {
+        yield put(postCommentSuccess(response.data));
+        yield put(getPostComment(action.payload.post_id));
+      } else {
+        yield put(postCommentError(response.data));
+      }
+    } catch (error) {
+    
+      yield put(postCommentError(error));
+    }
+}
 
 
 
 export default function* CommentSaga() {
   yield takeLatest("Comment/getEbookComment", handleGetCommentEbook);
   yield takeLatest("Comment/ebookComment", handleCommentEbook);
+
+  yield takeLatest("Comment/getPostComment", handleGetCommentPost);
+  yield takeLatest("Comment/postComment", handleCommentPost);
 }

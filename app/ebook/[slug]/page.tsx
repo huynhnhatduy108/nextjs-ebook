@@ -23,7 +23,7 @@ import EbookNotFound from "@/component/Ebook/NotFound";
 import EbookRelate from "@/component/Ebook/EbookRelate";
 import { API_BASE_URL } from "@/utils/api";
 
-const Comment = dynamic(() => import("@/component/Comment").then((mod)=>mod.default));
+const Comment = dynamic(() => import("@/component/Comment/Ebook").then((mod)=>mod.default));
 
 type Params = {
   params: {
@@ -312,7 +312,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           margin: "0px",
                         }}
                       >
-                        Gioi thieu sach
+                        Giới thiệu sách
                       </p>
                       <p>{htmlToPlainText(bookDetail.intro)}</p>
                     </div>
@@ -328,7 +328,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                         alignItems: "center",
                       }}
                     >
-                      <p>Chia se:</p>
+                      <p>Chia sẻ:</p>
                       <Box
                         sx={{
                           display: "flex",

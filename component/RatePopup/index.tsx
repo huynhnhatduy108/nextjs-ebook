@@ -129,7 +129,7 @@ function RatePopup(props: IProps) {
             }}
             onClick={handleSubmit}
           >
-            Gui
+            Gửi
           </Box>
         </Box>
       </Paper>

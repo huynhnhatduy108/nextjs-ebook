@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import { Box } from "@mui/system";
 import { Avatar, Paper, Typography, Rating } from "@mui/material";
-import Link from "next/link";
 import { faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Lexend_Deca } from "next/font/google";
@@ -12,14 +11,13 @@ import styles from "./comment.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { FormatDate, getLocalItem } from "@/utils/helper";
 import {
-  ebookComment,
-  getEbookComment,
-  getEbookCommentSlice,
+  postComment,
+  getPostComment,
+  getPostCommentSlice,
 } from "@/store/features/comment/slice";
 import { setNotification } from "@/store/features/notification/slice";
 import { getAuthSlice, openModelAuth } from "@/store/features/auth/slice";
-import { checkRateEbook, getRateSlice } from "@/store/features/common/slice";
-import RatePopup from "../RatePopup";
+
 
 const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
@@ -41,45 +39,33 @@ const countComment = (comments: any) => {
 
 const userLocal: any = getLocalItem("userToken");
 
-function Comment(props: IProps) {
-  const { id, isShowRate } = props;
+function PostComment(props: IProps) {
+  const { id } = props;
   const dispatch = useDispatch();
 
-  const ebookCommentStore = useSelector(getEbookCommentSlice);
+  const postCommentStore = useSelector(getPostCommentSlice);
   const authStore = useSelector(getAuthSlice);
-  const ebookRateStore = useSelector(getRateSlice);
 
-  const {check} = ebookRateStore;
-  const {_id, rate, is_rate} = check;
 
   const userLogin = authStore.login;
 
-  const listComments = ebookCommentStore.list;
+  const listComments = postCommentStore.list;
 
   const [currentComentId, setCurrentComentId] = useState<number | string>("");
   const [commentText, setCommentText] = useState<string>("");
   const [commentReplyText, setCommentReplyText] = useState<string>("");
   const [comments, setComments] = useState<Array<any>>([]);
-  const [isOpenRate, setIsOpenRate]= useState<boolean>(false);
-  const [currentRate,setCurrentRate] = useState<number>(0);
   
 
   useEffect(() => {
     if (id) {
-      dispatch(getEbookComment(id));
-      userLocal?.access_token && dispatch(checkRateEbook(id));
+      dispatch(getPostComment(id));
     }
   }, [id]);
 
   useEffect(() => {
     setComments(listComments);
   }, [listComments]);
-
-  useEffect(() => {
-    if (is_rate) {
-      setCurrentRate(rate);
-  }
-  },[rate,is_rate]);
 
   const countComments = useMemo(() => countComment(comments), [comments]);
 
@@ -96,25 +82,13 @@ function Comment(props: IProps) {
     setCommentReplyText(value);
   };
 
-  const handleRate = (event: any, newValue: any) => {
-    if (userLogin?.access_token || userLocal?.access_token) {
-      setCurrentRate(newValue??currentRate);
-      setIsOpenRate(true);
-    } else {
-      dispatch(openModelAuth());
-    }
-  };
-
-  const handleCloseModelRate = ()=>{
-    setIsOpenRate(false);
-  }
 
   const handleSendComment = (
-    bookId: string | number,
+    postId: string | number,
     parentId: string | number
   ) => {
     const data = {
-      ebook_id: bookId,
+      post_id: postId,
       parent_id: parentId,
       content: parentId ? commentReplyText : commentText,
     };
@@ -127,7 +101,7 @@ function Comment(props: IProps) {
       } else {
         setCommentText("");
         setCommentReplyText("");
-        dispatch(ebookComment(data));
+        dispatch(postComment(data));
       }
     } else {
       dispatch(openModelAuth());
@@ -136,11 +110,8 @@ function Comment(props: IProps) {
 
   return (
     <Box sx={{ width: "100%" }}>
-      {/* Rate model */}
-      <RatePopup ebookId={id} open={isOpenRate} onClose={handleCloseModelRate} rate={currentRate} onChangeRate={(event, newValue)=>handleRate(event, newValue)} />
-
       {/* Comment */}
-      <Paper className={styles.ebook_comment} style={{ padding: "20px" }}>
+      <Paper className={styles.post_comment} style={{ padding: "20px" }}>
         <Box
           sx={{
             display: "flex",
@@ -151,21 +122,6 @@ function Comment(props: IProps) {
           <Typography
             className={lexendDeca.className}
           >{`Bình luận (${countComments})`}</Typography>
-          {isShowRate ? (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography
-                className={lexendDeca.className}
-              >{`(${currentRate}/5)`}</Typography>
-              <Rating
-                name="no-value"
-                value={currentRate}
-                style={{ marginLeft: "5px" }}
-                onChange={handleRate}
-              />
-            </Box>
-          ) : (
-            ""
-          )}
         </Box>
         {/* Main comment */}
         <Box
@@ -208,7 +164,7 @@ function Comment(props: IProps) {
             }}
             onClick={() => handleSendComment(id, "")}
           >
-            Gui
+            Gửi
           </Box>
         </Box>
         {/* Line */}
@@ -296,7 +252,7 @@ function Comment(props: IProps) {
                     fontSize="14px"
                     className={lexendDeca.className}
                   >
-                    Phan hoi
+                    Phản hồi
                   </Typography>
                 </Box>
               </Box>
@@ -345,7 +301,7 @@ function Comment(props: IProps) {
                     }}
                     onClick={() => handleSendComment(id, comment._id)}
                   >
-                    Gui
+                    Gửi
                   </Box>
                 </Box>
               ) : (
@@ -414,4 +370,4 @@ function Comment(props: IProps) {
     </Box>
   );
 }
-export default Comment;
+export default PostComment;

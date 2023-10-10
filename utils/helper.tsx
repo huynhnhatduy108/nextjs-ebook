@@ -163,3 +163,19 @@ export const covertQuerySearch = (object: Object) => {
 
   return `?${filteredParams}`;
 };
+
+
+export function removeDuplicateObjects(array:Array<any>, key:string) {
+  const uniqueMap = new Map();
+  const uniqueArray = [];
+
+  for (const obj of array) {
+    const keyValue = obj[key];
+    if (!uniqueMap.has(keyValue)) {
+      uniqueMap.set(keyValue, true);
+      uniqueArray.push(obj);
+    }
+  }
+
+  return uniqueArray;
+}

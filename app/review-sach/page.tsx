@@ -34,7 +34,6 @@ const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
-const posts = [1, 3, 23, 2];
 
 export default function ReviewPage() {
   const dispatch = useDispatch();
@@ -47,7 +46,8 @@ export default function ReviewPage() {
 
   const postsPaging = useSelector(getPostListPagingSlice);
   const { items, page_size, total_page } = postsPaging;
-  console.log("postPaging==>", postsPaging);
+
+  const [keyWord, setKeyWord] = useState<string>("");
 
   useEffect(() => {
     if (page) {
@@ -61,6 +61,17 @@ export default function ReviewPage() {
   ) => {
     const path = covertQuerySearch({ page, keyword });
     router.replace(path);
+  };
+
+
+  const handleChangeKeyWord = (event: any) => {
+    setKeyWord(event.target.value);
+  }; 
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === "Enter") {
+      router.push(`/review-sach?keyword=${keyWord}`);
+    }
   };
 
   return (
@@ -100,6 +111,8 @@ export default function ReviewPage() {
               }}
               placeholder="Tìm kiếm..."
               className={lexendDeca.className}
+              onChange={handleChangeKeyWord}
+              onKeyPress={handleKeyPress}
             />
             <FontAwesomeIcon
               icon={faMagnifyingGlass}

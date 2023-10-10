@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import { Box, Container, Grid } from "@mui/material";
-import Comment from "@/component/Comment";
+import Comment from "@/component/Comment/Ebook";
 import { faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";

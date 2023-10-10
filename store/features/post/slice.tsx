@@ -10,6 +10,7 @@ const initialState = {
         total_page:0,
         total_record:0,
     },
+    listPostRelate:[],
     detailPost: {},
     errors: null,
 }
@@ -29,6 +30,7 @@ const PostSlice = createSlice({
                 total_page:0,
                 total_record:0,
             }
+            state.listPostRelate = []
             state.detailPost = {}
             state.errors = null
         },
@@ -43,6 +45,10 @@ const PostSlice = createSlice({
             }
         },
 
+
+        clearListPostRelate(state){
+            state.listPostRelate = []
+        },
 
         clearDetailPost(state){
             state.detailPost = {}
@@ -64,6 +70,24 @@ const PostSlice = createSlice({
             state.data =null
             state.errors = action.payload
         },
+
+        // get list post relate
+        getListPostRelate(state, action) {
+            state.isFetching = true
+            state.errors = null
+        },
+        getListPostRelateSuccess(state, action) {
+            state.isFetching = false
+            state.data = action.payload
+            state.listPostPaging = action.payload
+            state.errors = null
+        },
+        getListPostRelateError(state, action) {
+            state.isFetching = false
+            state.data =null
+            state.errors = action.payload
+        },
+
 
         // detail
         getDetailPost(state, action) {
@@ -141,6 +165,10 @@ export const getListPostPaging = PostSlice.actions.getListPostPaging;
 export const getListPostPagingSuccess = PostSlice.actions.getListPostPagingSuccess;
 export const getListPostPagingError = PostSlice.actions.getListPostPagingError;
 
+export const getListPostRelate = PostSlice.actions.getListPostRelate;
+export const getListPostRelateSuccess = PostSlice.actions.getListPostRelateSuccess;
+export const getListPostRelateError = PostSlice.actions.getListPostRelateError;
+
 export const getDetailPost = PostSlice.actions.getDetailPost;
 export const getDetailPostSuccess = PostSlice.actions.getDetailPostSuccess;
 export const getDetailPostError = PostSlice.actions.getDetailPostError;
@@ -160,6 +188,7 @@ export const deletePostError = PostSlice.actions.deletePostError;
 // ************************** Store *******************************
 export const getPostSlice = (state:any) => state.post;
 export const getPostListPagingSlice = (state:any) => state.post.listPostPaging;
+export const getListPostRelateSlice = (state:any) => state.post.listPostRelate;
 
 const PostReducer = PostSlice.reducer;
 export default PostReducer;

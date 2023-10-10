@@ -57,6 +57,11 @@
     text-overflow: ellipsis;
 }
 
+.detail__content p {
+    margin: 0px;
+    font-size: 16px;
+}
+
 /* setting comon attribute mobile and table */
 @media (max-width: 739px) {
     

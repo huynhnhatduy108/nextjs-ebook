@@ -129,7 +129,7 @@ function ContactFormModel(props: IProps) {
                 style={{ marginRight: "10px" }}
                 icon={faPaperPlane}
               />
-              Gui
+              Gửi
             </Box>
           </div>
       </Paper>

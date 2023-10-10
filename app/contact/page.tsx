@@ -31,7 +31,7 @@ export default function Contact() {
             <div style={{width:"90%", margin:"0px auto"}}><input placeholder="Email" className={`${styles.contact_input} ${lexendDeca.className}`} /></div>
             <div style={{width:"90%", margin:"0px auto"}}><input placeholder="Tieu de" className={`${styles.contact_input} ${lexendDeca.className}`} /></div>
             <div style={{width:"90%", margin:"0px auto"}}><textarea placeholder="Noi dung" className={`${styles.contact_area} ${lexendDeca.className}`}/></div>
-            <div style={{width:"90%", textAlign:"right", margin:"auto"}}> <Button className={`${styles.contact_btn} ${lexendDeca.className}`} variant="contained">Gui</Button></div>
+            <div style={{width:"90%", textAlign:"right", margin:"auto"}}> <Button className={`${styles.contact_btn} ${lexendDeca.className}`} variant="contained">Gửi</Button></div>
 
           </Paper>
         </Box>

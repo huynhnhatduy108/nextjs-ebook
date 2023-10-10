@@ -20,10 +20,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./page.module.css";
+import { API_BASE_URL } from "@/utils/api";
+import { FormatDate } from "@/utils/helper";
+import PostRelate from "@/component/Post/PostRelate";
 
-const Comment = dynamic(() => import("@/component/Comment"));
-
-const tags = ["asdsadassa", "sacascsacsa", "sacascsac"];
+const PostComment = dynamic(() => import("@/component/Comment/Post"));
 
 const postRelate = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -33,31 +34,32 @@ type Params = {
   };
 };
 
+
 export async function generateMetadata({
   params: { slug },
-}: Params): Promise<Metadata> {
-  const metadata: Metadata = {
-    title: slug,
+}: Params){
+  const res = await fetch(`${API_BASE_URL}/post/slug/${slug}`);
+  const postDetail = await res.json();
+
+  if (postDetail){
+    const metadata: Metadata = {
+      title: postDetail.name,
+      description: `This is the page of ${slug}`,
+    };
+    return metadata;
+  }
+  return {
+    title: "Khong tim thay",
     description: `This is the page of ${slug}`,
   };
-  return metadata;
+  
 }
 
 const getPost = async (slug: string) => {
   try {
-    const res = await fetch(`http://localhost:8000/post/slug/${slug}`);
+    const res = await fetch(`${API_BASE_URL}/post/slug/${slug}`);
     if (res.status === 200) return await res.json();
     return null;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const getCategories = async () => {
-  try {
-    const res = await fetch(`http://localhost:8000/category/full`);
-    if (res.status === 200) return await res.json();
-    return [];
   } catch (err) {
     console.log(err);
   }
@@ -66,6 +68,8 @@ const getCategories = async () => {
 export default async function PostDeatailPage({ params: { slug } }: Params) {
   const postDetail = await getPost(slug);
 
+  console.log("postDetail==>", postDetail);
+  
 
   return (
     <main style={{ minHeight: "100vh" }}>
@@ -75,10 +79,9 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
           <Grid container spacing={2}>
             <Grid item lg={8} md={12} sm={12} xs={12}>
               <Box>
-                {/* <Paper style={{}}> */}
                 {/* Title */}
                 <h1 style={{ margin: "0px" }}>
-                  Apecoin (APE) là gì? Thông tin chi tiết về tiền điện tử APE
+                  {postDetail?.name}
                 </h1>
                 {/* Auth time */}
                 <Box
@@ -96,12 +99,15 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                       justifyContent: "flex-start",
                     }}
                   >
-                    <Avatar>ND</Avatar>
+                    <Avatar
+                      alt={postDetail?.author.full_name}
+                      src={postDetail?.author?.avatar_url}
+                    />
                     <p  style={{margin:"0px 0px 0px 10px", fontWeight:"500"}}>
-                      Nhat Duy
+                      {postDetail?.author.full_name}
                     </p>
-                    <p  style={{margin:"0px 0px 0px 10px", fontSize:"14px"}}>
-                      24/07/2022 | 23:05
+                    <p  style={{margin:"0px 0px 0px 10px", fontSize:"14px", color:"gray"}}>
+                      {FormatDate(postDetail?.updated_at)}
                     </p>
                   </Box>
                   <Box
@@ -111,7 +117,7 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                       justifyContent: "flex-start",
                     }}
                   >
-                    <Box
+                    {/* <Box
                       sx={{
                         display: "flex",
                         alignItems: "center",
@@ -129,7 +135,7 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                       <p style={{margin:"0px", color:"gray", fontSize:"15px"}}>
                         10
                       </p>
-                    </Box>
+                    </Box> */}
                     <Box
                       sx={{
                         display: "flex",
@@ -147,7 +153,7 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                         icon={faEye}
                       />
                       <p style={{margin:"0px", color:"gray", fontSize:"15px"}}>
-                        97
+                        {postDetail?.views}
                       </p>
                     </Box>
                   </Box>
@@ -164,28 +170,20 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                       objectFit: "cover",
                       borderRadius: "10px",
                     }}
-                    width={100} height={100}
-                    alt="blog detail"
-                    src="https://www.totolink.vn/public/uploads/img_post/ebook-la-gi-co-gi-noi-troi-so-voi-sach-thuong-lam-sao-de-xem-duoc-ebook-1.png"
+                    width={100} height={500}
+                    alt={postDetail?.name}
+                    src={postDetail?.thumbnail}
                   />
                 </Box>
                 {/* content */}
-                <p>
-                  The APE Foundation là cơ quan quản lý của ApeCoin bao gồm
-                  những người nắm giữ APE token trong ApeCoin DAO. Nhiệm vụ của
-                  tổ chức này là quản lý các quyết định của ApeCoin DAO và chịu
-                  trách nhiệm quản lý dự án cũng như các nhiệm vụ khác nhằm đảm
-                  bảo ý tưởng của cộng đồng được hỗ trợ thực hiện. The APE
-                  Foundation sử dụng Ecosystem Fund, được kiểm soát bởi một ví
-                  multisig, để thanh toán các chi phí theo chỉ dẫn của ApeCoin
-                  DAO và cung cấp cơ sở hạ tầng cho holder ApeCoin tham gia quá
-                  trình quản trị của mình.
-                </p>
+                <p>{postDetail?.sumary}</p>
+                   <div className={styles.detail__content} dangerouslySetInnerHTML={{ __html: postDetail?.content }}>
+                </div>
 
                 {/* tag */}
                 <Box sx={{ display: "flex", marginTop: "30px" }}>
-                  {tags.length &&
-                    tags.map((tag) => {
+                  {
+                    postDetail?.tags.map((tag:string) => {
                       return (
                         <p
                           style={{
@@ -194,6 +192,7 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                             borderRadius: "5px",
                             color:"gray",
                             margin:"0px 10px 0px 0px",
+                            cursor:"pointer",
                           }}
                         >
                           #{tag}
@@ -212,7 +211,7 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                   alignItems: "center",
                 }}
               >
-                <p style={{margin:"0px"}}>Chia se:</p>
+                <p style={{margin:"0px"}}>Chia sẻ:</p>
                 <Box
                   sx={{
                     display: "flex",
@@ -340,7 +339,7 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
               </Box>
               {/* Comment */}
               <Box sx={{ marginTop: "50px" }}>
-                <Comment id={""} />
+                <PostComment id={postDetail?._id} />
               </Box>
             </Grid>
             <Grid item lg={4} md={12} sm={12} xs={12}>
@@ -357,41 +356,10 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                     margin:"0px",
                   }}
                 >
-                  Bai viet lien quan
+                  Bài viết liên quan
                 </p>
                 <div className={styles.post_relate}>
-                  {postRelate.map((post) => {
-                    return (
-                      <div className={styles.post_relate_container}>
-                        <div className={styles.post_relate_image}>
-                          {" "}
-                          <Image
-                            className={styles.post_relate_thumbnail}
-                            src={
-                              "https://blogapp-320606.web.app/static/media/ethereum_ads.c39650f77645d744f3c8.jpeg"
-                            }
-                            width={100} height={100}
-                            alt={"post  relate"}
-                          />
-                        </div>
-                        <div className={styles.post_relate_intro}>
-                          <p className={styles.post_relate_title}>
-                            The APE Foundation là cơ quan quản lý của ApeCoin
-                            bao gồm những người nắm giữ APE token trong ApeCoin
-                            DAO.dation là cơ quan quản lý của ApeCoin bao gồm những người nắm giữ APE token tro{" "}
-                          </p>
-                          <p className={styles.post_relate_content}>
-                            Nhiệm vụ của tổ chức này là quản lý các quyết định
-                            của ApeCoin DAO và chịu trách nhiệm quản lý dự án
-                            cũng như các nhiệm vụ khác nhằm đảm bảo ý tưởng của
-                            cộng đồng được hỗ trợ thực hiện.
-                            Apecoin là token quản trị phi tập trung (DAO) của 2 bộ sưu tập NFT lớn nhất trên nền tảng Ethereum là Bored Ape Yatch Club (BAYC) và Mutant Ape Yatch Club (MAYC).
-                            Apecoin là token quản trị phi tập trung (DAO) của 2 bộ sưu tập NFT lớn nhất trên nền tảng Ethereum là Bored Ape Yatch Club (BAYC) và Mutant Ape Yatch Club (MAYC).
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                  <PostRelate id={postDetail?._id} categories={postDetail?.categories}/>
                 </div>
               </Paper>
             </Grid>
