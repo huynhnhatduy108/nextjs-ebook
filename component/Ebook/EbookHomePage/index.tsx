@@ -68,7 +68,7 @@ function EbookHomePage(props: IProps) {
                     <p className={styles.ebook_name}>{ebook.name}</p>
                     <div className={styles.ebook_dowload_view}>
                       <div className={styles.ebook_dowload}>
-                        <Rating max={1} value={0.7} precision={0.5} readOnly />
+                        <Rating max={1} value={ebook.average_rate??0} precision={0.2} readOnly />
                         <Typography
                           style={{
                             marginLeft: "5px",
@@ -76,7 +76,7 @@ function EbookHomePage(props: IProps) {
                             color: "gray",
                           }}
                         >
-                          5/5
+                         {`${ebook.average_rate}/5`}
                         </Typography>
                       </div>
                       <div className={styles.ebook_view}>

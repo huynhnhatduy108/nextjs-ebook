@@ -79,7 +79,7 @@ const PostSlice = createSlice({
         getListPostRelateSuccess(state, action) {
             state.isFetching = false
             state.data = action.payload
-            state.listPostPaging = action.payload
+            state.listPostRelate = action.payload
             state.errors = null
         },
         getListPostRelateError(state, action) {

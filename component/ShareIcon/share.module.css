@@ -1,0 +1,52 @@
+
+.page{
+    color: white;
+    text-decoration: none;
+    margin: 0px 10px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.page:hover{
+    font-weight: 500;
+}
+
+.copyright{
+    height: 1px;
+    background-color: white;
+    width: 80%;
+    margin: 20px auto 10px;
+}
+
+.copyright_text{
+    text-align: center;
+    font-size: 14px;
+}
+
+
+
+/* setting comon attribute mobile and table */
+@media (max-width: 739px) {
+   
+}
+
+@media (max-width: 499px) {
+    
+  
+}
+
+@media (min-width: 500px) and (max-width: 739px) {
+    
+ 
+    
+
+}
+
+@media (min-width: 740px) and (max-width: 1023px) {
+ 
+    
+}
+
+@media (min-width: 1024px) and (max-width: 1239px){
+  
+}

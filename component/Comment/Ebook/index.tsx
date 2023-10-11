@@ -97,7 +97,7 @@ function Comment(props: IProps) {
   };
 
   const handleRate = (event: any, newValue: any) => {
-    if (userLogin?.access_token || userLocal?.access_token) {
+    if (userLogin?.access_token || userLocal?.access_token) {      
       setCurrentRate(newValue??currentRate);
       setIsOpenRate(true);
     } else {
@@ -159,6 +159,7 @@ function Comment(props: IProps) {
               <Rating
                 name="no-value"
                 value={currentRate}
+                precision={0.5}
                 style={{ marginLeft: "5px" }}
                 onChange={handleRate}
               />

@@ -66,10 +66,8 @@ const getPost = async (slug: string) => {
 };
 
 export default async function PostDeatailPage({ params: { slug } }: Params) {
-  const postDetail = await getPost(slug);
+  const postDetail = await getPost(slug);  
 
-  console.log("postDetail==>", postDetail);
-  
 
   return (
     <main style={{ minHeight: "100vh" }}>

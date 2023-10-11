@@ -20,8 +20,6 @@ function PostRelate(props: IProps) {
 
   const postsRelate = useSelector(getListPostRelateSlice);
 
-  console.log("postsRelate=>", postsRelate);
-
   useEffect(() => {
     dispatch(getListPostRelate({post_id:id, page_size:15}))
   }, [id]);
@@ -33,8 +31,9 @@ function PostRelate(props: IProps) {
           <Link
             href={`/review-sach/${post.slug}`}
             style={{ textDecoration: "none" }}
+            key={post._id}
           >
-            <div className={styles.post_relate_container} key={post._id}>
+            <div className={styles.post_relate_container} >
               <div className={styles.post_relate_image}>
                 <Image
                   className={styles.post_relate_thumbnail}

@@ -85,6 +85,7 @@ function RatePopup(props: IProps) {
               name="no-value"
               value={rate}
               onChange={onChangeRate}
+              precision={0.5}
               style={{marginLeft:"5px"}}
             />
           </Box>

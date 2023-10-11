@@ -79,7 +79,7 @@ const EbookSlice = createSlice({
         getListEbookRelateSuccess(state, action) {
             state.isFetching = false
             state.data = action.payload
-            state.listEbookPaging = action.payload
+            state.listEbookRelate = action.payload
             state.errors = null
         },
         getListEbookRelateError(state, action) {
@@ -87,7 +87,6 @@ const EbookSlice = createSlice({
             state.data =null
             state.errors = action.payload
         },
-
 
 
 }});

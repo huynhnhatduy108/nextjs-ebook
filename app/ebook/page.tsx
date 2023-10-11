@@ -10,7 +10,7 @@ import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { covertQuerySearch, splitString } from "@/utils/helper";
+import { abbreviateNumber, covertQuerySearch, splitString } from "@/utils/helper";
 
 const ebookState = {
   items: [],
@@ -162,7 +162,7 @@ const EbookPage = () => {
                                       color: "gray",
                                     }}
                                   >
-                                    {ebook.views}
+                                    {abbreviateNumber(ebook.views)}
                                   </Typography>
                                 </div>
                               </div>
