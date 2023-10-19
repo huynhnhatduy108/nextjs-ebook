@@ -1,8 +1,6 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import {
   Box,
   Container,
@@ -25,8 +23,6 @@ import { FormatDate } from "@/utils/helper";
 import PostRelate from "@/component/Post/PostRelate";
 
 const PostComment = dynamic(() => import("@/component/Comment/Post"));
-
-const postRelate = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 type Params = {
   params: {
