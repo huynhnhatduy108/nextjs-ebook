@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import {
@@ -31,49 +30,19 @@ import AuthFormModel from "../AuthForm";
 import { getLocalItem, removeLocalItem } from "@/utils/helper";
 import { clearLogin, getAuthSlice, openModelAuth } from "@/store/features/auth/slice";
 import { useDispatch, useSelector } from "react-redux";
+import { getListCategoryFull, getListCategoryFullSlice } from "@/store/features/category/slice";
 
 const lexendDeca = Lexend_Deca({
   weight: "300",
   subsets: ["vietnamese"],
 });
 
-const pages = [
-  {
-    name: "Thể loại sách",
-    key: "categories",
-    icon: faList,
-    link: "/",
-    direct: false,
-    sub: [
-      "Ẩm thực - Nấu ăn",
-      "Học Ngoại Ngữ",
-      "Khoa Học - Kỹ Thuật",
-      "Kinh Tế - Quản Lý",
-      "Nông - Lâm - Ngư",
-      "Tài Liệu Học Tập",
-      "Thư Viện Pháp Luật",
-      "Triết Học",
-      "Truyện Ma - Truyện Kinh Dị",
-      "Truyện Tranh",
-      "Văn Học Việt Nam",
-      "Cổ Tích - Thần Thoại",
-      "Hồi Ký - Tuỳ Bút",
-      "Kiếm Hiệp - Tiên Hiệp",
-    ],
-  },
-  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct: true },
-  {
-    name: "Review sách",
-    key: "reivew",
-    icon: faCopy,
-    link: "/review-sach",
-    direct: true,
-  },
-];
+
 
 const userToken: any = getLocalItem("userToken");
 
 function ResponsiveAppBar() {
+  
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -81,6 +50,7 @@ function ResponsiveAppBar() {
   const userMenuRef = useRef<HTMLDivElement>(null);
   
   const authStore = useSelector(getAuthSlice);
+  const categoryFull = useSelector(getListCategoryFullSlice);
   const userSignin = authStore.login;
 
   const [userMenu, setUserMenu] = useState<boolean>(false);
@@ -89,6 +59,25 @@ function ResponsiveAppBar() {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [keyWord, setKeyWord] = useState<string>("");
   const [userLocal, setUserLocal] = useState<any>({});
+
+  const pages = [
+    {
+      name: "Thể loại sách",
+      key: "categories",
+      icon: faList,
+      link: "/",
+      direct: false,
+      sub: categoryFull?.slice(0, 15),
+    },
+    { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct: true },
+    {
+      name: "Review sách",
+      key: "reivew",
+      icon: faCopy,
+      link: "/review-sach",
+      direct: true,
+    },
+  ];
   
 
   useEffect(() => {
@@ -123,6 +112,10 @@ function ResponsiveAppBar() {
     }
   }, [userToken, userSignin]);
 
+  useEffect(()=>{
+    dispatch(getListCategoryFull({}));
+  }, [])
+
   const handleExpand = (key: string, link: string, isDirect: boolean) => {
     const keyExpand = key === expandKey ? "" : key;
     setExpandKey(keyExpand);
@@ -132,8 +125,9 @@ function ResponsiveAppBar() {
     }
   };
 
-  const handleChangePage = (link: string) => {
-    router.push(`/category/${link}`);
+  const handleChangePage = (slug: string) => {
+    router.push(`/ebook?categories=${slug}`);
+    
   };
 
   const hanleOpenCloseSideBar = () => {
@@ -173,6 +167,7 @@ function ResponsiveAppBar() {
     <AppBar position="static" className={lexendDeca.className}>
       {/* Side bar */}
       <SideBarDrawer
+        pages={pages}
         open={isShowSideBar}
         hanleOpenCloseSideBar={hanleOpenCloseSideBar}
       />
@@ -270,7 +265,7 @@ function ResponsiveAppBar() {
                 >
                   {page?.sub &&
                     expandKey === page.key &&
-                    page?.sub.map((subs, indx) => {
+                    page?.sub.map((subs:any, indx:number) => {
                       return (
                         <ListItem key={indx} disablePadding>
                           <div
@@ -284,13 +279,13 @@ function ResponsiveAppBar() {
                               alignItems: "center",
                               height: "30px",
                             }}
-                            onClick={() => handleChangePage(subs)}
+                            onClick={() => handleChangePage(subs.slug)}
                           >
                             <Typography
                               className={lexendDeca.className}
                               style={{ fontSize: "14px" }}
                             >
-                              {subs}
+                              {subs.name}
                             </Typography>
                           </div>
                         </ListItem>

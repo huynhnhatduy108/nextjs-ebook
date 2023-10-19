@@ -17,6 +17,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
 import { htmlToPlainText } from "@/utils/helper";
+import { faTag, faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 // import Comment from "@/component/Comment";
 import EbookNotFound from "@/component/Ebook/NotFound";
@@ -292,6 +293,7 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                           </div>
                           </Link>
                         </div>
+
                       </Box>
                     </Box>
                     {/* Line */}
@@ -323,9 +325,10 @@ export default async function EbookDetail({ params: { slug } }: Params) {
                     {/* gap */}
                     <Box sx={{ height: "40px" }}></Box>
                     {/* share book  */}
-                    <ShareIcon url="" title="" tags={[]}/>
+                    <ShareIcon url="" title="" tags={[]}/>                
                   </Paper>
                 </Box>
+               
                 {/* Comment */}
                 <Box sx={{ marginTop: "50px" }}>
                   <Comment id={eBookDetail?._id} />

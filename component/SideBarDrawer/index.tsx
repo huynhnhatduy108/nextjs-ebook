@@ -26,48 +26,15 @@ const lexendDeca = Lexend_Deca({
   subsets: ["vietnamese"],
 });
 
-const pages = [
-  {
-    name: "Thể loại sách",
-    key: "categories",
-    icon: faList,
-    link: "/",
-    direct: false,
-    sub: [
-      "Ẩm thực - Nấu ăn",
-      "Học Ngoại Ngữ",
-      "Khoa Học - Kỹ Thuật",
-      "Kinh Tế - Quản Lý",
-      "Nông - Lâm - Ngư",
-      "Tài Liệu Học Tập",
-      "Thư Viện Pháp Luật",
-      "Triết Học",
-      "Truyện Ma - Truyện Kinh Dị",
-      "Truyện Tranh",
-      "Văn Học Việt Nam",
-      "Cổ Tích - Thần Thoại",
-      "Hồi Ký - Tuỳ Bút",
-      "Kiếm Hiệp - Tiên Hiệp",
-    ],
-  },
-  { name: "Sách", key: "ebook", icon: faBook, link: "/ebook", direct: true },
-  {
-    name: "Review sách",
-    key: "reivew",
-    icon: faCopy,
-    link: "/review-sach",
-    direct: true,
-  },
-];
-
 interface IProps {
   open: boolean;
   hanleOpenCloseSideBar: () => void;
+  pages: Array<any>;
 }
 
 
 function SideBarDrawer(props: IProps) {
-  const { open, hanleOpenCloseSideBar } = props;
+  const { pages , open, hanleOpenCloseSideBar } = props;
   const router = useRouter();
 
   const [expandKey, setExpandKey] = useState<string>("");
@@ -79,11 +46,13 @@ function SideBarDrawer(props: IProps) {
 
     if (isDirect) {
       router.push(link);
+      hanleOpenCloseSideBar && hanleOpenCloseSideBar()
     }
   };
 
-  const handleChangePage = (link: string) => {
-    router.push(`/category/${link}`);
+  const handleChangePage = (slug: string) => {
+    router.push(`/ebook?categories=${slug}`);
+    hanleOpenCloseSideBar && hanleOpenCloseSideBar()
   };
 
   const handleChangeKeyWord = (event: any) => {
@@ -165,7 +134,7 @@ function SideBarDrawer(props: IProps) {
           </Box>
         </Box>
         <List>
-          {pages.map((page) => (
+          {pages.map((page: any) => (
             <Box key={page.key}>
               <ListItem key={page.key} disablePadding>
                 <div
@@ -204,7 +173,7 @@ function SideBarDrawer(props: IProps) {
               </ListItem>
               {page?.sub &&
                 expandKey === page.key &&
-                page?.sub.map((sub, indx) => {
+                page?.sub.map((sub: any, indx: number) => {
                   return (
                     <ListItem
                       className={styles.sub_menu}
@@ -223,13 +192,13 @@ function SideBarDrawer(props: IProps) {
                           height: "30px",
                           cursor: "pointer",
                         }}
-                        onClick={() => handleChangePage(sub)}
+                        onClick={() => handleChangePage(sub.slug)}
                       >
                         <Typography
                           className={lexendDeca.className}
                           style={{ marginLeft: "28px", fontSize: "13px" }}
                         >
-                          {sub}
+                          {sub.name}
                         </Typography>
                       </div>
                     </ListItem>
