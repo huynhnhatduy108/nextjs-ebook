@@ -3,5 +3,6 @@ import store from "./store";
 import { Provider } from "react-redux";
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  if (typeof window == "undefined") return;
   return <Provider store={store}>{children}</Provider>;
 }

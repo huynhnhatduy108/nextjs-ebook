@@ -177,9 +177,10 @@ export default async function PostDeatailPage({ params: { slug } }: Params) {
                 {/* tag */}
                 <Box sx={{ display: "flex", marginTop: "30px" }}>
                   {
-                    postDetail?.tags.map((tag:string) => {
+                    postDetail?.tags.map((tag:string, index:number) => {
                       return (
                         <p
+                          key={index}
                           style={{
                             border: "1px solid gray",
                             padding: "6px 25px",
