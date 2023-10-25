@@ -4,12 +4,8 @@ import {
   Paper,
   Modal,
 } from "@mui/material";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { Lexend_Deca } from "next/font/google";
 import styles from "./ads.module.css";
-import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthSlice, login } from "@/store/features/auth/slice";
 

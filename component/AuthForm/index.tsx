@@ -3,8 +3,6 @@ import { LoginSocialGoogle } from "reactjs-social-login";
 import React, { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
 import { Paper, Modal } from "@mui/material";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { Lexend_Deca } from "next/font/google";
 import styles from "./authform.module.css";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
